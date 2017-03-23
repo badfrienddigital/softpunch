@@ -8,31 +8,9 @@
     <script>try{Typekit.load({ async: true });}catch(e){}</script> -->
 
   <title>Soft Punch</title>
-
-      <meta name="viewport" content="width=device-width">
+      <meta name="viewport" content="width=device-width,initial-scale=1.0">
 </head>
 <style>
-/* Mobile-first classes here (No media query needed, these styles are global)
-   ========================================================================== */
-/* Medium and Up - Targets everything larger than mobile
-   ========================================================================== */
-@media screen and (min-width: 32em) {
-
-}
-/* Medium - only targets 1st breakpoint. Styles
-   ========================================================================== */
-@media screen and (min-width: 32em) and (max-width: 64em) {
-
-}
-/* Large - only targets 2nd breakpoint.
-   ========================================================================== */
-@media screen and (min-width: 64em) {
-
-}
-/*
-========================================================================== */
-
-
 /**
  * 1. Correct the text wrapping in Edge and IE.
  * 2. Correct the color inheritance from `fieldset` elements in IE.
@@ -212,10 +190,14 @@ dfn {
  * `article` contexts in Chrome, Firefox, and Safari.
  */
 
+
+/*
 h1 {
   font-size: 2em;
   margin: 0.67em 0;
 }
+*/
+
 
 /**
  * Add the correct background and color in IE 9-.
@@ -500,28 +482,9 @@ body {
    overflow: hidden;
    text-align: center;
    background-color: #0078BF;
-   font-family: "Zwizz",sans-serif;
-   font-weight: 700;
-   font-size: 4.5em;
-}
-
-h1 {
-  cursor:default;
-  user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -webkit-user-select: none;
-  /* width: 800px; */
-  position: relative;
-  /* left: -100px; */
-  /* letter-spacing: -1px; */
-  /* line-height: 60px; */
-  /* font-size: 60px; */
-  /* font-weight: 100; */
-  /* margin: 0px 0 50px 0; */
-  /* text-shadow: */
-
-  
+   font-family: sans-serif;
+   font-style: bold;
+   font-size: 4em;
 }
 
 #egg {
@@ -574,24 +537,31 @@ h1 {
 h1 {
     color: #FF48B0;
     background-color: #765BA7;
-    font-family: "Zwizz",sans-serif;
-    font-weight: 700
-
-
-/*    font-family: "colaborate-n2", "colaborate",sans-serif;
-    font-style: normal;
-    font-weight: 200 */
-
+    cursor:default;
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
 }
 </style>
+
+
+<!-- livereload ~/softpunch/softpunch/ -p 8000 -->
+
+
+<!--
 <script type="text/javascript">!function(){"use strict";function e(e,t,n){e.addEventListener?e.addEventListener(t,n,!1):e.attachEvent&&e.attachEvent("on"+t,n)} function t(e){return window.localStorage&&localStorage.font_css_cache&&localStorage.font_css_cache_file===e} function n(){if(window.localStorage&&window.XMLHttpRequest)if(t(o))c(localStorage.font_css_cache);else{var n=new XMLHttpRequest;n.open("GET",o,!0),e(n,"load",function(){4===n.readyState&&(c(n.responseText),localStorage.font_css_cache=n.responseText,localStorage.font_css_cache_file=o)}),n.send()}else{var a=document.createElement("link");a.href=o,a.rel="stylesheet",a.type="text/css",document.getElementsByTagName("head")[0].appendChild(a),document.cookie="font_css_cache"}}function c(e){var t=document.createElement("style");t.innerHTML=e,document.getElementsByTagName("head")[0].appendChild(t)}var o="/font.css";window.localStorage&&localStorage.font_css_cache||document.cookie.indexOf("font_css_cache")>-1?n():e(window,"load",n)}();</script>
 <noscript><link rel="stylesheet" href="font.css"></noscript>
+-->
+
 
 <body>
   <div style="display:table;width:100%; height: 100%;">
     <div class="display:table-cell;horizontal-align:middle;">
       <h1 title="Soft Punch">SOFT PUNCH</h1>
+
 <!--      <div id="egg" onclick="func()"></div> -->
+
       <svg id="egg2" onclick="func()" width="182" height="252" viewBox="0 0 182.2 252.2" version="1.1" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title" role="img">
      <title id="title">Egg</title>
      <defs>
@@ -605,13 +575,9 @@ h1 {
 </svg>
     </div>
   </div>
-
-
-
-<!-- livereload ~/softpunch/home/ -p 8000 -->
-
-
 </body>
+
+
 <script type="text/javascript" src="beet.js"></script>
 <script type="text/javascript">
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
