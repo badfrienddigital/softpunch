@@ -471,6 +471,17 @@ a:hover {
 
 
 
+
+@font-face {
+  font-family: 'Zwizz';
+  src: url('Zwizz-Bold.woff2') format('woff2'),
+       url('Zwizz-Bold.woff') format('woff'),
+       url('Zwizz-Bold.ttf') format('truetype');
+       font-weight: bold;
+     	 font-style: normal;
+}
+
+
 html, body { height: 100%; }
 
 body {
@@ -482,8 +493,8 @@ body {
    overflow: hidden;
    text-align: center;
    background-color: #0078BF;
-   font-family: sans-serif;
-   font-style: bold;
+   font-family: 'Zwizz', sans-serif;
+   font-weight: bold;
    font-size: 4em;
 }
 
@@ -542,17 +553,12 @@ h1 {
     -moz-user-select: none;
     -ms-user-select: none;
     -webkit-user-select: none;
+    vertical-align: middle;
 }
 </style>
 
 
 <!-- livereload ~/softpunch/softpunch/ -p 8000 -->
-
-
-<!--
-<script type="text/javascript">!function(){"use strict";function e(e,t,n){e.addEventListener?e.addEventListener(t,n,!1):e.attachEvent&&e.attachEvent("on"+t,n)} function t(e){return window.localStorage&&localStorage.font_css_cache&&localStorage.font_css_cache_file===e} function n(){if(window.localStorage&&window.XMLHttpRequest)if(t(o))c(localStorage.font_css_cache);else{var n=new XMLHttpRequest;n.open("GET",o,!0),e(n,"load",function(){4===n.readyState&&(c(n.responseText),localStorage.font_css_cache=n.responseText,localStorage.font_css_cache_file=o)}),n.send()}else{var a=document.createElement("link");a.href=o,a.rel="stylesheet",a.type="text/css",document.getElementsByTagName("head")[0].appendChild(a),document.cookie="font_css_cache"}}function c(e){var t=document.createElement("style");t.innerHTML=e,document.getElementsByTagName("head")[0].appendChild(t)}var o="/font.css";window.localStorage&&localStorage.font_css_cache||document.cookie.indexOf("font_css_cache")>-1?n():e(window,"load",n)}();</script>
-<noscript><link rel="stylesheet" href="font.css"></noscript>
--->
 
 
 <body>
