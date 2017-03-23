@@ -31,7 +31,7 @@ h1 {
 <body>
   <div style="display:table;width:100%; height: 100%;">
     <div class="display:table-cell;horizontal-align:middle;">
-      <h1>SOFT PUNCH</h1>
+      <h1 id="demo" onclick="func()">SOFT PUNCH</h1>
     </div>
   </div>
 
@@ -322,6 +322,8 @@ h1 {
   layer2.tempo = 60;
   layer3.tempo = 120;
   beet.add(layer, layer3); // why leave out layer2? no idea...
-  beet.start();
+
+function func() {beet.start()}
+  
 </script>
 </html>
