@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <title>Soft Punch</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<style>
+body {
+   height: 100%;
+   width: 100%;
+   margin: 0;
+   padding: 0;
+   border: 0;
+   position:relative;
+   overflow: hidden;
+   text-align: center;
+   background-color: #0078BF;
+
+   font-family: Gill Sans Extrabold, sans-serif;
+   font-size: 4em;
+   font-weight: bold;
+}
+
+h1 {
+    color: #FF48B0;
+    background-color: #765BA7;
+}
+</style>
+<body>
+  <div style="display:table;width:100%; height: 100%;">
+    <div class="display:table-cell;horizontal-align:middle;">
+      <h1>SOFT PUNCH</h1>
+    </div>
+  </div>
+
+
+
+<!-- livereload ~/softpunch/home/ -p 8000 -->
+
+
+</body>
+<script type="text/javascript" src="beet.js"></script>
+<script type="text/javascript">
+  window.AudioContext = window.AudioContext || window.webkitAudioContext;
+  var context = new AudioContext();
+  var beet = new Beet({
+    context: context
+  });
+  var masterGain = context.createGain();
+  var masterCompression = context.createDynamicsCompressor();
+  var masterFilter = context.createBiquadFilter();
+
+  masterFilter.type = 'highpass'
+  masterFilter.frequency = 450;
+
+  masterCompression.threshold.value = -10;
+  masterCompression.ratio.value = 4;
+  masterCompression.release.value = 0.75;
+
+  masterGain.gain.gain = 1.2;
+
+  masterFilter.connect(masterCompression);
+  masterCompression.connect(masterGain);
+  masterGain.connect(context.destination);
+
+  setTimeout(function(){
+    console.log(context.currentTime);
+  }, 1000);
+
+  var fours = beet.pattern('1111');
+  var threes = beet.pattern('011');
+  var fives = beet.pattern('01011');
+  var layer = beet.layer(fours, callback1);
+  var layer2 = beet.layer(threes, callback2);
+  var layer3 = beet.layer(fives, callback3);
+
+  function callback1 (time, step, timeFromScheduled) {
+    var a = .01;
+    var d = .01;
+    var s = .5;
+    var r = .3;
+    var len = 2;
+    var osc = context.createOscillator();
+    var gain = context.createGain();
+    var gain2 = context.createGain();
+    var filter = context.createBiquadFilter();
+
+    var inputt = context.createGain()
+    var feedback = context.createGain()
+    var delay = context.createDelay()
+    var output = context.createGain()
+
+    var lfo = context.createOscillator();
+    var lfoGain = context.createGain();
+
+
+    filter.type = 'bandpass'
+    filter.frequency.setValueAtTime(1000, time);
+    filter.frequency.linearRampToValueAtTime(7000, time + a + d + r + len);
+    filter.Q.value = 2;
+    filter.connect(inputt);
+    if(step === 1){
+    osc.detune.value = -208;}
+    if(step === 2){
+    osc.detune.value = -502;}
+    if(step === 3){
+    osc.detune.value = 0;}
+    if(step === 4){
+    osc.detune.value = -508;}
+
+    osc.connect(gain);
+    gain.gain.value = 6;
+    gain.connect(gain2);
+    gain2.connect(filter);
+    beet.utils.envelope(gain.gain, time, {
+      start: 0.0,
+      peak: 0.9,
+      attack: a,
+      decay: d,
+      sustain: s,
+      release: r
+    });
+    osc.start(time);
+    osc.stop(time + a + d + r + len);
+
+
+    output.connect(masterFilter)
+    delay.delayTime.value = .9
+    feedback.gain.value = 0.3
+    // dry path
+    inputt.connect(output)
+    // wet path
+    inputt.connect(delay)
+    // feedback loop
+    delay.connect(feedback)
+    feedback.connect(delay)
+    feedback.connect(output)
+
+
+    lfo.start(time);
+    lfo.frequency.value = 6.0; // Hz, two times per second
+    lfoGain.gain.value = .05;
+    // Oscillators go from -1 to 1
+    // Make it go from -0.5 to +0.5 by connecting it to a GainNode with a gain value of 0.5
+    lfo.connect(lfoGain);
+    // because the value of the gain.gain AudioParam is originaly 0.5, the value is added, and it will go from 0.0 to 1.0
+    lfoGain.connect(gain2.gain);
+    lfo.connect(gain2.gain);
+
+
+
+
+
+
+
+    setTimeout(function(){
+      console.log('on', step);
+    }, timeFromScheduled * 1000);
+  }
+
+  function callback2 (time, step, timeFromScheduled) {
+    var a = .05;
+    var d = .01;
+    var s = .3;
+    var r = .3;
+    var len = .5;
+    var osc = context.createOscillator();
+    var gain = context.createGain();
+    var filter = context.createBiquadFilter();
+
+    var gain2 = context.createGain();
+    var lfo = context.createOscillator();
+    var lfoGain = context.createGain();
+
+    var inputt = context.createGain()
+    var feedback = context.createGain()
+    var delay = context.createDelay()
+    var output = context.createGain()
+
+    filter.type = 'bandpass'
+    filter.frequency.setValueAtTime(800, time);
+    filter.frequency.linearRampToValueAtTime(8000, time + a + d + r + len);
+    filter.Q.value = 2
+    filter.connect(inputt);
+
+    if(step === 1){
+    osc.detune.value = 0;}
+    if(step === 2){
+    osc.detune.value = 10;}
+    if(step === 3){
+    osc.detune.value = -208;}
+
+
+    osc.connect(gain);
+    gain.gain.value = .6;
+    gain.connect(gain2);
+    gain2.connect(filter);
+    beet.utils.envelope(gain.gain, time, {
+      start: 0.0,
+      peak: 0.8,
+      attack: a,
+      decay: d,
+      sustain: s,
+      release: r,
+    });
+    osc.start(time);
+    osc.stop(time + a + d + r + len);
+
+
+        output.connect(masterFilter)
+        delay.delayTime.value = .5
+        feedback.gain.value = 0.1
+        // dry path
+        inputt.connect(output)
+        // wet path
+        inputt.connect(delay)
+        // feedback loop
+        delay.connect(feedback)
+        feedback.connect(delay)
+        feedback.connect(output)
+
+        gain2.gain.value = .5;
+        lfo.start(time);
+        lfo.frequency.value = 8.0; // Hz, two times per second
+        lfoGain.gain.value = .03;
+        // Oscillators go from -1 to 1
+        // Make it go from -0.5 to +0.5 by connecting it to a GainNode with a gain value of 0.5
+        lfo.connect(lfoGain);
+        // because the value of the gain.gain AudioParam is originaly 0.5, the value is added, and it will go from 0.0 to 1.0
+        lfoGain.connect(gain2.gain);
+        lfo.connect(gain2.gain);
+
+
+
+    setTimeout(function(){
+      console.log('off', step);
+    }, timeFromScheduled * 1000);
+  }
+
+    function callback3 (time, step, timeFromScheduled) {
+      var a = .01;
+      var d = .01;
+      var s = .4;
+      var r = .4;
+      var len = 2;
+      var osc = context.createOscillator();
+      var gain = context.createGain();
+      var filter = context.createBiquadFilter();
+
+      var gain2 = context.createGain();
+      var lfo = context.createOscillator();
+      var lfoGain = context.createGain();
+
+      var inputt = context.createGain()
+      var feedback = context.createGain()
+      var delay = context.createDelay()
+      var output = context.createGain()
+
+      filter.type = 'bandpass'
+      filter.frequency.setValueAtTime(1000, time);
+      filter.frequency.linearRampToValueAtTime(6000, time + a + d + r + len);
+      filter.Q.value = 2;
+      filter.connect(inputt);
+      if(step === 1){
+      osc.detune.value = -710;}
+      if(step === 2){
+      osc.detune.value = -708;}
+      if(step === 3){
+      osc.detune.value = -712;}
+      if(step === 4){
+      osc.detune.value = -702;}
+      if(step === 5){
+      osc.detune.value = -716;}
+
+      osc.connect(gain);
+      gain.gain.value = 6;
+      gain.connect(gain2);
+      gain2.connect(filter);
+      beet.utils.envelope(gain.gain, time, {
+        start: 0.0,
+        peak: 0.9,
+        attack: a,
+        decay: d,
+        sustain: s,
+        release: r
+      });
+      osc.start(time);
+      osc.stop(time + a + d + r + len);
+
+
+      output.connect(masterFilter)
+      delay.delayTime.value = .9
+      feedback.gain.value = 0.3
+      // dry path
+      inputt.connect(output)
+      // wet path
+      inputt.connect(delay)
+      // feedback loop
+      delay.connect(feedback)
+      feedback.connect(delay)
+      feedback.connect(output)
+
+
+      lfo.start(time);
+      lfo.frequency.value = 5.0;
+      lfoGain.gain.value = .06;
+      // Oscillators go from -1 to 1
+      // Make it go from -0.5 to +0.5 by connecting it to a GainNode with a gain value of 0.5
+      lfo.connect(lfoGain);
+      // because the value of the gain.gain AudioParam is originaly 0.5, the value is added, and it will go from 0.0 to 1.0
+      lfoGain.connect(gain2.gain);
+      lfo.connect(gain2.gain);
+
+
+      setTimeout(function(){
+        console.log('on', step);
+      }, timeFromScheduled * 1000);
+    }
+  layer.tempo = 90;
+  layer2.tempo = 60;
+  layer3.tempo = 120;
+  beet.add(layer, layer3); // why leave out layer2? no idea...
+  beet.start();
+</script>
+</html>
