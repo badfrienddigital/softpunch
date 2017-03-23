@@ -3,12 +3,492 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <script src="https://use.typekit.net/tvm5qdu.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
   <title>Soft Punch</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="width=device-width">
 </head>
 <style>
+/* Mobile-first classes here (No media query needed, these styles are global)
+   ========================================================================== */
+/* Medium and Up - Targets everything larger than mobile
+   ========================================================================== */
+@media screen and (min-width: 32em) {
+
+}
+/* Medium - only targets 1st breakpoint. Styles
+   ========================================================================== */
+@media screen and (min-width: 32em) and (max-width: 64em) {
+
+}
+/* Large - only targets 2nd breakpoint.
+   ========================================================================== */
+@media screen and (min-width: 64em) {
+
+}
+/*
+========================================================================== */
+
+
+/**
+ * 1. Correct the text wrapping in Edge and IE.
+ * 2. Correct the color inheritance from `fieldset` elements in IE.
+ * 3. Remove the padding so developers are not caught out when they zero out
+ *    `fieldset` elements in all browsers.
+ */
+
+legend {
+  box-sizing: border-box; /* 1 */
+  color: inherit; /* 2 */
+  display: table; /* 1 */
+  max-width: 100%; /* 1 */
+  padding: 0; /* 3 */
+  white-space: normal; /* 1 */
+}
+
+/**
+ * Remove the default vertical scrollbar in IE.
+ */
+
+textarea {
+  overflow: auto;
+}
+
+/**
+ * 1. Add the correct box sizing in IE 10-.
+ * 2. Remove the padding in IE 10-.
+ */
+
+[type="checkbox"],
+[type="radio"] {
+  box-sizing: border-box; /* 1 */
+  padding: 0; /* 2 */
+}
+
+/**
+ * Correct the cursor style of increment and decrement buttons in Chrome.
+ */
+
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/**
+ * 1. Correct the odd appearance in Chrome and Safari.
+ * 2. Correct the outline style in Safari.
+ */
+
+[type="search"] {
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
+}
+
+/**
+ * Remove the inner padding and cancel buttons in Chrome and Safari on OS X.
+ */
+
+[type="search"]::-webkit-search-cancel-button,
+[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/**
+ * Correct the text style of placeholders in Chrome, Edge, and Safari.
+ */
+
+::-webkit-input-placeholder {
+  color: inherit;
+  opacity: 0.54;
+}
+
+/**
+ * 1. Correct the inability to style clickable types in iOS and Safari.
+ * 2. Change font properties to `inherit` in Safari.
+ */
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
+
+/**
+ * Show the overflow in IE.
+ * 1. Show the overflow in Edge.
+ */
+
+button,
+input { /* 1 */
+  overflow: visible;
+}
+
+/**
+ * Remove the inheritance of text transform in Edge, Firefox, and IE.
+ * 1. Remove the inheritance of text transform in Firefox.
+ */
+
+button,
+select { /* 1 */
+  text-transform: none;
+}
+
+/**
+ * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`
+ *    controls in Android 4.
+ * 2. Correct the inability to style clickable types in iOS and Safari.
+ */
+
+button,
+html [type="button"], /* 1 */
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button; /* 2 */
+}
+
+/**
+ * Remove the inner border and padding in Firefox.
+ */
+
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+/**
+ * Restore the focus styles unset by the previous rule.
+ */
+
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+/**
+ * 1. Remove the bottom border in Firefox 39-.
+ * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+ */
+
+abbr[title] {
+  border-bottom: none; /* 1 */
+  text-decoration: underline; /* 2 */
+  text-decoration: underline dotted; /* 2 */
+}
+
+/**
+ * Prevent the duplicate application of `bolder` by the next rule in Safari 6.
+ */
+
+b,
+strong {
+  font-weight: inherit;
+}
+
+/**
+ * Add the correct font weight in Chrome, Edge, and Safari.
+ */
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+/**
+ * Add the correct font style in Android 4.3-.
+ */
+
+dfn {
+  font-style: italic;
+}
+
+/**
+ * Correct the font size and margin on `h1` elements within `section` and
+ * `article` contexts in Chrome, Firefox, and Safari.
+ */
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/**
+ * Add the correct background and color in IE 9-.
+ */
+
+mark {
+  background-color: #ff0;
+  color: #000;
+}
+
+/**
+ * Add the correct font size in all browsers.
+ */
+
+small {
+  font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` elements from affecting the line height in
+ * all browsers.
+ */
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* Embedded content
+   ========================================================================== */
+
+/**
+ * Remove the border on images inside links in IE 10-.
+ */
+
+img {
+  border-style: none;
+}
+
+/**
+ * Hide the overflow in IE.
+ */
+
+svg:not(:root) {
+  overflow: hidden;
+}
+
+/* Grouping content
+   ========================================================================== */
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+
+/**
+ * Add the correct margin in IE 8.
+ */
+
+figure {
+  margin: 1em 40px;
+}
+
+/**
+ * 1. Add the correct box sizing in Firefox.
+ * 2. Show the overflow in Edge and IE.
+ */
+
+hr {
+  box-sizing: content-box; /* 1 */
+  height: 0; /* 1 */
+  overflow: visible; /* 2 */
+}
+
+/* Forms
+   ========================================================================== */
+
+/**
+ * 1. Change font properties to `inherit` in all browsers (opinionated).
+ * 2. Remove the margin in Firefox and Safari.
+ */
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font: inherit; /* 1 */
+  margin: 0; /* 2 */
+}
+
+/**
+ * Restore the font weight unset by the previous rule.
+ */
+
+optgroup {
+  font-weight: bold;
+}
+
+/**
+ * 1. Change the default font family in all browsers (opinionated).
+ * 2. Correct the line height in all browsers.
+ * 3. Prevent adjustments of font size after orientation changes in IE and iOS.
+ */
+
+html {
+  font-family: sans-serif; /* 1 */
+  line-height: 1.15; /* 2 */
+  -ms-text-size-adjust: 100%; /* 3 */
+  -webkit-text-size-adjust: 100%; /* 3 */
+}
+
+/**
+ * Remove the margin in all browsers (opinionated).
+ */
+
 body {
-   height: 100%;
+  margin: 0;
+}
+
+/* HTML5 display definitions
+   ========================================================================== */
+
+/**
+ * Add the correct display in IE 9-.
+ * 1. Add the correct display in Edge, IE, and Firefox.
+ * 2. Add the correct display in IE.
+ */
+
+article,
+aside,
+details, /* 1 */
+figcaption,
+figure,
+footer,
+header,
+main, /* 2 */
+menu,
+nav,
+section,
+summary { /* 1 */
+  display: block;
+}
+
+/**
+ * Add the correct display in IE 9-.
+ */
+
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
+}
+
+/**
+ * Add the correct display in iOS 4-7.
+ */
+
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+/**
+ * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+ */
+
+progress {
+  vertical-align: baseline;
+}
+
+/**
+ * Add the correct display in IE 10-.
+ * 1. Add the correct display in IE.
+ */
+
+template, /* 1 */
+[hidden] {
+  display: none;
+}
+
+/* Links
+   ========================================================================== */
+
+/**
+ * 1. Remove the gray background on active links in IE 10.
+ * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.
+ */
+
+a {
+  background-color: transparent; /* 1 */
+  -webkit-text-decoration-skip: objects; /* 2 */
+}
+
+/**
+ * Remove the outline on focused links when they are also active or hovered
+ * in all browsers (opinionated).
+ */
+
+a:active,
+a:hover {
+  outline-width: 0;
+}
+
+/* CUSTOM
+   ========================================================================== */
+
+
+
+
+/* FONT HOSTING ========================================================================== */
+/*
+
+        URL -- DOWNLOADABLE FONT
+     <style type="text/css" media="screen, print">
+       @font-face {
+         font-family: "Bitstream Vera Serif Bold";
+         src: url("https://mdn.mozillademos.org/files/2468/VeraSeBd.ttf");
+       }
+       body { font-family: "Bitstream Vera Serif Bold", serif }
+
+       ================
+
+          LOCAL -- HOSTED FONT
+       @font-face {
+         font-family: MyHelvetica;
+         src: local("Helvetica Neue Bold"),
+              local("HelveticaNeue-Bold"),
+              url(MgOpenModernaBold.ttf);
+         font-weight: bold;
+       }
+
+       ================
+
+         FORMAL FONT SYNTAX
+       @font-face {
+         [ font-family: <family-name>; ] ||
+         [ src: [ <url> [ format(<string>#) ]? | <font-face-name> ]#; ] ||
+         [ unicode-range: <urange>#; ] ||
+         [ font-variant: <font-variant>; ] ||
+         [ font-feature-settings: normal | <feature-tag-value>#; ] ||
+         [ font-stretch: <font-stretch>; ] ||
+         [ font-weight: <weight>; ] ||
+         [ font-style: <style>; ]
+       }
+       where
+       <family-name> = <string> | <IDENT>+
+       <feature-tag-value> = <string> [ <integer> | on | off ]?
+ */
+/* ========================================================================== */
+
+
+
+html, body { height: 100%; }
+
+body {
    width: 100%;
    margin: 0;
    padding: 0;
@@ -17,21 +497,101 @@ body {
    overflow: hidden;
    text-align: center;
    background-color: #0078BF;
-
-   font-family: Gill Sans Extrabold, sans-serif;
+   font-family: "colaborate-n2", "colaborate",sans-serif;
+   font-style: normal;
+   font-weight: 200;
    font-size: 4em;
-   font-weight: bold;
 }
+
+h1 {
+  cursor:default;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+}
+
+#egg {
+    margin: 0 auto;
+    width: 136px;
+    height: 190px;
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+    background: #FFE800;
+    display: block;
+    -webkit-border-radius: 63px 63px 63px 63px / 108px 108px 72px 72px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    -webkit-filter: drop-shadow(2px 3px 4px #191700);
+    filter: drop-shadow(2px 3px 4px #191700);
+}
+
+#egg2 {
+  margin: 0 auto;
+  display: block;
+  -webkit-transform: rotate(360deg);
+  transform: rotate(360deg);
+  -webkit-filter: drop-shadow(2px 3px 4px #191700);
+  filter: drop-shadow(2px 3px 4px #191700);
+}
+
+#cRect {
+  transition: fill 0.5s ease;
+  -webkit-transition: fill 0.5s ease;
+  -moz-transition: fill 0.5s ease;
+  -o-transition: fill 0.5s ease;
+}
+
+/*
+
+@-moz-keyframes roll {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@-webkit-keyframes roll {
+  from { -webkit-transform: rotate(0deg); }
+  to { -webkit-transform: rotate(360deg); }
+}
+@keyframes roll {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+*/
 
 h1 {
     color: #FF48B0;
     background-color: #765BA7;
+
+    font-family: "Zwizz",sans-serif;
+    font-style: normal;
+    font-weight: 200
+
+
+/*    font-family: "colaborate-n2", "colaborate",sans-serif;
+    font-style: normal;
+    font-weight: 200 */
+
 }
 </style>
+<script type="text/javascript">!function(){"use strict";function e(e,t,n){e.addEventListener?e.addEventListener(t,n,!1):e.attachEvent&&e.attachEvent("on"+t,n)} function t(e){return window.localStorage&&localStorage.font_css_cache&&localStorage.font_css_cache_file===e} function n(){if(window.localStorage&&window.XMLHttpRequest)if(t(o))c(localStorage.font_css_cache);else{var n=new XMLHttpRequest;n.open("GET",o,!0),e(n,"load",function(){4===n.readyState&&(c(n.responseText),localStorage.font_css_cache=n.responseText,localStorage.font_css_cache_file=o)}),n.send()}else{var a=document.createElement("link");a.href=o,a.rel="stylesheet",a.type="text/css",document.getElementsByTagName("head")[0].appendChild(a),document.cookie="font_css_cache"}}function c(e){var t=document.createElement("style");t.innerHTML=e,document.getElementsByTagName("head")[0].appendChild(t)}var o="/font.css";window.localStorage&&localStorage.font_css_cache||document.cookie.indexOf("font_css_cache")>-1?n():e(window,"load",n)}();</script>
+<noscript><link rel="stylesheet" href="font.css"></noscript>
+
 <body>
   <div style="display:table;width:100%; height: 100%;">
     <div class="display:table-cell;horizontal-align:middle;">
-      <h1 id="demo" onclick="func()">SOFT PUNCH</h1>
+      <h1 id="main1" title="Soft Punch">SOFT PUNCH</h1>
+<!--      <div id="egg" onclick="func()"></div> -->
+      <svg id="egg2" onclick="func()" width="182" height="252" viewBox="0 0 182.2 252.2" version="1.1" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title" role="img">
+     <title id="title">Egg</title>
+     <defs>
+     <clipPath id="svgPath">
+     <path d="M182.2 161.1c0 50.3-40.8 91.1-91.1 91.1S0 211.4 0 161.1C0 110.8 40.8 0 91.1 0S182.2 110.8 182.2 161.1z"/>
+   </clipPath>
+ </defs>
+          <a xlink:href="#0">
+ <rect id="cRect" x="0" y="0" width="182" height="252" fill="#FFE800"
+    clip-path="url(#svgPath)"/></a>
+</svg>
     </div>
   </div>
 
@@ -45,25 +605,38 @@ h1 {
 <script type="text/javascript">
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
   var context = new AudioContext();
+  var audioInitiated = false;
+  var audioInitiated2 = false;
   var beet = new Beet({
     context: context
   });
   var masterGain = context.createGain();
   var masterCompression = context.createDynamicsCompressor();
   var masterFilter = context.createBiquadFilter();
+  var masterFilter2 = context.createBiquadFilter();
 
   masterFilter.type = 'highpass'
-  masterFilter.frequency = 450;
+  masterFilter.frequency.value = 250;
 
-  masterCompression.threshold.value = -10;
-  masterCompression.ratio.value = 4;
+  masterFilter.type = 'highshelf'
+  masterFilter.frequency.value = 3500;
+  masterFilter.gain.value = -10;
+
+  masterCompression.threshold.value = -25;
+  masterCompression.ratio.value = 1.5;
+  masterCompression.reduction.value = -10;
   masterCompression.release.value = 0.75;
 
-  masterGain.gain.gain = 1.2;
+  masterGain.gain.value = .8;
 
-  masterFilter.connect(masterCompression);
+  masterFilter.connect(masterFilter2);
+  masterFilter2.connect(masterCompression);
   masterCompression.connect(masterGain);
   masterGain.connect(context.destination);
+
+
+
+
 
   setTimeout(function(){
     console.log(context.currentTime);
@@ -156,7 +729,6 @@ h1 {
 
 
     setTimeout(function(){
-      console.log('on', step);
     }, timeFromScheduled * 1000);
   }
 
@@ -194,7 +766,7 @@ h1 {
 
 
     osc.connect(gain);
-    gain.gain.value = .6;
+    gain.gain.value = .8;
     gain.connect(gain2);
     gain2.connect(filter);
     beet.utils.envelope(gain.gain, time, {
@@ -235,7 +807,6 @@ h1 {
 
 
     setTimeout(function(){
-      console.log('off', step);
     }, timeFromScheduled * 1000);
   }
 
@@ -315,7 +886,6 @@ h1 {
 
 
       setTimeout(function(){
-        console.log('on', step);
       }, timeFromScheduled * 1000);
     }
   layer.tempo = 90;
@@ -323,7 +893,39 @@ h1 {
   layer3.tempo = 120;
   beet.add(layer, layer3); // why leave out layer2? no idea...
 
-function func() {beet.start()}
-  
+
+var eggy = document.getElementById('cRect');
+
+function func() {
+  if (audioInitiated == false) {
+    eggy.style.fill = "#00A95C"
+    beet.start()
+    audioInitiated = true;
+   console.log(audioInitiated)}
+   else {tog()}
+};
+
+function tog() {
+  var time = context.currentTime;
+  var t2 = time + 1;
+      if (masterGain.gain.value > 0)
+         {console.log('11' + masterGain.gain.value)
+          eggy.style.fill = "#FFE800"
+          masterGain.gain.value = 0}
+      else if (masterGain.gain.value == 0)
+         {console.log('22' + masterGain.gain.value)
+          eggy.style.fill = "#00A95C"
+          masterGain.gain.value = .9}
+};
+
+document.addEventListener("visibilitychange", function() {
+  console.log( document.visibilityState );
+  if (document.visibilityState == 'hidden')
+  {          eggy.style.fill = "#FFE800"
+            masterGain.gain.value = 0}
+
+});
+
+
 </script>
 </html>
