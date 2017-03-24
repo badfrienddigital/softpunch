@@ -517,8 +517,8 @@ body {
   display: block;
   -webkit-transform: rotate(360deg);
   transform: rotate(360deg);
-  -webkit-filter: drop-shadow(2px 3px 4px #191700);
-  filter: drop-shadow(2px 3px 4px #191700);
+  -webkit-filter: drop-shadow(1px 2px 4px #191700);
+  filter: drop-shadow(1px 2px 4px #191700);
 }
 
 #cRect {
@@ -557,6 +557,7 @@ body {
 .cent2 {
 flex: auto;
 align-self: stretch;
+
 }
 
 
@@ -571,6 +572,7 @@ h1 {
     -webkit-user-select: none;
     vertical-align: middle;
     font-size: 25vw;
+    box-shadow: 2px 3px 4px rgba(25, 23, 0, 0.5);
 }
 
 @media screen and (min-width: 32em) {
@@ -600,9 +602,19 @@ h1 {
      <clipPath id="svgPath">
      <path d="M182.2 161.1c0 50.3-40.8 91.1-91.1 91.1S0 211.4 0 161.1C0 110.8 40.8 0 91.1 0S182.2 110.8 182.2 161.1z"/>
    </clipPath>
+
+   <linearGradient id="Gradient1">
+   <stop stop-color="#FFE800" offset="20%"/>
+   <stop stop-color="#B58B00" offset="100%"/>
+   </linearGradient>
+   <linearGradient id="Gradient2">
+   <stop stop-color="#00A95C" offset="20%"/>
+   <stop stop-color="#407060" offset="100%"/>
+   </linearGradient>
+
  </defs>
           <a xlink:href="#0">
- <rect id="cRect" x="0" y="0" width="182" height="252" fill="#FFE800"
+ <rect id="cRect" x="0" y="0" width="182" height="252" fill="url(#Gradient1)"
     clip-path="url(#svgPath)"/></a>
 </svg>
 <!--    </div>
@@ -631,10 +643,16 @@ h1 {
   masterFilter.frequency.value = 3500;
   masterFilter.gain.value = -10;
 
-  masterCompression.threshold.value = -25;
-  masterCompression.ratio.value = 1.5;
-  masterCompression.reduction.value = -10;
-  masterCompression.release.value = 0.75;
+//  masterCompression.threshold.value = -25;
+//  masterCompression.ratio.value = 1.5;
+//  masterCompression.reduction.value = -10;
+//  masterCompression.release.value = 0.75;
+
+masterCompression.threshold.value = 0.0;
+masterCompression.knee.value = 0.0;
+masterCompression.ratio.value = 20;
+masterCompression.attack.value = 0.005;
+masterCompression.release.value = 0.050;
 
   masterGain.gain.value = .8;
 
@@ -643,19 +661,9 @@ h1 {
   masterCompression.connect(masterGain);
   masterGain.connect(context.destination);
 
-
-
-
-
-  setTimeout(function(){
-    console.log(context.currentTime);
-  }, 1000);
-
   var fours = beet.pattern('1111');
-  var threes = beet.pattern('011');
   var fives = beet.pattern('01011');
   var layer = beet.layer(fours, callback1);
-  var layer2 = beet.layer(threes, callback2);
   var layer3 = beet.layer(fives, callback3);
 
   function callback1 (time, step, timeFromScheduled) {
@@ -676,7 +684,6 @@ h1 {
 
     var lfo = context.createOscillator();
     var lfoGain = context.createGain();
-
 
     filter.type = 'bandpass'
     filter.frequency.setValueAtTime(1000, time);
@@ -707,7 +714,6 @@ h1 {
     osc.start(time);
     osc.stop(time + a + d + r + len);
 
-
     output.connect(masterFilter)
     delay.delayTime.value = .9
     feedback.gain.value = 0.3
@@ -720,7 +726,6 @@ h1 {
     feedback.connect(delay)
     feedback.connect(output)
 
-
     lfo.start(time);
     lfo.frequency.value = 6.0; // Hz, two times per second
     lfoGain.gain.value = .05;
@@ -730,94 +735,9 @@ h1 {
     // because the value of the gain.gain AudioParam is originaly 0.5, the value is added, and it will go from 0.0 to 1.0
     lfoGain.connect(gain2.gain);
     lfo.connect(gain2.gain);
-
-
-
-
-
-
-
-    setTimeout(function(){
-    }, timeFromScheduled * 1000);
   }
 
-  function callback2 (time, step, timeFromScheduled) {
-    var a = .05;
-    var d = .01;
-    var s = .3;
-    var r = .3;
-    var len = .5;
-    var osc = context.createOscillator();
-    var gain = context.createGain();
-    var filter = context.createBiquadFilter();
 
-    var gain2 = context.createGain();
-    var lfo = context.createOscillator();
-    var lfoGain = context.createGain();
-
-    var inputt = context.createGain()
-    var feedback = context.createGain()
-    var delay = context.createDelay()
-    var output = context.createGain()
-
-    filter.type = 'bandpass'
-    filter.frequency.setValueAtTime(800, time);
-    filter.frequency.linearRampToValueAtTime(8000, time + a + d + r + len);
-    filter.Q.value = 2
-    filter.connect(inputt);
-
-    if(step === 1){
-    osc.detune.value = 0;}
-    if(step === 2){
-    osc.detune.value = 10;}
-    if(step === 3){
-    osc.detune.value = -208;}
-
-
-    osc.connect(gain);
-    gain.gain.value = .8;
-    gain.connect(gain2);
-    gain2.connect(filter);
-    beet.utils.envelope(gain.gain, time, {
-      start: 0.0,
-      peak: 0.8,
-      attack: a,
-      decay: d,
-      sustain: s,
-      release: r,
-    });
-    osc.start(time);
-    osc.stop(time + a + d + r + len);
-
-
-        output.connect(masterFilter)
-        delay.delayTime.value = .5
-        feedback.gain.value = 0.1
-        // dry path
-        inputt.connect(output)
-        // wet path
-        inputt.connect(delay)
-        // feedback loop
-        delay.connect(feedback)
-        feedback.connect(delay)
-        feedback.connect(output)
-
-        gain2.gain.value = .5;
-        lfo.start(time);
-        lfo.frequency.value = 8.0; // Hz, two times per second
-        lfoGain.gain.value = .03;
-        // Oscillators go from -1 to 1
-        // Make it go from -0.5 to +0.5 by connecting it to a GainNode with a gain value of 0.5
-        lfo.connect(lfoGain);
-        // because the value of the gain.gain AudioParam is originaly 0.5, the value is added, and it will go from 0.0 to 1.0
-        lfoGain.connect(gain2.gain);
-        lfo.connect(gain2.gain);
-
-
-
-    setTimeout(function(){
-    }, timeFromScheduled * 1000);
-  }
 
     function callback3 (time, step, timeFromScheduled) {
       var a = .01;
@@ -825,40 +745,40 @@ h1 {
       var s = .4;
       var r = .4;
       var len = 2;
-      var osc = context.createOscillator();
-      var gain = context.createGain();
-      var filter = context.createBiquadFilter();
+      var zosc = context.createOscillator();
+      var zgain = context.createGain();
+      var zfilter = context.createBiquadFilter();
 
-      var gain2 = context.createGain();
-      var lfo = context.createOscillator();
-      var lfoGain = context.createGain();
+      var zgain2 = context.createGain();
+      var zlfo = context.createOscillator();
+      var zlfoGain = context.createGain();
 
-      var inputt = context.createGain()
-      var feedback = context.createGain()
-      var delay = context.createDelay()
-      var output = context.createGain()
+      var zinputt = context.createGain()
+      var zfeedback = context.createGain()
+      var zdelay = context.createDelay()
+      var zoutput = context.createGain()
 
-      filter.type = 'bandpass'
-      filter.frequency.setValueAtTime(1000, time);
-      filter.frequency.linearRampToValueAtTime(6000, time + a + d + r + len);
-      filter.Q.value = 2;
-      filter.connect(inputt);
+      zfilter.type = 'bandpass'
+      zfilter.frequency.setValueAtTime(1000, time);
+      zfilter.frequency.linearRampToValueAtTime(6000, time + a + d + r + len);
+      zfilter.Q.value = 2;
+      zfilter.connect(zinputt);
       if(step === 1){
-      osc.detune.value = -710;}
+      zosc.detune.value = -710;}
       if(step === 2){
-      osc.detune.value = -708;}
+      zosc.detune.value = -708;}
       if(step === 3){
-      osc.detune.value = -712;}
+      zosc.detune.value = -712;}
       if(step === 4){
-      osc.detune.value = -702;}
+      zosc.detune.value = -702;}
       if(step === 5){
-      osc.detune.value = -716;}
+      zosc.detune.value = -716;}
 
-      osc.connect(gain);
-      gain.gain.value = 6;
-      gain.connect(gain2);
-      gain2.connect(filter);
-      beet.utils.envelope(gain.gain, time, {
+      zosc.connect(zgain);
+      zgain.gain.value = 6;
+      zgain.connect(zgain2);
+      zgain2.connect(zfilter);
+      beet.utils.envelope(zgain.gain, time, {
         start: 0.0,
         peak: 0.9,
         attack: a,
@@ -866,48 +786,45 @@ h1 {
         sustain: s,
         release: r
       });
-      osc.start(time);
-      osc.stop(time + a + d + r + len);
+      zosc.start(time);
+      zosc.stop(time + a + d + r + len);
 
-
-      output.connect(masterFilter)
-      delay.delayTime.value = .9
-      feedback.gain.value = 0.3
+      zoutput.connect(masterFilter)
+      zdelay.delayTime.value = .9
+      zfeedback.gain.value = 0.3
       // dry path
-      inputt.connect(output)
+      zinputt.connect(zoutput)
       // wet path
-      inputt.connect(delay)
+      zinputt.connect(zdelay)
       // feedback loop
-      delay.connect(feedback)
-      feedback.connect(delay)
-      feedback.connect(output)
+      zdelay.connect(zfeedback)
+      zfeedback.connect(zdelay)
+      zfeedback.connect(zoutput)
 
-
-      lfo.start(time);
-      lfo.frequency.value = 5.0;
-      lfoGain.gain.value = .06;
+      zlfo.start(time);
+      zlfo.frequency.value = 5.0;
+      zlfoGain.gain.value = .06;
       // Oscillators go from -1 to 1
       // Make it go from -0.5 to +0.5 by connecting it to a GainNode with a gain value of 0.5
-      lfo.connect(lfoGain);
+      zlfo.connect(zlfoGain);
       // because the value of the gain.gain AudioParam is originaly 0.5, the value is added, and it will go from 0.0 to 1.0
-      lfoGain.connect(gain2.gain);
-      lfo.connect(gain2.gain);
+      zlfoGain.connect(zgain2.gain);
+      zlfo.connect(zgain2.gain);
 
-
-      setTimeout(function(){
-      }, timeFromScheduled * 1000);
     }
+
+
+
   layer.tempo = 90;
-  layer2.tempo = 60;
   layer3.tempo = 120;
-  beet.add(layer, layer3); // why leave out layer2? no idea...
+  beet.add(layer, layer3);
 
 
 var eggy = document.getElementById('cRect');
 
 function func() {
   if (audioInitiated == false) {
-    eggy.style.fill = "#00A95C"
+    eggy.style.fill = "url(#Gradient2)"
     beet.start()
     audioInitiated = true;
    console.log(audioInitiated)}
@@ -919,19 +836,19 @@ function tog() {
   var t2 = time + 1;
       if (masterGain.gain.value > 0)
          {console.log('11' + masterGain.gain.value)
-          eggy.style.fill = "#FFE800"
+          eggy.style.fill = "url(#Gradient1)"
           masterGain.gain.value = 0}
       else if (masterGain.gain.value == 0)
          {console.log('22' + masterGain.gain.value)
-          eggy.style.fill = "#00A95C"
+          eggy.style.fill = "url(#Gradient2)"
           masterGain.gain.value = .9}
 };
 
 document.addEventListener("visibilitychange", function() {
   console.log( document.visibilityState );
   if (document.visibilityState == 'hidden')
-  {          eggy.style.fill = "#FFE800"
-            masterGain.gain.value = 0}
+  {          eggy.style.fill = "url(#Gradient1)"
+            masterGain.gain.value = 0} // MAKE THIS BEET PAUSE
 
 });
 
