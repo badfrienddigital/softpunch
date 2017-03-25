@@ -631,6 +631,9 @@ StartAudioContext(Tone.context, '#cRect').then(function(){
 
 <script type="text/javascript">
 
+
+  var eggy = document.getElementById('cRect');
+  var bigEggy = document.getElementById('egg2');
   var audioInitiated = false;
   var audioInitiated2 = false;
 
@@ -662,19 +665,44 @@ StartAudioContext(Tone.context, '#cRect').then(function(){
   }, [{ time : 0, note : 'C4', dur : '4n'},
   	{ time : '4n + 8n', note : 'E4', dur : '8n'},
   	{ time : '2n', note : 'G4', dur : '16n'},
-  	{ time : '2n + 8t', note : 'B4', dur : '4n'}])
+  	{ time : '2n + 8t', note : 'B4', dur : '4t'},
+      	//{ time : '2n + 8n', note : 'D4', dur : '8n'},
+      	{ time : '2n + 4n', note : 'C5', dur : '4n'},
+        { time : '2n + 4n + 8t', note : 'B4', dur : '8n'}
+      	//{ time : '2n + 8t', note : 'B4', dur : '4n'}
+
+  ])
+
+
+
+
+
+  Tone.Transport.scheduleRepeat(function(time){
+  	//use the time argument to schedule a callback with Tone.Draw
+  	Tone.Draw.schedule(function(){
+  		//do drawing or DOM manipulation here
+
+      var xx = time;
+            bigEggy.style.transform = "rotate("+xx+"deg)"
+  	}, time)
+  }, "1m")
+
+
+
+
+
+
+
 
   part.humanize = true;
   part.start(0)
   part.loop = true
   part.loopEnd = '1m'
   Tone.Transport.latencyHint = 'balanced'
-  Tone.Transport.bpm.value = 140
+  Tone.Transport.bpm.value = 118
+  Tone.Transport.swing.value = .2
 
 
-
-
-var eggy = document.getElementById('cRect');
 
 
 
@@ -692,6 +720,11 @@ function tog() {
          {console.log('11' + Tone.Master.volume.value)
           eggy.style.fill = "url(#Gradient1)"
           Tone.Master.mute = true}
+
+          // for ULTIMATE smoothness,
+          // volume.rampTo(0, .25) *AND* mute.setValueAtTime(true, "+0.3")
+          // ...you do want ultimate smoothness, don't you?
+
       else if (Tone.Master.mute == true)
          {console.log('22' + Tone.Master.volume.value)
           eggy.style.fill = "url(#Gradient2)"
