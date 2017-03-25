@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <link rel="manifest" href="manifest.json">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="icon" href="favicon.ico" type="image/x-icon"> 
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 
   <title>Soft Punch</title>
@@ -458,6 +458,11 @@ textures/natural-paper.png
 html, body { height: 100%; }
 
 body {
+  cursor:default;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
    width: 100%;
    margin: 0;
    padding: 0;
@@ -503,11 +508,6 @@ body:after {
 
 
 #egg2 {
-  cursor:default;
-  user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -webkit-user-select: none;
   margin: 0 auto;
   display: block;
   -webkit-transform: rotate(360deg);
