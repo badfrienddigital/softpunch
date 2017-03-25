@@ -34,34 +34,6 @@
       <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 
-<!--
-App Icon Sizes
-
-SEE GIST:
-https://gist.github.com/tfausak/2222823
-
-
-Every app must supply both small and large app icons. The small icons are used on the Home screen and throughout the system once your app is installed. The large icon is used by the App Store.
-
-Device or context	Icon size
-iPhone 6s Plus, iPhone 6 Plus	180px by 180px
-iPhone 6s, iPhone 6, iPhone SE	120px by 120px
-iPad Pro	167px by 167px
-iPad, iPad mini	152px by 152px
-App Store	1024px by 1024px
-Provide different sized small icons for different devices. Make sure that your app icon looks great on all the devices you support.
-
-Mimic your small app icon with your large app icon. Although the large icon is used differently than the small one, it’s still your app icon. It should generally match the smaller version in appearance, although it can be subtly richer and more detailed since there are no visual effects applied to it.
-
-Spotlight and Settings Icons
-Every app should provide a small icon that iOS can display when the app name matches a term in a Spotlight search. Additionally, apps with settings should provide a small icon to display in the built-in Settings app. Both icons should clearly identify your app—ideally, they should match your app icon. If you don’t provide these icons, iOS might shrink your main app icon for display in these locations.
-
-Device	Spotlight icon size	Settings icon size
-iPhone 6s Plus, iPhone 6 Plus	120px by 120px	87px by 87px
-iPhone 6s, iPhone 6, iPhone SE	80px by 80px	58px by 58px
-iPad Pro, iPad, iPad mini	80px by 80px	58px by 58px
-Don’t add an overlay or border to your Settings icon. iOS automatically adds a 1-pixel stroke to all icons so that they look good on the white background of Settings.
-    -->
 </head>
 <style>
 /**
@@ -631,12 +603,12 @@ body:after {
 
 }
 
-
+/*
 .grit {
   -webkit-mask-image: url("textures/grit.png");
   mask-image: url("textures/grit.png");
 }
-
+*/
 
 
 .tint {
@@ -646,10 +618,22 @@ body:after {
   left: 9598.5rem;
   right: 9598.5rem; */
   background: #765BA7;
+  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=92)";
+  filter: alpha(opacity=92);
+  opacity: 0.92;
 }
 
 
-
+/*
+h1:after {
+  z-index: 2;
+  -webkit-mask-image: url("textures/grit.png");
+  mask-image: url("textures/grit.png");
+  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+  opacity: 0.5;
+}
+*/
 
 
 h1 {
@@ -663,7 +647,6 @@ h1 {
     -webkit-user-select: none;
     vertical-align: middle;
     font-size: 25vw;
-    opacity: .92;
     box-shadow: 2px 3px 4px rgba(25, 23, 0, 0.5);
 }
 
@@ -682,7 +665,7 @@ h1 {
 <body>
     <div class="cent">
           <div class="cent2">
-      <h1 title="Soft Punch" class="grit, tint">SOFT PUNCH</h1>
+      <h1 title="Soft Punch" class="tint">SOFT PUNCH</h1>
           </div>
     </div>
 <!--      <div id="egg" onclick="func()"></div> -->
@@ -725,7 +708,7 @@ h1 {
 <script src="Tone.js"></script>
 
 <script type="text/javascript">
-StartAudioContext(Tone.context, '#cRect').then(function(){
+StartAudioContext(Tone.context, '#cRect2').then(function(){
   console.log("iOS fixed")
     })
 </script>
@@ -806,7 +789,7 @@ StartAudioContext(Tone.context, '#cRect').then(function(){
     { time : '4n + 8n', note : 'E4', dur : '8n'},
     { time : '2n', note : 'G4', dur : '16n'},
     { time : '2n + 8t', note : 'C4', dur : '4t'},
-        { time : '2n + 4n + 8t', note : 'C4', dur : '8n'}
+        { time : '2n + 4n + 8t', note : 'D4', dur : '8n'}
   ])
 
 
@@ -818,6 +801,8 @@ StartAudioContext(Tone.context, '#cRect').then(function(){
 // so 8m of p1, then 8m of p2, etc.
 // use some markov/random signal to affect synth subtly?
 // every so often seek transport to random location?
+// transport can be bound to events with .on()
+// transport can also emit events with .emit()
 //
 // create 2nd synth with parts that include more chance
 // and with diff lengths so that they don't intersect normally
@@ -829,13 +814,43 @@ StartAudioContext(Tone.context, '#cRect').then(function(){
 // Song Structure Controls
 
 
+
+
+
   part1.humanize = true;
   part2.humanize = true;
   part3.humanize = true;
+  part1.probability = 0.9;
+  part2.probability = 0.9;
+  part3.probability = 0.9;
+  part1.loop = true;
+  part2.loop = true;
+  part3.loop = true;
 
-  part1.start(0)
-  part1.loop = true
-  part1.loopEnd = '1m'
+
+  var partNow = part1;
+  var partList = [part1, part2, part3, part1, part1, part2]
+  var randomWalk = new Tone.CtrlRandom({
+  "min" : 0,
+  "max" : 5,
+  "integer" : true
+});
+
+
+// how do I make it run the walk on every measure?
+
+  Tone.Transport.scheduleRepeat(function(){
+    partNow.stop(0)
+    partNow = partList[randomWalk.value];
+    console.log(partNow);
+    partNow.start(0)}, "1m", 0);
+
+
+
+
+
+
+
 
 
 /*
@@ -861,6 +876,8 @@ StartAudioContext(Tone.context, '#cRect').then(function(){
 
   Tone.Transport.latencyHint = 'balanced'
   Tone.Transport.loop = true
+  Tone.Transport.loopStart = 0;
+  Tone.Transport.loopEnd = "2m";
   Tone.Transport.bpm.value = 118
   Tone.Transport.swing.value = .2
 
