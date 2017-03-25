@@ -2,7 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <link rel="manifest" href="/manifest.json">
+    <!--<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"> -->
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
   <title>Soft Punch</title>
       <meta name="viewport" content="width=device-width,initial-scale=1.0">
 </head>
@@ -482,7 +486,7 @@ body:after {
   filter: alpha(opacity=30);
   opacity: 0.3;
 }
-
+/*
 #egg {
     margin: 0 auto;
     width: 136px;
@@ -495,9 +499,15 @@ body:after {
     border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
     -webkit-filter: drop-shadow(2px 3px 4px #191700);
     filter: drop-shadow(2px 3px 4px #191700);
-}
+} */
+
 
 #egg2 {
+  cursor:default;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
   margin: 0 auto;
   display: block;
   -webkit-transform: rotate(360deg);

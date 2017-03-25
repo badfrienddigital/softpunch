@@ -1,0 +1,46 @@
+{
+  "short_name": "Soft Punch",
+  "name": "Soft Punch",
+  "icons": [
+    {
+      "src": "eggy-48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "eggy-48.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "eggy-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+
+  "icons": [{
+    "src": "icon/eggy-128.png",
+    "type": "image/png",
+    "sizes": "128x128"
+  }, {
+    "src": "icon/eggy-152.png",
+    "type": "image/png",
+    "sizes": "152x152"
+  }, {
+    "src": "icon/eggy-144.png",
+    "type": "image/png",
+    "sizes": "144x144"
+  }, {
+    "src": "icon/eggy-192.png",
+    "type": "image/png",
+    "sizes": "192x192"
+  }],
+  "start_url": "index.html?launcher=true",
+  "background_color": "#0078BF",
+  "theme_color": "#0078BF",
+  "orientation": "portrait",
+  "display": "standalone"
+
+
+}
