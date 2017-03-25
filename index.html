@@ -488,10 +488,10 @@ body:after {
     width: 136px;
     height: 190px;
     -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
     background: #FFE800;
     display: block;
-    -webkit-border-radius: 63px 63px 63px 63px / 108px 108px 72px 72px;
     border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
     -webkit-filter: drop-shadow(2px 3px 4px #191700);
     filter: drop-shadow(2px 3px 4px #191700);
@@ -501,7 +501,8 @@ body:after {
   margin: 0 auto;
   display: block;
   -webkit-transform: rotate(360deg);
-  transform: rotate(360deg);
+  -ms-transform: rotate(360deg);
+      transform: rotate(360deg);
   -webkit-filter: drop-shadow(1px 2px 4px #191700);
   filter: drop-shadow(1px 2px 4px #191700);
 }
@@ -518,15 +519,28 @@ body:after {
 .cent {
   margin: 0;
   padding: 0;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  align-items: baseline;
-  justify-content: center;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-align-items: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .cent2 {
-flex: auto;
-align-self: stretch;
+-webkit-flex: auto;
+    -ms-flex: auto;
+        flex: auto;
+-webkit-align-self: stretch;
+    -ms-flex-item-align: stretch;
+            -ms-grid-row-align: stretch;
+        align-self: stretch;
 
 }
 
@@ -556,6 +570,7 @@ h1 {
 h1 {
     font-size: 4em;}
 }
+
 
 </style>
 
@@ -601,8 +616,7 @@ h1 {
 
 
 </svg>
-<!--    </div>
-  </div> -->
+
 </body>
 <script type="text/javascript" src="StartAudioContext.js"></script>
 <script src="Tone.js"></script>
@@ -749,7 +763,15 @@ StartAudioContext(Tone.context, '#cRect').then(function(){
     	Tone.Draw.schedule(function(){
     		//do drawing or DOM manipulation here
         var xx = time;
+
               bigEggy.style.transform = "rotate("+xx+"deg)"
+              bigEggy.style.mstransform = "rotate("+xx+"deg)"
+              bigEggy.style.moztransform = "rotate("+xx+"deg)"
+              bigEggy.style.otransform = "rotate("+xx+"deg)"
+              bigEggy.style.webkittransform = "rotate("+xx+"deg)"
+
+
+
 
               // add webkit transform
     	}, time)
@@ -792,7 +814,19 @@ document.addEventListener("visibilitychange", function() {
              Tone.Master.mute = true;}
 
 });
-
-
 </script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    console.log("Will the service worker register?");
+    navigator.serviceWorker.register('service-worker.js')
+      .then(function(reg){
+        console.log("Yes, it did.");
+      }).catch(function(err) {
+        console.log("No it didn't. This happened: ", err)
+      });
+  }
+</script>
+
+
 </html>
