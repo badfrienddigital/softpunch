@@ -510,9 +510,9 @@ body:after {
 #egg2 {
   margin: 0 auto;
   display: block;
-  -webkit-transform: rotate(360deg);
-  -ms-transform: rotate(360deg);
-      transform: rotate(360deg);
+  -webkit-transform: rotateZ(360deg);
+  -ms-transform: rotateZ(360deg);
+      transform: rotateZ(360deg);
   -webkit-filter: drop-shadow(1px 2px 4px #191700);
   filter: drop-shadow(1px 2px 4px #191700);
 }
@@ -774,11 +774,11 @@ StartAudioContext(Tone.context, '#cRect').then(function(){
     		//do drawing or DOM manipulation here
         var xx = time;
 
-              bigEggy.style.transform = "rotate("+xx+"deg)"
-              bigEggy.style.mstransform = "rotate("+xx+"deg)"
-              bigEggy.style.moztransform = "rotate("+xx+"deg)"
-              bigEggy.style.otransform = "rotate("+xx+"deg)"
-              bigEggy.style.webkittransform = "rotate("+xx+"deg)"
+              bigEggy.style.transform = "rotateZ("+xx+"deg)"
+              bigEggy.style.mstransform = "rotateZ("+xx+"deg)"
+              bigEggy.style.moztransform = "rotateZ("+xx+"deg)"
+              bigEggy.style.otransform = "rotateZ("+xx+"deg)"
+              bigEggy.style.webkittransform = "rotateZ("+xx+"deg)"
 
 
 
