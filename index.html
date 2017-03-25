@@ -3,13 +3,65 @@
   <head>
     <meta charset="utf-8">
 
-    <link rel="manifest" href="manifest.json">
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#0078BF">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#0078BF">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SoftPunch">
+
+    <!-- icon in the highest resolution we need it for -->
+    <link rel="icon" sizes="192x192" href="eggy-192.png">
+    <!-- reuse same icon for Safari -->
+    <link rel="apple-touch-startup-image" href="eggy-192.png">
+    <link rel="apple-touch-icon" href="eggy-192.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icon/eggy-152.png">
+<!--<link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
+<link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">-->
+
+    <!-- multiple icons for IE
+    <meta name="msapplication-square70x70logo" content="icon_smalltile.png">
+    <meta name="msapplication-square150x150logo" content="icon_mediumtile.png">
+    <meta name="msapplication-wide310x150logo" content="icon_widetile.png"> -->
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 
   <title>Soft Punch</title>
       <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+
+<!--
+App Icon Sizes
+
+SEE GIST:
+https://gist.github.com/tfausak/2222823
+
+
+Every app must supply both small and large app icons. The small icons are used on the Home screen and throughout the system once your app is installed. The large icon is used by the App Store.
+
+Device or context	Icon size
+iPhone 6s Plus, iPhone 6 Plus	180px by 180px
+iPhone 6s, iPhone 6, iPhone SE	120px by 120px
+iPad Pro	167px by 167px
+iPad, iPad mini	152px by 152px
+App Store	1024px by 1024px
+Provide different sized small icons for different devices. Make sure that your app icon looks great on all the devices you support.
+
+Mimic your small app icon with your large app icon. Although the large icon is used differently than the small one, it’s still your app icon. It should generally match the smaller version in appearance, although it can be subtly richer and more detailed since there are no visual effects applied to it.
+
+Spotlight and Settings Icons
+Every app should provide a small icon that iOS can display when the app name matches a term in a Spotlight search. Additionally, apps with settings should provide a small icon to display in the built-in Settings app. Both icons should clearly identify your app—ideally, they should match your app icon. If you don’t provide these icons, iOS might shrink your main app icon for display in these locations.
+
+Device	Spotlight icon size	Settings icon size
+iPhone 6s Plus, iPhone 6 Plus	120px by 120px	87px by 87px
+iPhone 6s, iPhone 6, iPhone SE	80px by 80px	58px by 58px
+iPad Pro, iPad, iPad mini	80px by 80px	58px by 58px
+Don’t add an overlay or border to your Settings icon. iOS automatically adds a 1-pixel stroke to all icons so that they look good on the white background of Settings.
+    -->
 </head>
 <style>
 /**
@@ -514,6 +566,11 @@ body:after {
   -webkit-transform: rotateZ(360deg);
   -ms-transform: rotateZ(360deg);
       transform: rotateZ(360deg);
+      cursor:default;
+      user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -webkit-user-select: none;
 
 }
 
@@ -528,6 +585,20 @@ body:after {
   -webkit-transition: fill 0.5s ease;
   -moz-transition: fill 0.5s ease;
   -o-transition: fill 0.5s ease;
+  cursor:default;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+}
+
+#cRect2 {
+
+  cursor:default;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
 }
 
 
@@ -560,16 +631,30 @@ body:after {
 
 }
 
-/*
+
 .grit {
   -webkit-mask-image: url("textures/grit.png");
   mask-image: url("textures/grit.png");
 }
-*/
+
+
+
+.tint {
+/*  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 9598.5rem;
+  right: 9598.5rem; */
+  background: #765BA7;
+}
+
+
+
+
 
 h1 {
     color: #FF48B0;
-    background-color: #765BA7;
+  /*  background-color: #765BA7; */
     text-shadow: 2px 3px 4px rgba(25, 23, 0, 0.5);
     cursor:default;
     user-select: none;
@@ -597,11 +682,11 @@ h1 {
 <body>
     <div class="cent">
           <div class="cent2">
-      <h1 title="Soft Punch" class="grit">SOFT PUNCH</h1>
+      <h1 title="Soft Punch" class="grit, tint">SOFT PUNCH</h1>
           </div>
     </div>
 <!--      <div id="egg" onclick="func()"></div> -->
-    <div class="svg-wrap">
+    <div id="swrap1" class="svg-wrap">
 
       <svg id="egg2" onclick="func()" width="182" height="252" viewBox="0 0 182.2 252.2" version="1.1" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title" role="img">
      <title id="title">Egg</title>
@@ -652,6 +737,7 @@ StartAudioContext(Tone.context, '#cRect').then(function(){
 
   var eggy = document.getElementById('cRect');
   var bigEggy = document.getElementById('egg2');
+  var bigEggyAlt = document.getElementById('swrap1');
   var audioInitiated = false;
   var audioInitiated2 = false;
 
@@ -659,18 +745,22 @@ StartAudioContext(Tone.context, '#cRect').then(function(){
 // Master Audio
 
 
-  var masterCompressor = new Tone.Limiter(-6);
+  var meter = new Tone.Meter();
+  var masterLimit = new Tone.Limiter(-20);
   var lowCut = new Tone.Filter(-200, "lowshelf");
-  Tone.Master.chain(lowCut, masterCompressor);
+  Tone.Master.chain(lowCut, masterLimit, meter);
+  Tone.Master.volume.value = -5;
+
 
 
 // synth #1
 
   var feedbackDelay = new Tone.FeedbackDelay("8n", 0.5).toMaster();
   var tremolo = new Tone.Vibrato().connect(feedbackDelay);
-  var synth = new Tone.MembraneSynth();
-  synth.connect(tremolo);
-  synth.set({
+  var synth1 = new Tone.MembraneSynth();
+  synth1.connect(tremolo);
+  synth1.volume.value = -10;
+  synth1.set({
     octaves: 1,
     envelope : {
   		attack : 0.002,
@@ -689,7 +779,7 @@ StartAudioContext(Tone.context, '#cRect').then(function(){
 
 
   var part1 = new Tone.Part(function(time, event){
-  	synth.triggerAttackRelease(event.note, event.dur, time)
+  	synth1.triggerAttackRelease(event.note, event.dur, time)
   }, [{ time : 0, note : 'C4', dur : '4n'},
   	{ time : '4n + 8n', note : 'E4', dur : '8n'},
   	{ time : '2n', note : 'G4', dur : '16n'},
@@ -700,7 +790,7 @@ StartAudioContext(Tone.context, '#cRect').then(function(){
 
 
   var part2 = new Tone.Part(function(time, event){
-    synth.triggerAttackRelease(event.note, event.dur, time)
+    synth1.triggerAttackRelease(event.note, event.dur, time)
   }, [{ time : 0, note : 'C4', dur : '4n'},
     { time : '4n + 8n', note : 'E4', dur : '8n'},
     { time : '2n', note : 'G4', dur : '16n'},
@@ -710,7 +800,7 @@ StartAudioContext(Tone.context, '#cRect').then(function(){
 
 
   var part3 = new Tone.Part(function(time, event){
-    synth.triggerAttackRelease(event.note, event.dur, time)
+    synth1.triggerAttackRelease(event.note, event.dur, time)
   }, [{ time : 0, note : 'A4', dur : '8n'},
       { time : '8n', note : 'A4', dur : '8n'},
     { time : '4n + 8n', note : 'E4', dur : '8n'},
@@ -726,12 +816,14 @@ StartAudioContext(Tone.context, '#cRect').then(function(){
 // set up a series of parts
 // and have the transport loop
 // so 8m of p1, then 8m of p2, etc.
+// use some markov/random signal to affect synth subtly?
+// every so often seek transport to random location?
 //
 // create 2nd synth with parts that include more chance
 // and with diff lengths so that they don't intersect normally
-
-
-
+//
+//
+//
 
 
 // Song Structure Controls
@@ -768,6 +860,7 @@ StartAudioContext(Tone.context, '#cRect').then(function(){
 
 
   Tone.Transport.latencyHint = 'balanced'
+  Tone.Transport.loop = true
   Tone.Transport.bpm.value = 118
   Tone.Transport.swing.value = .2
 
@@ -782,16 +875,14 @@ StartAudioContext(Tone.context, '#cRect').then(function(){
     		//do drawing or DOM manipulation here
         var xx = time;
 
-              bigEggy.style.transform = "rotateZ("+xx+"deg)"
-              bigEggy.style.mstransform = "rotateZ("+xx+"deg)"
-              bigEggy.style.moztransform = "rotateZ("+xx+"deg)"
-              bigEggy.style.otransform = "rotateZ("+xx+"deg)"
-              bigEggy.style.webkittransform = "rotateZ("+xx+"deg)"
+              bigEggyAlt.style.transform = "rotateZ("+xx+"deg)"
+              bigEggyAlt.style.mstransform = "rotateZ("+xx+"deg)"
+              bigEggyAlt.style.moztransform = "rotateZ("+xx+"deg)"
+              bigEggyAlt.style.otransform = "rotateZ("+xx+"deg)"
+              bigEggyAlt.style.webkittransform = "rotateZ("+xx+"deg)"
 
+              console.log("volume:" + meter.value)
 
-
-
-              // add webkit transform
     	}, time)
     }, "1m")
 
@@ -809,7 +900,7 @@ function func() {
 
 function tog() {
       if (Tone.Master.mute != true)
-         {console.log('11' + Tone.Master.volume.value)
+         {console.log('UnMuted Vol:' + Tone.Master.volume.value)
           eggy.style.fill = "url(#Gradient1)"
           Tone.Master.mute = true}
 
@@ -818,7 +909,7 @@ function tog() {
           // ...you do want ultimate smoothness, don't you?
 
       else if (Tone.Master.mute == true)
-         {console.log('22' + Tone.Master.volume.value)
+         {console.log('Muted Vol:' + Tone.Master.volume.value)
           eggy.style.fill = "url(#Gradient2)"
           Tone.Master.mute = false}
 };
