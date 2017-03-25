@@ -739,9 +739,14 @@ StartAudioContext(Tone.context, '#cRect2').then(function(){
 // synth #1
 
   var feedbackDelay = new Tone.FeedbackDelay("8n", 0.5).toMaster();
-  var tremolo = new Tone.Vibrato().connect(feedbackDelay);
+  var vib1 = new Tone.Vibrato().connect(feedbackDelay);
+  var lfo1 = new Tone.LFO("8n", .05, .25);
+  lfo1.sync().start(0)
+  lfo1.connect(vib1.depth)
+
+
   var synth1 = new Tone.MembraneSynth();
-  synth1.connect(tremolo);
+  synth1.connect(vib1);
   synth1.volume.value = -10;
   synth1.set({
     octaves: 1,
@@ -837,12 +842,11 @@ StartAudioContext(Tone.context, '#cRect2').then(function(){
 });
 
 
-// how do I make it run the walk on every measure?
 
   Tone.Transport.scheduleRepeat(function(){
     partNow.stop(0)
     partNow = partList[randomWalk.value];
-    console.log(partNow);
+    //console.log(Tone.Transport.bpm.value);
     partNow.start(0)}, "1m", 0);
 
 
@@ -852,36 +856,18 @@ StartAudioContext(Tone.context, '#cRect2').then(function(){
 
 
 
-
-/*
-
-  var chain1 = new Tone.CtrlMarkov({
-  	"part1" : [{"value" : "part1", "probability" : 0.8},
-  					{"value" : "part2", "probability" : 0.2}],
-  	"part2" : [{"value" : "part1", "probability" : 0.8},
-  					{"value" : "part3", "probability" : 0.2}],
-    "part3" : [{"value" : "part1", "probability" : 0.8},
-            {"value" : "part2", "probability" : 0.2}],
-  });
-  chain1.value = "part1";
-
-*/
-
-
-
-//  chain1.next()
-
-
-
-
   Tone.Transport.latencyHint = 'balanced'
   Tone.Transport.loop = true
   Tone.Transport.loopStart = 0;
-  Tone.Transport.loopEnd = "2m";
-  Tone.Transport.bpm.value = 118
+  Tone.Transport.loopEnd = "10m";
+  Tone.Transport.bpm.value = 115
   Tone.Transport.swing.value = .2
 
 
+  var bpmLoop = new Tone.Loop(function(time){
+    Tone.Transport.bpm.rampTo(120, "5m", time);
+    Tone.Transport.bpm.rampTo(115, "5m", "+5m");
+  }, "10m").start(0);
 
 
 // Egg Animation
@@ -898,7 +884,7 @@ StartAudioContext(Tone.context, '#cRect2').then(function(){
               bigEggyAlt.style.otransform = "rotateZ("+xx+"deg)"
               bigEggyAlt.style.webkittransform = "rotateZ("+xx+"deg)"
 
-              console.log("volume:" + meter.value)
+              //console.log("volume:" + meter.value)
 
     	}, time)
     }, "1m")
