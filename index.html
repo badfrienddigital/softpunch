@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+
     <link rel="manifest" href="manifest.json">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -513,6 +514,11 @@ body:after {
   -webkit-transform: rotateZ(360deg);
   -ms-transform: rotateZ(360deg);
       transform: rotateZ(360deg);
+
+}
+
+.svg-wrap {
+
   -webkit-filter: drop-shadow(1px 2px 4px #191700);
   filter: drop-shadow(1px 2px 4px #191700);
 }
@@ -595,6 +601,7 @@ h1 {
           </div>
     </div>
 <!--      <div id="egg" onclick="func()"></div> -->
+    <div class="svg-wrap">
 
       <svg id="egg2" onclick="func()" width="182" height="252" viewBox="0 0 182.2 252.2" version="1.1" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title" role="img">
      <title id="title">Egg</title>
@@ -603,7 +610,7 @@ h1 {
      <path d="M182.2 161.1c0 50.3-40.8 91.1-91.1 91.1S0 211.4 0 161.1C0 110.8 40.8 0 91.1 0S182.2 110.8 182.2 161.1z"/>
    </clipPath>
 
-   <pattern id="img1" patternUnits="userSpaceOnUse" width="182" height="252" >
+  <pattern id="img1" patternUnits="userSpaceOnUse" width="182" height="252" >
      <image xlink:href="textures/grit.png" x="-30" y="0" width="282" height="252"/>
    </pattern>
 
@@ -619,13 +626,14 @@ h1 {
  </defs>
           <a xlink:href="#0">
  <rect id="cRect" x="0" y="0" width="182" height="252" fill="url(#Gradient1)"
-    clip-path="url(#svgPath)"/></a>
+    clip-path="url(#svgPath)"/>
 
  <rect id="cRect2" x="0" y="0" width="182" height="252" fill="url(#img1)" fill-opacity="0.25"
-       clip-path="url(#svgPath)"/></a>
-
-
+       clip-path="url(#svgPath)"/>
+     </a>
 </svg>
+</div>
+
 
 </body>
 <script type="text/javascript" src="StartAudioContext.js"></script>
