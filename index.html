@@ -729,25 +729,40 @@ StartAudioContext(Tone.context, '#cRect2').then(function(){
 
 
   var meter = new Tone.Meter();
+  var masterVerb = new Tone.Freeverb(0.4, 4000)
+  masterVerb.wet.value = .15;
   var masterLimit = new Tone.Limiter(-20);
-  var lowCut = new Tone.Filter(-200, "lowshelf");
-  Tone.Master.chain(lowCut, masterLimit, meter);
-  Tone.Master.volume.value = -5;
+  var mComp = new Tone.Compressor(-6, 2);
+  var lowCut = new Tone.Filter(-150, "lowshelf");
+  Tone.Master.chain(lowCut, mComp, masterLimit, masterVerb, meter);
+  Tone.Master.volume.value = -6;
 
 
 
 // synth #1
 
-  var feedbackDelay = new Tone.FeedbackDelay("8n", 0.5).toMaster();
-  var vib1 = new Tone.Vibrato().connect(feedbackDelay);
+ // ADD LFO TO DELAY FEEDBACK
+
+
+
+  var filter1a = new Tone.Filter(4000, "lowpass");
+  filter1a.toMaster();
+  var fDelay1 = new Tone.FeedbackDelay("8n", 0.5);
+  fDelay1.connect(filter1a);
+  var vib1 = new Tone.Vibrato().connect(fDelay1);
   var lfo1 = new Tone.LFO("8n", .05, .25);
   lfo1.sync().start(0)
   lfo1.connect(vib1.depth)
 
+  var lfo1b = new Tone.LFO("2n", .4, .6);
+  lfo1b.sync().start(0)
+  lfo1b.type = "triangle"
+  lfo1b.connect(fDelay1.feedback)
+
 
   var synth1 = new Tone.MembraneSynth();
   synth1.connect(vib1);
-  synth1.volume.value = -10;
+  synth1.volume.value = -12;
   synth1.set({
     octaves: 1,
     envelope : {
@@ -760,10 +775,74 @@ StartAudioContext(Tone.context, '#cRect2').then(function(){
    }
   );
 
+// Synth #2 (bass)
+
+
+var comp2 = new Tone.Compressor(-6, 2).toMaster();
+var filter2 = new Tone.Filter(1000, "lowpass");
+filter2.connect(comp2);
+var feedr2 = new Tone.Chorus("1n", 6.5, 0.2);
+feedr2.type = "triangle"
+feedr2.connect(filter2);
+var dist2 = new Tone.Chebyshev(1, "4x");
+dist2.wet.value = .25;
+dist2.connect(feedr2);
+var vib2 = new Tone.Vibrato("2t", .3)
+vib2.connect(dist2);
+var synth2 = new Tone.MonoSynth();
+synth2.connect(vib2);
+synth2.volume.value = -10;
+
+var lfo2 = new Tone.LFO("2n", 25, 100);
+lfo2.connect(synth2.filter.frequency)
+
+synth2.set({
+    "oscillator": {
+        "type": "fmsquare5"
+      },
+    "filter": {
+        "Q": .5,
+        "type": "lowpass",
+        "rolloff": -24
+    },
+    "envelope": {
+        "attack": 0.2,
+        "decay": 0.01,
+        "sustain": 0.4,
+        "release": 2
+    },
+    "filterEnvelope": {
+        "attack": 0.6,
+        "decay": 0.1,
+        "sustain": 0.8,
+        "release": 1.5,
+        "baseFrequency": 50,
+        "octaves": 2
+    }
+});
+
+synth2.portamento = .15;
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// SONG PARTS
 
 
   var part1 = new Tone.Part(function(time, event){
@@ -799,20 +878,58 @@ StartAudioContext(Tone.context, '#cRect2').then(function(){
 
 
 
-// NEW APPROACH
+
+//  synth2 song parts
+
+
+var partB1 = new Tone.Part(function(time, event){
+  synth2.triggerAttackRelease(event.note, event.dur, time)
+}, [{ time : 0, note : 'D2', dur : '1n + 2n + 16t'}])
+
+var partB2 = new Tone.Part(function(time, event){
+  synth2.triggerAttackRelease(event.note, event.dur, time, event.velocity)
+}, [{ time : 0, note : 'F2', dur : '2n + 4n + 8t', velocity : 0.6},
+    { time : '4n', note : 'D2', dur : '1n', velocity : 0.8}])
+
+var partB3 = new Tone.Part(function(time, event){
+  synth2.triggerAttackRelease(event.note, event.dur, time)
+}, [//{ time : 0, note : 'F2', dur : '2n + 4n'},
+    { time : '2n', note : 'F1', dur : '1n + 2t'}])
+
+var partB4 = new Tone.Part(function(time, event){
+  synth2.triggerAttackRelease(event.note, event.dur, time, event.velocity)
+}, [//{ time : 0, note : 'F2', dur : '2n + 4n'},
+    { time : '1n', note : 'F-1', dur : '1n + 1n + 16t', velocity : 0.5}])
+
+var partB5 = new Tone.Part(function(time, event){
+  synth2.triggerAttackRelease(event.note, event.dur, time, event.velocity)
+}, [//{ time : 0, note : 'F2', dur : '2n + 4n'},
+    { time : '1n', note : 'F-1', dur : '2m', velocity : 0}])
+
+
+
+
+// NEW APPROACHES
 //
-// set up a series of parts
-// and have the transport loop
-// so 8m of p1, then 8m of p2, etc.
-// use some markov/random signal to affect synth subtly?
 // every so often seek transport to random location?
+// OR have transport START at random location,
+// so that ramps/etc. are already in progress
+//
 // transport can be bound to events with .on()
 // transport can also emit events with .emit()
 //
-// create 2nd synth with parts that include more chance
-// and with diff lengths so that they don't intersect normally
+// use same bpm loop for ramping probability value
+// 3m + 4m + 3m ramps for probability
 //
+// create reich-like choral pulse
 //
+// add some constant pads that modulate in volume (but never "rest")
+//
+// don't forget that RESTS can be part of parts/loops/cycles
+// an entire "part" can be a rest
+//
+// Add more loops that ramp different params over time
+// including the depth of LFOs
 //
 
 
@@ -820,7 +937,7 @@ StartAudioContext(Tone.context, '#cRect2').then(function(){
 
 
 
-
+//Part Probability management
 
   part1.humanize = true;
   part2.humanize = true;
@@ -832,6 +949,23 @@ StartAudioContext(Tone.context, '#cRect2').then(function(){
   part2.loop = true;
   part3.loop = true;
 
+    var probNow = 0.9;
+    var randomProb = new Tone.CtrlRandom({
+    "min" : 0.7,
+    "max" : 1,
+    "integer" : false
+  });
+    Tone.Transport.scheduleRepeat(function(){
+      probNow = randomProb.value;
+      //console.log(probNow);
+      part1.probability = probNow;
+      part2.probability = probNow;
+      part3.probability = probNow;
+    }, "1m", 0);
+
+
+// Part Selection
+
 
   var partNow = part1;
   var partList = [part1, part2, part3, part1, part1, part2]
@@ -840,8 +974,6 @@ StartAudioContext(Tone.context, '#cRect2').then(function(){
   "max" : 5,
   "integer" : true
 });
-
-
 
   Tone.Transport.scheduleRepeat(function(){
     partNow.stop(0)
@@ -852,9 +984,55 @@ StartAudioContext(Tone.context, '#cRect2').then(function(){
 
 
 
+// Synth #2 part probability
+
+
+    partB1.humanize = false;
+    partB1.probability = 0.9;
+    partB1.loop = true;
+    partB2.loop = true;
+    partB3.loop = true;
+    partB4.loop = true;
+    partB5.loop = true;
+//    partB1.start(0)
+
+    //partB1.loopEnd = '2m'
+
+    var probNowB = 0.9;
+    Tone.Transport.scheduleRepeat(function(){
+      probNowB = randomProb.value;
+      //console.log(probNow);
+      partB1.probability = probNow;
+      partB2.probability = probNow;
+      partB3.probability = probNow;
+      partB4.probability = probNow;
+      partB5.probability = probNow;
+    }, "2m", 0);
+
+
+    // Synth #2 Part Selection
 
 
 
+      var partBNow = partB1;
+      var partBList = [partB1, partB2, partB5, partB3, partB1, partB5, partB4, partB5]
+      Tone.Transport.scheduleRepeat(function(){
+        partBNow.stop(0)
+        partBNow = partBList[randomWalk.value];
+        //console.log(Tone.Transport.bpm.value);
+        partBNow.start(0)}, "2m", "2m");
+
+
+
+
+
+
+
+
+
+
+
+// Main Transport Controls
 
   Tone.Transport.latencyHint = 'balanced'
   Tone.Transport.loop = true
@@ -864,10 +1042,17 @@ StartAudioContext(Tone.context, '#cRect2').then(function(){
   Tone.Transport.swing.value = .2
 
 
+
+// Fluid Tempo
+
   var bpmLoop = new Tone.Loop(function(time){
     Tone.Transport.bpm.rampTo(120, "5m", time);
     Tone.Transport.bpm.rampTo(115, "5m", "+5m");
+
   }, "10m").start(0);
+
+
+
 
 
 // Egg Animation
@@ -876,7 +1061,7 @@ StartAudioContext(Tone.context, '#cRect2').then(function(){
     	//use the time argument to schedule a callback with Tone.Draw
     	Tone.Draw.schedule(function(){
     		//do drawing or DOM manipulation here
-        var xx = time;
+        var xx = time + time;
 
               bigEggyAlt.style.transform = "rotateZ("+xx+"deg)"
               bigEggyAlt.style.mstransform = "rotateZ("+xx+"deg)"
