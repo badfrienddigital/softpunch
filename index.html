@@ -728,26 +728,24 @@ StartAudioContext(Tone.context, '#cRect2').then(function(){
 // Master Audio
 
 
-  var meter = new Tone.Meter();
-  var masterVerb = new Tone.Freeverb(0.4, 4000)
-  masterVerb.wet.value = .15;
-  var masterLimit = new Tone.Limiter(-20);
-  var mComp = new Tone.Compressor(-6, 2);
-  var lowCut = new Tone.Filter(-150, "lowshelf");
-  Tone.Master.chain(lowCut, mComp, masterLimit, masterVerb, meter);
+  //var meter = new Tone.Meter();
+  //var masterVerb = new Tone.Freeverb(0.4, 4000)
+  //masterVerb.wet.value = .15;
+  var masterLimit = new Tone.Limiter(-24);
+  //var mComp = new Tone.Compressor(-6, 2);
+  //var lowCut = new Tone.Filter(-150, "lowshelf");
+  Tone.Master.chain( masterLimit);
   Tone.Master.volume.value = -6;
 
 
 
 // synth #1
 
- // ADD LFO TO DELAY FEEDBACK
-
-
 
   var filter1a = new Tone.Filter(4000, "lowpass");
   filter1a.toMaster();
   var fDelay1 = new Tone.FeedbackDelay("8n", 0.5);
+  fDelay1.wet.value = .6;
   fDelay1.connect(filter1a);
   var vib1 = new Tone.Vibrato().connect(fDelay1);
   var lfo1 = new Tone.LFO("8n", .05, .25);
@@ -762,7 +760,7 @@ StartAudioContext(Tone.context, '#cRect2').then(function(){
 
   var synth1 = new Tone.MembraneSynth();
   synth1.connect(vib1);
-  synth1.volume.value = -12;
+  synth1.volume.value = -22;
   synth1.set({
     octaves: 1,
     envelope : {
@@ -778,20 +776,20 @@ StartAudioContext(Tone.context, '#cRect2').then(function(){
 // Synth #2 (bass)
 
 
-var comp2 = new Tone.Compressor(-6, 2).toMaster();
-var filter2 = new Tone.Filter(1000, "lowpass");
-filter2.connect(comp2);
+var comp2 = new Tone.Compressor(-8, 4).toMaster();
+//var filter2 = new Tone.Filter(1000, "lowpass");
+//filter2.connect(comp2);
 var feedr2 = new Tone.Chorus("1n", 6.5, 0.2);
 feedr2.type = "triangle"
-feedr2.connect(filter2);
-var dist2 = new Tone.Chebyshev(1, "4x");
+feedr2.connect(comp2);
+var dist2 = new Tone.Chebyshev(3, "4x");
 dist2.wet.value = .25;
 dist2.connect(feedr2);
-var vib2 = new Tone.Vibrato("2t", .3)
+var vib2 = new Tone.Vibrato("2t", .2)
 vib2.connect(dist2);
 var synth2 = new Tone.MonoSynth();
 synth2.connect(vib2);
-synth2.volume.value = -10;
+synth2.volume.value = -8;
 
 var lfo2 = new Tone.LFO("2n", 25, 100);
 lfo2.connect(synth2.filter.frequency)
@@ -821,9 +819,11 @@ synth2.set({
     }
 });
 
-synth2.portamento = .15;
+synth2.portamento = .1;
 
-
+synth2.filterEnvelope.releaseCurve = "linear";
+synth2.filterEnvelope.attackCurve = "sine";
+synth2.filter.frequency = "450";
 
 
 
@@ -884,27 +884,28 @@ synth2.portamento = .15;
 
 var partB1 = new Tone.Part(function(time, event){
   synth2.triggerAttackRelease(event.note, event.dur, time)
-}, [{ time : 0, note : 'D2', dur : '1n + 2n + 16t'}])
+}, [{ time : 0, note : 'D2', dur : '2m'}])
 
 var partB2 = new Tone.Part(function(time, event){
-  synth2.triggerAttackRelease(event.note, event.dur, time, event.velocity)
-}, [{ time : 0, note : 'F2', dur : '2n + 4n + 8t', velocity : 0.6},
-    { time : '4n', note : 'D2', dur : '1n', velocity : 0.8}])
+  synth2.triggerAttackRelease(event.note, event.dur, time)
+}, [{ time : 0, note : 'F2', dur : '2m'},
+    //{ time : '4n', note : 'D2', dur : '1n + 8n'}
+  ])
 
 var partB3 = new Tone.Part(function(time, event){
   synth2.triggerAttackRelease(event.note, event.dur, time)
 }, [//{ time : 0, note : 'F2', dur : '2n + 4n'},
-    { time : '2n', note : 'F1', dur : '1n + 2t'}])
+    { time : 0, note : 'F1', dur : '2m'}])
 
 var partB4 = new Tone.Part(function(time, event){
-  synth2.triggerAttackRelease(event.note, event.dur, time, event.velocity)
+  synth2.triggerAttackRelease(event.note, event.dur, time)
 }, [//{ time : 0, note : 'F2', dur : '2n + 4n'},
-    { time : '1n', note : 'F-1', dur : '1n + 1n + 16t', velocity : 0.5}])
+    { time : 0, note : 'C2', dur : '2m'}])
 
 var partB5 = new Tone.Part(function(time, event){
-  synth2.triggerAttackRelease(event.note, event.dur, time, event.velocity)
+  synth2.triggerAttackRelease(event.note, event.dur, time)
 }, [//{ time : 0, note : 'F2', dur : '2n + 4n'},
-    { time : '1n', note : 'F-1', dur : '2m', velocity : 0}])
+    { time : 0, note : 'D1', dur : '2m'}])
 
 
 
@@ -931,6 +932,9 @@ var partB5 = new Tone.Part(function(time, event){
 // Add more loops that ramp different params over time
 // including the depth of LFOs
 //
+// Make the instruments affect each other!
+// get(params) from each other to use as inputs for modulation
+// or use envelope followers etc
 
 
 // Song Structure Controls
@@ -988,7 +992,6 @@ var partB5 = new Tone.Part(function(time, event){
 
 
     partB1.humanize = false;
-    partB1.probability = 0.9;
     partB1.loop = true;
     partB2.loop = true;
     partB3.loop = true;
@@ -997,7 +1000,7 @@ var partB5 = new Tone.Part(function(time, event){
 //    partB1.start(0)
 
     //partB1.loopEnd = '2m'
-
+/*
     var probNowB = 0.9;
     Tone.Transport.scheduleRepeat(function(){
       probNowB = randomProb.value;
@@ -1008,20 +1011,19 @@ var partB5 = new Tone.Part(function(time, event){
       partB4.probability = probNow;
       partB5.probability = probNow;
     }, "2m", 0);
-
+*/
 
     // Synth #2 Part Selection
 
 
 
       var partBNow = partB1;
-      var partBList = [partB1, partB2, partB5, partB3, partB1, partB5, partB4, partB5]
+      var partBList = [partB1, partB2, partB3, partB1, partB5, partB4]
       Tone.Transport.scheduleRepeat(function(){
         partBNow.stop(0)
         partBNow = partBList[randomWalk.value];
         //console.log(Tone.Transport.bpm.value);
-        partBNow.start(0)}, "2m", "2m");
-
+        partBNow.start(0)}, "4m", "4m");
 
 
 
@@ -1034,7 +1036,7 @@ var partB5 = new Tone.Part(function(time, event){
 
 // Main Transport Controls
 
-  Tone.Transport.latencyHint = 'balanced'
+  Tone.Transport.latencyHint = 'playback'
   Tone.Transport.loop = true
   Tone.Transport.loopStart = 0;
   Tone.Transport.loopEnd = "10m";
@@ -1045,13 +1047,15 @@ var partB5 = new Tone.Part(function(time, event){
 
 // Fluid Tempo
 
+
+/*
   var bpmLoop = new Tone.Loop(function(time){
     Tone.Transport.bpm.rampTo(120, "5m", time);
     Tone.Transport.bpm.rampTo(115, "5m", "+5m");
 
   }, "10m").start(0);
 
-
+*/
 
 
 
