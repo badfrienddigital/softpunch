@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+
+<!-- livereload ~/softpunch/softpunch/ -p 8000 -->
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -671,29 +674,29 @@ h1 {
 <!--      <div id="egg" onclick="func()"></div> -->
     <div id="swrap1" class="svg-wrap">
 
-      <svg id="egg2" onclick="func()" width="182" height="252" viewBox="0 0 182.2 252.2" version="1.1" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title" role="img">
+      <svg id="egg2" onclick="func()" width="182" height="252" viewbox="0 0 182.2 252.2" version="1.1" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title" role="img">
      <title id="title">Egg</title>
      <defs>
-     <clipPath id="svgPath">
+     <clippath id="svgPath">
      <path d="M182.2 161.1c0 50.3-40.8 91.1-91.1 91.1S0 211.4 0 161.1C0 110.8 40.8 0 91.1 0S182.2 110.8 182.2 161.1z"/>
-   </clipPath>
+   </clippath>
 
-  <pattern id="img1" patternUnits="userSpaceOnUse" width="182" height="252" >
+  <pattern id="img1" patternunits="userSpaceOnUse" width="182" height="252" >
      <image xlink:href="textures/grit.png" x="-30" y="0" width="282" height="252"/>
    </pattern>
 
-   <linearGradient id="Gradient1">
+   <lineargradient id="gradient1">
    <stop stop-color="#FFE800" offset="20%"/>
    <stop stop-color="#B58B00" offset="100%"/>
-   </linearGradient>
-   <linearGradient id="Gradient2">
+ </lineargradient>
+   <lineargradient id="gradient2">
    <stop stop-color="#00A95C" offset="20%"/>
    <stop stop-color="#407060" offset="100%"/>
-   </linearGradient>
+ </lineargradient>
 
  </defs>
           <a xlink:href="#0">
- <rect id="cRect" x="0" y="0" width="182" height="252" fill="url(#Gradient1)"
+ <rect id="cRect" x="0" y="0" width="182" height="252" fill="url(#gradient1)"
     clip-path="url(#svgPath)"/>
 
  <rect id="cRect2" x="0" y="0" width="182" height="252" fill="url(#img1)" fill-opacity="0.25"
@@ -776,7 +779,7 @@ StartAudioContext(Tone.context, '#cRect2').then(function(){
 // Synth #2 (bass)
 
 
-var comp2 = new Tone.Compressor(-8, 4).toMaster();
+var comp2 = new Tone.Compressor(-10, 4).toMaster();
 //var filter2 = new Tone.Filter(1000, "lowpass");
 //filter2.connect(comp2);
 var feedr2 = new Tone.Chorus("1n", 6.5, 0.2);
@@ -877,6 +880,10 @@ synth2.filter.frequency = "450";
   ])
 
 
+//
+// ADD TWO MORE VARIATIONS {VIA SCHILLINGER}
+//
+//
 
 
 //  synth2 song parts
@@ -935,6 +942,12 @@ var partB5 = new Tone.Part(function(time, event){
 // Make the instruments affect each other!
 // get(params) from each other to use as inputs for modulation
 // or use envelope followers etc
+//
+//
+// Create string synth
+// Create choir synth
+//
+//
 
 
 // Song Structure Controls
@@ -1083,7 +1096,7 @@ var partB5 = new Tone.Part(function(time, event){
 
 function func() {
   if (audioInitiated == false) {
-    eggy.style.fill = "url(#Gradient2)"
+    eggy.style.fill = "url(#gradient2)"
     Tone.Transport.start("+0.1");
     audioInitiated = true;
    console.log(audioInitiated)}
@@ -1091,28 +1104,31 @@ function func() {
 };
 
 function tog() {
-      if (Tone.Master.mute != true)
-         {console.log('UnMuted Vol:' + Tone.Master.volume.value)
-          eggy.style.fill = "url(#Gradient1)"
+      if (Tone.Transport.state != "paused")
+         {console.log('state:' + Tone.Transport.state)
+          eggy.style.fill = "url(#gradient1)"
+          Tone.Transport.pause();
           Tone.Master.mute = true}
 
           // for ULTIMATE smoothness,
           // volume.rampTo(0, .25) *AND* mute.setValueAtTime(true, "+0.3")
           // ...you do want ultimate smoothness, don't you?
 
-      else if (Tone.Master.mute == true)
-         {console.log('Muted Vol:' + Tone.Master.volume.value)
-          eggy.style.fill = "url(#Gradient2)"
-          Tone.Master.mute = false}
+      else if (Tone.Transport.state == "paused")
+         {console.log('state:' + Tone.Transport.state)
+          eggy.style.fill = "url(#gradient2)"
+          Tone.Master.mute = false;
+          Tone.Transport.start("+0.1");}
 };
 
 // Page Visibility Mute
 
 document.addEventListener("visibilitychange", function() {
-  console.log( document.visibilityState );
+  console.log( document.visibilityState + ' ' + Tone.Transport.state);
   if (document.visibilityState == 'hidden')
-  {          eggy.style.fill = "url(#Gradient1)"
-             Tone.Master.mute = true;}
+  {          eggy.style.fill = "url(#gradient1)"
+             Tone.Transport.pause();
+             Tone.Master.mute = true}
 
 });
 </script>
