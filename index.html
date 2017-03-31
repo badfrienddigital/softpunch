@@ -1,664 +1,599 @@
 <!DOCTYPE html>
 
-<!-- livereload ~/softpunch/softpunch/ -p 8000 -->
+<!--
+open localhost:8000
+livereload ~/softpunch/softpunch/ -p 8000
+-->
 
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
 
-    <!-- Chrome, Firefox OS and Opera -->
     <meta name="theme-color" content="#0078BF">
-    <!-- Windows Phone -->
     <meta name="msapplication-navbutton-color" content="#0078BF">
-    <!-- iOS Safari -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="SoftPunch">
 
-    <!-- icon in the highest resolution we need it for -->
     <link rel="icon" sizes="192x192" href="eggy-192.png">
-    <!-- reuse same icon for Safari -->
     <link rel="apple-touch-startup-image" href="eggy-192.png">
     <link rel="apple-touch-icon" href="eggy-192.png">
     <link rel="apple-touch-icon" sizes="152x152" href="icon/eggy-152.png">
-<!--<link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
-<link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">-->
-
-    <!-- multiple icons for IE
-    <meta name="msapplication-square70x70logo" content="icon_smalltile.png">
-    <meta name="msapplication-square150x150logo" content="icon_mediumtile.png">
-    <meta name="msapplication-wide310x150logo" content="icon_widetile.png"> -->
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="manifest" href="manifest.json">
+
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 
-  <title>Soft Punch</title>
-      <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
+    <title>Soft Punch</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 </head>
 <style>
-/**
+    /**
  * 1. Correct the text wrapping in Edge and IE.
  * 2. Correct the color inheritance from `fieldset` elements in IE.
  * 3. Remove the padding so developers are not caught out when they zero out
  *    `fieldset` elements in all browsers.
  */
 
-legend {
-  box-sizing: border-box; /* 1 */
-  color: inherit; /* 2 */
-  display: table; /* 1 */
-  max-width: 100%; /* 1 */
-  padding: 0; /* 3 */
-  white-space: normal; /* 1 */
-}
-
-/**
+    legend {
+        box-sizing: border-box;
+        /* 1 */
+        color: inherit;
+        /* 2 */
+        display: table;
+        /* 1 */
+        max-width: 100%;
+        /* 1 */
+        padding: 0;
+        /* 3 */
+        white-space: normal;
+        /* 1 */
+    }
+    /**
  * Remove the default vertical scrollbar in IE.
  */
 
-textarea {
-  overflow: auto;
-}
-
-/**
+    textarea {
+        overflow: auto;
+    }
+    /**
  * 1. Add the correct box sizing in IE 10-.
  * 2. Remove the padding in IE 10-.
  */
 
-[type="checkbox"],
-[type="radio"] {
-  box-sizing: border-box; /* 1 */
-  padding: 0; /* 2 */
-}
-
-/**
+    [type="checkbox"],
+    [type="radio"] {
+        box-sizing: border-box;
+        /* 1 */
+        padding: 0;
+        /* 2 */
+    }
+    /**
  * Correct the cursor style of increment and decrement buttons in Chrome.
  */
 
-[type="number"]::-webkit-inner-spin-button,
-[type="number"]::-webkit-outer-spin-button {
-  height: auto;
-}
-
-/**
+    [type="number"]::-webkit-inner-spin-button,
+    [type="number"]::-webkit-outer-spin-button {
+        height: auto;
+    }
+    /**
  * 1. Correct the odd appearance in Chrome and Safari.
  * 2. Correct the outline style in Safari.
  */
 
-[type="search"] {
-  -webkit-appearance: textfield; /* 1 */
-  outline-offset: -2px; /* 2 */
-}
-
-/**
+    [type="search"] {
+        -webkit-appearance: textfield;
+        /* 1 */
+        outline-offset: -2px;
+        /* 2 */
+    }
+    /**
  * Remove the inner padding and cancel buttons in Chrome and Safari on OS X.
  */
 
-[type="search"]::-webkit-search-cancel-button,
-[type="search"]::-webkit-search-decoration {
-  -webkit-appearance: none;
-}
-
-/**
+    [type="search"]::-webkit-search-cancel-button,
+    [type="search"]::-webkit-search-decoration {
+        -webkit-appearance: none;
+    }
+    /**
  * Correct the text style of placeholders in Chrome, Edge, and Safari.
  */
 
-::-webkit-input-placeholder {
-  color: inherit;
-  opacity: 0.54;
-}
-
-/**
+    ::-webkit-input-placeholder {
+        color: inherit;
+        opacity: 0.54;
+    }
+    /**
  * 1. Correct the inability to style clickable types in iOS and Safari.
  * 2. Change font properties to `inherit` in Safari.
  */
 
-::-webkit-file-upload-button {
-  -webkit-appearance: button; /* 1 */
-  font: inherit; /* 2 */
-}
-
-/**
+    ::-webkit-file-upload-button {
+        -webkit-appearance: button;
+        /* 1 */
+        font: inherit;
+        /* 2 */
+    }
+    /**
  * Show the overflow in IE.
  * 1. Show the overflow in Edge.
  */
 
-button,
-input { /* 1 */
-  overflow: visible;
-}
-
-/**
+    button,
+    input {
+        /* 1 */
+        overflow: visible;
+    }
+    /**
  * Remove the inheritance of text transform in Edge, Firefox, and IE.
  * 1. Remove the inheritance of text transform in Firefox.
  */
 
-button,
-select { /* 1 */
-  text-transform: none;
-}
-
-/**
+    button,
+    select {
+        /* 1 */
+        text-transform: none;
+    }
+    /**
  * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`
  *    controls in Android 4.
  * 2. Correct the inability to style clickable types in iOS and Safari.
  */
 
-button,
-html [type="button"], /* 1 */
-[type="reset"],
-[type="submit"] {
-  -webkit-appearance: button; /* 2 */
-}
+    button,
+    html [type="button"],
+    /* 1 */
 
-/**
+    [type="reset"],
+    [type="submit"] {
+        -webkit-appearance: button;
+        /* 2 */
+    }
+    /**
  * Remove the inner border and padding in Firefox.
  */
 
-button::-moz-focus-inner,
-[type="button"]::-moz-focus-inner,
-[type="reset"]::-moz-focus-inner,
-[type="submit"]::-moz-focus-inner {
-  border-style: none;
-  padding: 0;
-}
-
-/**
+    button::-moz-focus-inner,
+    [type="button"]::-moz-focus-inner,
+    [type="reset"]::-moz-focus-inner,
+    [type="submit"]::-moz-focus-inner {
+        border-style: none;
+        padding: 0;
+    }
+    /**
  * Restore the focus styles unset by the previous rule.
  */
 
-button:-moz-focusring,
-[type="button"]:-moz-focusring,
-[type="reset"]:-moz-focusring,
-[type="submit"]:-moz-focusring {
-  outline: 1px dotted ButtonText;
-}
-/**
+    button:-moz-focusring,
+    [type="button"]:-moz-focusring,
+    [type="reset"]:-moz-focusring,
+    [type="submit"]:-moz-focusring {
+        outline: 1px dotted ButtonText;
+    }
+    /**
  * 1. Remove the bottom border in Firefox 39-.
  * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
  */
 
-abbr[title] {
-  border-bottom: none; /* 1 */
-  text-decoration: underline; /* 2 */
-  text-decoration: underline dotted; /* 2 */
-}
-
-/**
+    abbr[title] {
+        border-bottom: none;
+        /* 1 */
+        text-decoration: underline;
+        /* 2 */
+        text-decoration: underline dotted;
+        /* 2 */
+    }
+    /**
  * Prevent the duplicate application of `bolder` by the next rule in Safari 6.
  */
 
-b,
-strong {
-  font-weight: inherit;
-}
-
-/**
+    b,
+    strong {
+        font-weight: inherit;
+    }
+    /**
  * Add the correct font weight in Chrome, Edge, and Safari.
  */
 
-b,
-strong {
-  font-weight: bolder;
-}
-
-/**
+    b,
+    strong {
+        font-weight: bolder;
+    }
+    /**
  * Add the correct font style in Android 4.3-.
  */
 
-dfn {
-  font-style: italic;
-}
-
-/**
+    dfn {
+        font-style: italic;
+    }
+    /**
  * Correct the font size and margin on `h1` elements within `section` and
  * `article` contexts in Chrome, Firefox, and Safari.
  */
-
-
-/*
+    /*
 h1 {
   font-size: 2em;
   margin: 0.67em 0;
 }
 */
-
-
-/**
+    /**
  * Add the correct background and color in IE 9-.
  */
 
-mark {
-  background-color: #ff0;
-  color: #000;
-}
-
-/**
+    mark {
+        background-color: #ff0;
+        color: #000;
+    }
+    /**
  * Add the correct font size in all browsers.
  */
 
-small {
-  font-size: 80%;
-}
-
-/**
+    small {
+        font-size: 80%;
+    }
+    /**
  * Prevent `sub` and `sup` elements from affecting the line height in
  * all browsers.
  */
 
-sub,
-sup {
-  font-size: 75%;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline;
-}
+    sub,
+    sup {
+        font-size: 75%;
+        line-height: 0;
+        position: relative;
+        vertical-align: baseline;
+    }
 
-sub {
-  bottom: -0.25em;
-}
+    sub {
+        bottom: -0.25em;
+    }
 
-sup {
-  top: -0.5em;
-}
-
-/* Embedded content
+    sup {
+        top: -0.5em;
+    }
+    /* Embedded content
    ========================================================================== */
-
-/**
+    /**
  * Remove the border on images inside links in IE 10-.
  */
 
-img {
-  border-style: none;
-}
-
-/**
+    img {
+        border-style: none;
+    }
+    /**
  * Hide the overflow in IE.
  */
 
-svg:not(:root) {
-  overflow: hidden;
-}
-
-/* Grouping content
+    svg:not(:root) {
+        overflow: hidden;
+    }
+    /* Grouping content
    ========================================================================== */
-
-/**
+    /**
  * 1. Correct the inheritance and scaling of font size in all browsers.
  * 2. Correct the odd `em` font sizing in all browsers.
  */
 
-code,
-kbd,
-pre,
-samp {
-  font-family: monospace, monospace; /* 1 */
-  font-size: 1em; /* 2 */
-}
-
-/**
+    code,
+    kbd,
+    pre,
+    samp {
+        font-family: monospace, monospace;
+        /* 1 */
+        font-size: 1em;
+        /* 2 */
+    }
+    /**
  * Add the correct margin in IE 8.
  */
 
-figure {
-  margin: 1em 40px;
-}
-
-/**
+    figure {
+        margin: 1em 40px;
+    }
+    /**
  * 1. Add the correct box sizing in Firefox.
  * 2. Show the overflow in Edge and IE.
  */
 
-hr {
-  box-sizing: content-box; /* 1 */
-  height: 0; /* 1 */
-  overflow: visible; /* 2 */
-}
-
-/* Forms
+    hr {
+        box-sizing: content-box;
+        /* 1 */
+        height: 0;
+        /* 1 */
+        overflow: visible;
+        /* 2 */
+    }
+    /* Forms
    ========================================================================== */
-
-/**
+    /**
  * 1. Change font properties to `inherit` in all browsers (opinionated).
  * 2. Remove the margin in Firefox and Safari.
  */
 
-button,
-input,
-optgroup,
-select,
-textarea {
-  font: inherit; /* 1 */
-  margin: 0; /* 2 */
-}
-
-/**
+    button,
+    input,
+    optgroup,
+    select,
+    textarea {
+        font: inherit;
+        /* 1 */
+        margin: 0;
+        /* 2 */
+    }
+    /**
  * Restore the font weight unset by the previous rule.
  */
 
-optgroup {
-  font-weight: bold;
-}
-
-/**
+    optgroup {
+        font-weight: bold;
+    }
+    /**
  * 1. Change the default font family in all browsers (opinionated).
  * 2. Correct the line height in all browsers.
  * 3. Prevent adjustments of font size after orientation changes in IE and iOS.
  */
 
-html {
-  font-family: sans-serif; /* 1 */
-  line-height: 1.15; /* 2 */
-  -ms-text-size-adjust: 100%; /* 3 */
-  -webkit-text-size-adjust: 100%; /* 3 */
-}
-
-/**
+    html {
+        font-family: sans-serif;
+        /* 1 */
+        line-height: 1.15;
+        /* 2 */
+        -ms-text-size-adjust: 100%;
+        /* 3 */
+        -webkit-text-size-adjust: 100%;
+        /* 3 */
+    }
+    /**
  * Remove the margin in all browsers (opinionated).
  */
 
-body {
-  margin: 0;
-}
-
-/* HTML5 display definitions
+    body {
+        margin: 0;
+    }
+    /* HTML5 display definitions
    ========================================================================== */
-
-/**
+    /**
  * Add the correct display in IE 9-.
  * 1. Add the correct display in Edge, IE, and Firefox.
  * 2. Add the correct display in IE.
  */
 
-article,
-aside,
-details, /* 1 */
-figcaption,
-figure,
-footer,
-header,
-main, /* 2 */
-menu,
-nav,
-section,
-summary { /* 1 */
-  display: block;
-}
+    article,
+    aside,
+    details,
+    /* 1 */
 
-/**
+    figcaption,
+    figure,
+    footer,
+    header,
+    main,
+    /* 2 */
+
+    menu,
+    nav,
+    section,
+    summary {
+        /* 1 */
+        display: block;
+    }
+    /**
  * Add the correct display in IE 9-.
  */
 
-audio,
-canvas,
-progress,
-video {
-  display: inline-block;
-}
-
-/**
+    audio,
+    canvas,
+    progress,
+    video {
+        display: inline-block;
+    }
+    /**
  * Add the correct display in iOS 4-7.
  */
 
-audio:not([controls]) {
-  display: none;
-  height: 0;
-}
-
-/**
+    audio:not([controls]) {
+        display: none;
+        height: 0;
+    }
+    /**
  * Add the correct vertical alignment in Chrome, Firefox, and Opera.
  */
 
-progress {
-  vertical-align: baseline;
-}
-
-/**
+    progress {
+        vertical-align: baseline;
+    }
+    /**
  * Add the correct display in IE 10-.
  * 1. Add the correct display in IE.
  */
 
-template, /* 1 */
-[hidden] {
-  display: none;
-}
+    template,
+    /* 1 */
 
-/* Links
+    [hidden] {
+        display: none;
+    }
+    /* Links
    ========================================================================== */
-
-/**
+    /**
  * 1. Remove the gray background on active links in IE 10.
  * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.
  */
 
-a {
-  background-color: transparent; /* 1 */
-  -webkit-text-decoration-skip: objects; /* 2 */
-}
-
-/**
+    a {
+        background-color: transparent;
+        /* 1 */
+        -webkit-text-decoration-skip: objects;
+        /* 2 */
+    }
+    /**
  * Remove the outline on focused links when they are also active or hovered
  * in all browsers (opinionated).
  */
 
-a:active,
-a:hover {
-  outline-width: 0;
-}
-
-/* CUSTOM
+    a:active,
+    a:hover {
+        outline-width: 0;
+    }
+    /* CUSTOM
    ========================================================================== */
 
-
-/*
-
-PATTERN & TEXTURE STUFF
-
-textures/paper-1.png
-textures/natural-paper.png
-
-
-   .grit {
-     -webkit-mask-image: url("textures/grit.png");
-     mask-image: url("textures/grit.png");
-   }
+    @font-face {
+        font-family: 'Zwizz';
+        src: url('Zwizz-Bold.woff2') format('woff2'),
+        url('Zwizz-Bold.woff') format('woff'),
+        url('Zwizz-Bold.ttf') format('truetype');
+        font-weight: bold;
+        font-style: normal;
+    }
 
 
-*/
+    html,
+    body {
+        height: 100%;
+    }
 
+    body {
+        cursor: default;
+        user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        position: absolute;
+        overflow: hidden;
+        text-align: center;
+        background-color: #0078BF;
+        font-family: 'Zwizz', sans-serif;
+        font-weight: bold;
+        font-size: 2em;
+    }
 
+    body:after {
+        content: "";
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        position: absolute;
+        z-index: -2;
 
+        box-shadow: inset #191700 0 0 0 1px,
+        inset #191700 0 0 0 2px,
+        inset #0019bf 0 0 0 2px;
 
-@font-face {
-  font-family: 'Zwizz';
-  src: url('Zwizz-Bold.woff2') format('woff2'),
-       url('Zwizz-Bold.woff') format('woff'),
-       url('Zwizz-Bold.ttf') format('truetype');
-       font-weight: bold;
-     	 font-style: normal;
-}
-
-
-html, body { height: 100%; }
-
-body {
-  cursor:default;
-  user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -webkit-user-select: none;
-   width: 100%;
-   margin: 0;
-   padding: 0;
-   border: 0;
-   position: absolute;
-   overflow: hidden;
-   text-align: center;
-   background-color: #0078BF;
-   font-family: 'Zwizz', sans-serif;
-   font-weight: bold;
-   font-size: 2em;
-}
-
-body:after {
-  content:"";
-  	top: 0; bottom: 0; left: 0; right: 0;
-  position: absolute;
-  z-index:-2;
-
-  box-shadow: inset #191700 0 0 0 1px,
-              inset #191700 0 0 0 2px,
-              inset #0019bf 0 0 0 2px;
-
-  background-image: url(textures/natural-paper.png);
-  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-  filter: alpha(opacity=30);
-  opacity: 0.3;
-}
-/*
-#egg {
-    margin: 0 auto;
-    width: 136px;
-    height: 190px;
-    -webkit-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-        transform: rotate(360deg);
-    background: #FFE800;
-    display: block;
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    -webkit-filter: drop-shadow(2px 3px 4px #191700);
-    filter: drop-shadow(2px 3px 4px #191700);
-} */
-
-
-#egg2 {
-  margin: 0 auto;
-  display: block;
-  -webkit-transform: rotateZ(360deg);
-  -ms-transform: rotateZ(360deg);
-      transform: rotateZ(360deg);
-      cursor:default;
-      user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      -webkit-user-select: none;
-
-}
-
-.svg-wrap {
-
-  -webkit-filter: drop-shadow(1px 2px 4px #191700);
-  filter: drop-shadow(1px 2px 4px #191700);
-}
-
-#cRect {
-  transition: fill 0.5s ease;
-  -webkit-transition: fill 0.5s ease;
-  -moz-transition: fill 0.5s ease;
-  -o-transition: fill 0.5s ease;
-  cursor:default;
-  user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -webkit-user-select: none;
-}
-
-#cRect2 {
-
-  cursor:default;
-  user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -webkit-user-select: none;
-}
+        background-image: url(textures/natural-paper.png);
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+        filter: alpha(opacity=30);
+        opacity: 0.3;
+    }
 
 
 
-.cent {
-  margin: 0;
-  padding: 0;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-align-items: baseline;
-      -ms-flex-align: baseline;
-          align-items: baseline;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
+    #egg2 {
+        margin: 0 auto;
+        display: block;
+        -webkit-transform: rotateZ(360deg);
+        -ms-transform: rotateZ(360deg);
+        transform: rotateZ(360deg);
+        cursor: default;
+        user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+    }
 
-.cent2 {
--webkit-flex: auto;
-    -ms-flex: auto;
+    .svg-wrap {
+
+        -webkit-filter: drop-shadow(1px 2px 4px #191700);
+        filter: drop-shadow(1px 2px 4px #191700);
+    }
+
+    #cRect {
+        transition: fill 0.5s ease;
+        -webkit-transition: fill 0.5s ease;
+        -moz-transition: fill 0.5s ease;
+        -o-transition: fill 0.5s ease;
+        cursor: default;
+        user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+    }
+
+    #cRect2 {
+
+        cursor: default;
+        user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+    }
+
+
+
+    .cent {
+        margin: 0;
+        padding: 0;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-align-items: baseline;
+        -ms-flex-align: baseline;
+        align-items: baseline;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+    }
+
+    .cent2 {
+        -webkit-flex: auto;
+        -ms-flex: auto;
         flex: auto;
--webkit-align-self: stretch;
-    -ms-flex-item-align: stretch;
-            -ms-grid-row-align: stretch;
+        -webkit-align-self: stretch;
+        -ms-flex-item-align: stretch;
+        -ms-grid-row-align: stretch;
         align-self: stretch;
-
-}
-
-/*
-.grit {
-  -webkit-mask-image: url("textures/grit.png");
-  mask-image: url("textures/grit.png");
-}
-*/
+    }
 
 
-.tint {
-/*  z-index: -1;
-  top: 0;
-  bottom: 0;
-  left: 9598.5rem;
-  right: 9598.5rem; */
-  background: #765BA7;
-  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=92)";
-  filter: alpha(opacity=92);
-  opacity: 0.92;
-}
+    .tint {
+        background: #765BA7;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=92)";
+        filter: alpha(opacity=92);
+        opacity: 0.92;
+    }
 
 
-/*
-h1:after {
-  z-index: 2;
-  -webkit-mask-image: url("textures/grit.png");
-  mask-image: url("textures/grit.png");
-  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-  filter: alpha(opacity=50);
-  opacity: 0.5;
-}
-*/
 
 
-h1 {
-    color: #FF48B0;
-  /*  background-color: #765BA7; */
-    text-shadow: 2px 3px 4px rgba(25, 23, 0, 0.5);
-    cursor:default;
-    user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -webkit-user-select: none;
-    vertical-align: middle;
-    font-size: 25vw;
-    box-shadow: 2px 3px 4px rgba(25, 23, 0, 0.5);
-}
+    h1 {
+        color: #FF48B0;
+        text-shadow: 2px 3px 4px rgba(25, 23, 0, 0.5);
+        cursor: default;
+        user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        vertical-align: middle;
+        font-size: 25vw;
+        box-shadow: 2px 3px 4px rgba(25, 23, 0, 0.5);
+    }
 
-@media screen and (min-width: 32em) {
-h1 {
-    font-size: 4em;}
-}
-
-
+    @media screen and (min-width: 32em) {
+        h1 {
+            font-size: 4em;
+        }
+    }
 </style>
 
 
@@ -667,14 +602,13 @@ h1 {
 
 <body>
     <div class="cent">
-          <div class="cent2">
-      <h1 title="Soft Punch" class="tint">SOFT PUNCH</h1>
-          </div>
+        <div class="cent2">
+            <h1 title="Soft Punch" class="tint">SOFT PUNCH</h1>
+        </div>
     </div>
-<!--      <div id="egg" onclick="func()"></div> -->
     <div id="swrap1" class="svg-wrap">
 
-      <svg id="egg2" onclick="func()" width="182" height="252" viewbox="0 0 182.2 252.2" version="1.1" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title" role="img">
+        <svg id="egg2" onclick="func()" width="182" height="252" viewbox="0 0 182.2 252.2" version="1.1" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title" role="img">
      <title id="title">Egg</title>
      <defs>
      <clippath id="svgPath">
@@ -703,7 +637,7 @@ h1 {
        clip-path="url(#svgPath)"/>
      </a>
 </svg>
-</div>
+    </div>
 
 
 </body>
@@ -711,297 +645,375 @@ h1 {
 <script src="Tone.js"></script>
 
 <script type="text/javascript">
-StartAudioContext(Tone.context, '#cRect2').then(function(){
-  console.log("iOS fixed")
-    })
+    StartAudioContext(Tone.context, '#cRect2').then(function() {});
 </script>
 
 <script type="text/javascript">
+    // variables
+
+    var eggy = document.getElementById('cRect');
+    var bigEggy = document.getElementById('egg2');
+    var bigEggyAlt = document.getElementById('swrap1');
+    var audioInitiated = false;
+    var audioInitiated2 = false;
+
+
+    // Master Audio
+
+
+    //var meter = new Tone.Meter();
+    //var masterVerb = new Tone.Freeverb(0.4, 4000)
+    //masterVerb.wet.value = .15;
+    var masterLimit = new Tone.Limiter(-24);
+    //var mComp = new Tone.Compressor(-6, 2);
+    //var lowCut = new Tone.Filter(-150, "lowshelf");
+    Tone.Master.chain(masterLimit);
+    Tone.Master.volume.value = -6;
 
 
-// variables
-
-  var eggy = document.getElementById('cRect');
-  var bigEggy = document.getElementById('egg2');
-  var bigEggyAlt = document.getElementById('swrap1');
-  var audioInitiated = false;
-  var audioInitiated2 = false;
-
-
-// Master Audio
-
-
-  //var meter = new Tone.Meter();
-  //var masterVerb = new Tone.Freeverb(0.4, 4000)
-  //masterVerb.wet.value = .15;
-  var masterLimit = new Tone.Limiter(-24);
-  //var mComp = new Tone.Compressor(-6, 2);
-  //var lowCut = new Tone.Filter(-150, "lowshelf");
-  Tone.Master.chain( masterLimit);
-  Tone.Master.volume.value = -6;
 
+    // synth #1
 
 
-// synth #1
-
-
-  var filter1a = new Tone.Filter(4000, "lowpass");
-  filter1a.toMaster();
-  var fDelay1 = new Tone.FeedbackDelay("8n", 0.5);
-  fDelay1.wet.value = .6;
-  fDelay1.connect(filter1a);
-  var vib1 = new Tone.Vibrato().connect(fDelay1);
-  var lfo1 = new Tone.LFO("8n", .05, .25);
-  lfo1.sync().start(0)
-  lfo1.connect(vib1.depth)
-
-  var lfo1b = new Tone.LFO("2n", .4, .6);
-  lfo1b.sync().start(0)
-  lfo1b.type = "triangle"
-  lfo1b.connect(fDelay1.feedback)
-
-
-  var synth1 = new Tone.MembraneSynth();
-  synth1.connect(vib1);
-  synth1.volume.value = -22;
-  synth1.set({
-    octaves: 1,
-    envelope : {
-  		attack : 0.002,
-  		decay : 0.2,
-  		sustain : 0.05,
-  		release : 0.3,
-      attackCurve:"cosine"
-    },
-   }
-  );
-
-// Synth #2 (bass)
-
-
-var comp2 = new Tone.Compressor(-10, 4).toMaster();
-//var filter2 = new Tone.Filter(1000, "lowpass");
-//filter2.connect(comp2);
-var feedr2 = new Tone.Chorus("1n", 6.5, 0.2);
-feedr2.type = "triangle"
-feedr2.connect(comp2);
-var dist2 = new Tone.Chebyshev(3, "4x");
-dist2.wet.value = .25;
-dist2.connect(feedr2);
-var vib2 = new Tone.Vibrato("2t", .2)
-vib2.connect(dist2);
-var synth2 = new Tone.MonoSynth();
-synth2.connect(vib2);
-synth2.volume.value = -8;
-
-var lfo2 = new Tone.LFO("2n", 25, 100);
-lfo2.connect(synth2.filter.frequency)
-
-synth2.set({
-    "oscillator": {
-        "type": "fmsquare5"
-      },
-    "filter": {
-        "Q": .5,
-        "type": "lowpass",
-        "rolloff": -24
-    },
-    "envelope": {
-        "attack": 0.2,
-        "decay": 0.01,
-        "sustain": 0.4,
-        "release": 2
-    },
-    "filterEnvelope": {
-        "attack": 0.6,
-        "decay": 0.1,
-        "sustain": 0.8,
-        "release": 1.5,
-        "baseFrequency": 50,
-        "octaves": 2
-    }
-});
-
-synth2.portamento = .1;
-
-synth2.filterEnvelope.releaseCurve = "linear";
-synth2.filterEnvelope.attackCurve = "sine";
-synth2.filter.frequency = "450";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// SONG PARTS
-
-
-  var part1 = new Tone.Part(function(time, event){
-  	synth1.triggerAttackRelease(event.note, event.dur, time)
-  }, [{ time : 0, note : 'C4', dur : '4n'},
-  	{ time : '4n + 8n', note : 'E4', dur : '8n'},
-  	{ time : '2n', note : 'G4', dur : '16n'},
-  	{ time : '2n + 8t', note : 'B4', dur : '4t'},
-      	{ time : '2n + 4n', note : 'C5', dur : '4n'},
-        { time : '2n + 4n + 8t', note : 'B4', dur : '8n'}
-  ])
-
-
-  var part2 = new Tone.Part(function(time, event){
-    synth1.triggerAttackRelease(event.note, event.dur, time)
-  }, [{ time : 0, note : 'C4', dur : '4n'},
-    { time : '4n + 8n', note : 'E4', dur : '8n'},
-    { time : '2n', note : 'G4', dur : '16n'},
-    { time : '2n + 8t', note : 'D5', dur : '4t'},
-        { time : '2n + 4n + 8t', note : 'B4', dur : '8n'}
-  ])
-
-
-  var part3 = new Tone.Part(function(time, event){
-    synth1.triggerAttackRelease(event.note, event.dur, time)
-  }, [{ time : 0, note : 'A4', dur : '8n'},
-      { time : '8n', note : 'A4', dur : '8n'},
-    { time : '4n + 8n', note : 'E4', dur : '8n'},
-    { time : '2n', note : 'G4', dur : '16n'},
-    { time : '2n + 8t', note : 'C4', dur : '4t'},
-        { time : '2n + 4n + 8t', note : 'D4', dur : '8n'}
-  ])
-
-
-//
-// ADD TWO MORE VARIATIONS {VIA SCHILLINGER}
-//
-//
-
-
-//  synth2 song parts
-
-
-var partB1 = new Tone.Part(function(time, event){
-  synth2.triggerAttackRelease(event.note, event.dur, time)
-}, [{ time : 0, note : 'D2', dur : '2m'}])
-
-var partB2 = new Tone.Part(function(time, event){
-  synth2.triggerAttackRelease(event.note, event.dur, time)
-}, [{ time : 0, note : 'F2', dur : '2m'},
-    //{ time : '4n', note : 'D2', dur : '1n + 8n'}
-  ])
-
-var partB3 = new Tone.Part(function(time, event){
-  synth2.triggerAttackRelease(event.note, event.dur, time)
-}, [//{ time : 0, note : 'F2', dur : '2n + 4n'},
-    { time : 0, note : 'F1', dur : '2m'}])
-
-var partB4 = new Tone.Part(function(time, event){
-  synth2.triggerAttackRelease(event.note, event.dur, time)
-}, [//{ time : 0, note : 'F2', dur : '2n + 4n'},
-    { time : 0, note : 'C2', dur : '2m'}])
-
-var partB5 = new Tone.Part(function(time, event){
-  synth2.triggerAttackRelease(event.note, event.dur, time)
-}, [//{ time : 0, note : 'F2', dur : '2n + 4n'},
-    { time : 0, note : 'D1', dur : '2m'}])
-
-
-
-
-// NEW APPROACHES
-//
-// every so often seek transport to random location?
-// OR have transport START at random location,
-// so that ramps/etc. are already in progress
-//
-// transport can be bound to events with .on()
-// transport can also emit events with .emit()
-//
-// use same bpm loop for ramping probability value
-// 3m + 4m + 3m ramps for probability
-//
-// create reich-like choral pulse
-//
-// add some constant pads that modulate in volume (but never "rest")
-//
-// don't forget that RESTS can be part of parts/loops/cycles
-// an entire "part" can be a rest
-//
-// Add more loops that ramp different params over time
-// including the depth of LFOs
-//
-// Make the instruments affect each other!
-// get(params) from each other to use as inputs for modulation
-// or use envelope followers etc
-//
-//
-// Create string synth
-// Create choir synth
-//
-//
-
-
-// Song Structure Controls
-
-
-
-//Part Probability management
-
-  part1.humanize = true;
-  part2.humanize = true;
-  part3.humanize = true;
-  part1.probability = 0.9;
-  part2.probability = 0.9;
-  part3.probability = 0.9;
-  part1.loop = true;
-  part2.loop = true;
-  part3.loop = true;
+    var filter1a = new Tone.Filter(4000, "lowpass");
+    filter1a.toMaster();
+    var fDelay1 = new Tone.FeedbackDelay("8n", 0.5);
+    fDelay1.wet.value = 0.6;
+    fDelay1.connect(filter1a);
+    var vib1 = new Tone.Vibrato().connect(fDelay1);
+    var lfo1 = new Tone.LFO("8n", 0.05, 0.25);
+    lfo1.sync().start(0);
+    lfo1.connect(vib1.depth);
+
+    var lfo1b = new Tone.LFO("2n", 0.4, 0.6);
+    lfo1b.sync().start(0);
+    lfo1b.type = "triangle";
+    lfo1b.connect(fDelay1.feedback);
+
+
+    var synth1 = new Tone.MembraneSynth();
+    synth1.connect(vib1);
+    synth1.volume.value = -22;
+    synth1.set({
+        octaves: 1,
+        envelope: {
+            attack: 0.002,
+            decay: 0.2,
+            sustain: 0.05,
+            release: 0.3,
+            attackCurve: "cosine"
+        },
+    });
+
+    // Synth #2 (bass)
+
+
+    //REMOVE COMP?
+
+    var comp2 = new Tone.Compressor(-10, 4).toMaster();
+    //var filter2 = new Tone.Filter(1000, "lowpass");
+    //filter2.connect(comp2);
+    var feedr2 = new Tone.Chorus("1n", 6.5, 0.2);
+    feedr2.type = "triangle";
+    feedr2.connect(comp2);
+    var dist2 = new Tone.Chebyshev(3, "4x");
+    dist2.wet.value = 0.25;
+    dist2.connect(feedr2);
+    var vib2 = new Tone.Vibrato("2t", 0.2);
+    vib2.connect(dist2);
+    var synth2 = new Tone.MonoSynth();
+    synth2.connect(vib2);
+    synth2.volume.value = -8;
+
+    var lfo2 = new Tone.LFO("2n", 25, 100);
+    lfo2.connect(synth2.filter.frequency);
+
+    synth2.set({
+        "oscillator": {
+            "type": "fmsquare5"
+        },
+        "filter": {
+            "Q": 0.5,
+            "type": "lowpass",
+            "rolloff": -24
+        },
+        "envelope": {
+            "attack": 0.2,
+            "decay": 0.01,
+            "sustain": 0.4,
+            "release": 2
+        },
+        "filterEnvelope": {
+            "attack": 0.6,
+            "decay": 0.1,
+            "sustain": 0.8,
+            "release": 1.5,
+            "baseFrequency": 50,
+            "octaves": 2
+        }
+    });
+
+    synth2.portamento = 0.1;
+
+    synth2.filterEnvelope.releaseCurve = "linear";
+    synth2.filterEnvelope.attackCurve = "sine";
+    synth2.filter.frequency = "450";
+
+
+
+
+
+
+
+
+
+    // SONG PARTS
+
+
+    var part1 = new Tone.Part(function(time, event) {
+        synth1.triggerAttackRelease(event.note, event.dur, time);
+    }, [{
+            time: 0,
+            note: 'C4',
+            dur: '4n'
+        },
+        {
+            time: '4n + 8n',
+            note: 'E4',
+            dur: '8n'
+        },
+        {
+            time: '2n',
+            note: 'G4',
+            dur: '16n'
+        },
+        {
+            time: '2n + 8t',
+            note: 'B4',
+            dur: '4t'
+        },
+        {
+            time: '2n + 4n',
+            note: 'C5',
+            dur: '4n'
+        },
+        {
+            time: '2n + 4n + 8t',
+            note: 'B4',
+            dur: '8n'
+        }
+    ]);
+
+
+    var part2 = new Tone.Part(function(time, event) {
+        synth1.triggerAttackRelease(event.note, event.dur, time);
+    }, [{
+            time: 0,
+            note: 'C4',
+            dur: '4n'
+        },
+        {
+            time: '4n + 8n',
+            note: 'E4',
+            dur: '8n'
+        },
+        {
+            time: '2n',
+            note: 'G4',
+            dur: '16n'
+        },
+        {
+            time: '2n + 8t',
+            note: 'D5',
+            dur: '4t'
+        },
+        {
+            time: '2n + 4n + 8t',
+            note: 'B4',
+            dur: '8n'
+        }
+    ]);
+
+
+    var part3 = new Tone.Part(function(time, event) {
+        synth1.triggerAttackRelease(event.note, event.dur, time);
+    }, [{
+            time: 0,
+            note: 'A4',
+            dur: '8n'
+        },
+        {
+            time: '8n',
+            note: 'A4',
+            dur: '8n'
+        },
+        {
+            time: '4n + 8n',
+            note: 'E4',
+            dur: '8n'
+        },
+        {
+            time: '2n',
+            note: 'G4',
+            dur: '16n'
+        },
+        {
+            time: '2n + 8t',
+            note: 'C4',
+            dur: '4t'
+        },
+        {
+            time: '2n + 4n + 8t',
+            note: 'D4',
+            dur: '8n'
+        }
+    ]);
+
+
+    //
+    // ADD TWO MORE VARIATIONS {VIA SCHILLINGER}
+    //
+    //
+
+
+    //  synth2 song parts
+
+
+    var partB1 = new Tone.Part(function(time, event) {
+        synth2.triggerAttackRelease(event.note, event.dur, time);
+    }, [{
+        time: 0,
+        note: 'D2',
+        dur: '2m'
+    }]);
+
+    var partB2 = new Tone.Part(function(time, event) {
+        synth2.triggerAttackRelease(event.note, event.dur, time);
+    }, [{
+        time: 0,
+        note: 'F2',
+        dur: '2m'
+    }]);
+
+    var partB3 = new Tone.Part(function(time, event) {
+        synth2.triggerAttackRelease(event.note, event.dur, time);
+    }, [{
+        time: 0,
+        note: 'F1',
+        dur: '2m'
+    }]);
+
+    var partB4 = new Tone.Part(function(time, event) {
+        synth2.triggerAttackRelease(event.note, event.dur, time);
+    }, [{
+        time: 0,
+        note: 'C2',
+        dur: '2m'
+    }]);
+
+    var partB5 = new Tone.Part(function(time, event) {
+        synth2.triggerAttackRelease(event.note, event.dur, time);
+    }, [{
+        time: 0,
+        note: 'D1',
+        dur: '2m'
+    }]);
+
+
+
+
+    // TODO: NEW APPROACHES
+    //
+    // every so often seek transport to random location?
+    // OR have transport START at random location,
+    // so that ramps/etc. are already in progress
+    //
+    // transport can be bound to events with .on()
+    // transport can also emit events with .emit()
+    //
+    // use same bpm loop for ramping probability value
+    // 3m + 4m + 3m ramps for probability
+    //
+    // create reich-like choral pulse
+    //
+    // add some constant pads that modulate in volume (but never "rest")
+    //
+    // don't forget that RESTS can be part of parts/loops/cycles
+    // an entire "part" can be a rest
+    //
+    // Add more loops that ramp different params over time
+    // including the depth of LFOs
+    //
+    // Make the instruments affect each other!
+    // get(params) from each other to use as inputs for modulation
+    // or use envelope followers etc
+    //
+    //
+    // Create string synth
+    // Create choir synth
+    //
+    //
+
+
+    //
+    // add background color changes
+    // increment the color value per measure
+    //
+
+
+    // Song Structure Controls
+
+
+
+    //Part Probability management
+
+    part1.humanize = true;
+    part2.humanize = true;
+    part3.humanize = true;
+    part1.probability = 0.9;
+    part2.probability = 0.9;
+    part3.probability = 0.9;
+    part1.loop = true;
+    part2.loop = true;
+    part3.loop = true;
 
     var probNow = 0.9;
     var randomProb = new Tone.CtrlRandom({
-    "min" : 0.7,
-    "max" : 1,
-    "integer" : false
-  });
-    Tone.Transport.scheduleRepeat(function(){
-      probNow = randomProb.value;
-      //console.log(probNow);
-      part1.probability = probNow;
-      part2.probability = probNow;
-      part3.probability = probNow;
+        "min": 0.7,
+        "max": 1,
+        "integer": false
+    });
+    Tone.Transport.scheduleRepeat(function() {
+        probNow = randomProb.value;
+        //console.log(probNow);
+        part1.probability = probNow;
+        part2.probability = probNow;
+        part3.probability = probNow;
     }, "1m", 0);
 
 
-// Part Selection
+    // Part Selection
 
 
-  var partNow = part1;
-  var partList = [part1, part2, part3, part1, part1, part2]
-  var randomWalk = new Tone.CtrlRandom({
-  "min" : 0,
-  "max" : 5,
-  "integer" : true
-});
+    var partNow = part1;
+    var partList = [part1, part2, part3, part1, part1, part2];
+    var randomWalk = new Tone.CtrlRandom({
+        "min": 0,
+        "max": 5,
+        "integer": true
+    });
 
-  Tone.Transport.scheduleRepeat(function(){
-    partNow.stop(0)
-    partNow = partList[randomWalk.value];
-    //console.log(Tone.Transport.bpm.value);
-    partNow.start(0)}, "1m", 0);
+    Tone.Transport.scheduleRepeat(function() {
+        partNow.stop(0);
+        partNow = partList[randomWalk.value];
+        //console.log(Tone.Transport.bpm.value);
+        partNow.start(0);
+    }, "1m", 0);
 
 
 
 
-// Synth #2 part probability
+    // Synth #2 part probability
 
 
     partB1.humanize = false;
@@ -1010,139 +1022,139 @@ var partB5 = new Tone.Part(function(time, event){
     partB3.loop = true;
     partB4.loop = true;
     partB5.loop = true;
-//    partB1.start(0)
+    //    partB1.start(0)
 
     //partB1.loopEnd = '2m'
-/*
-    var probNowB = 0.9;
-    Tone.Transport.scheduleRepeat(function(){
-      probNowB = randomProb.value;
-      //console.log(probNow);
-      partB1.probability = probNow;
-      partB2.probability = probNow;
-      partB3.probability = probNow;
-      partB4.probability = probNow;
-      partB5.probability = probNow;
-    }, "2m", 0);
-*/
+    /*
+        var probNowB = 0.9;
+        Tone.Transport.scheduleRepeat(function(){
+          probNowB = randomProb.value;
+          //console.log(probNow);
+          partB1.probability = probNow;
+          partB2.probability = probNow;
+          partB3.probability = probNow;
+          partB4.probability = probNow;
+          partB5.probability = probNow;
+        }, "2m", 0);
+    */
 
     // Synth #2 Part Selection
 
 
 
-      var partBNow = partB1;
-      var partBList = [partB1, partB2, partB3, partB1, partB5, partB4]
-      Tone.Transport.scheduleRepeat(function(){
-        partBNow.stop(0)
+    var partBNow = partB1;
+    var partBList = [partB1, partB2, partB3, partB1, partB5, partB4];
+    Tone.Transport.scheduleRepeat(function() {
+        partBNow.stop(0);
         partBNow = partBList[randomWalk.value];
         //console.log(Tone.Transport.bpm.value);
-        partBNow.start(0)}, "4m", "4m");
+        partBNow.start(0);
+    }, "4m", "4m");
 
 
 
 
 
+    // Main Transport Controls
+
+    Tone.Transport.latencyHint = 'playback';
+    Tone.Transport.loop = true;
+    Tone.Transport.loopStart = 0;
+    Tone.Transport.loopEnd = "10m";
+    Tone.Transport.bpm.value = 115;
+    Tone.Transport.swing.value = 0.2;
 
 
 
+    // Fluid Tempo
 
 
-// Main Transport Controls
+    /*
+      var bpmLoop = new Tone.Loop(function(time){
+        Tone.Transport.bpm.rampTo(120, "5m", time);
+        Tone.Transport.bpm.rampTo(115, "5m", "+5m");
 
-  Tone.Transport.latencyHint = 'playback'
-  Tone.Transport.loop = true
-  Tone.Transport.loopStart = 0;
-  Tone.Transport.loopEnd = "10m";
-  Tone.Transport.bpm.value = 115
-  Tone.Transport.swing.value = .2
+      }, "10m").start(0);
 
-
-
-// Fluid Tempo
-
-
-/*
-  var bpmLoop = new Tone.Loop(function(time){
-    Tone.Transport.bpm.rampTo(120, "5m", time);
-    Tone.Transport.bpm.rampTo(115, "5m", "+5m");
-
-  }, "10m").start(0);
-
-*/
+    */
 
 
 
-// Egg Animation
+    // Egg Animation
 
-    Tone.Transport.scheduleRepeat(function(time){
-    	//use the time argument to schedule a callback with Tone.Draw
-    	Tone.Draw.schedule(function(){
-    		//do drawing or DOM manipulation here
-        var xx = time + time;
+    Tone.Transport.scheduleRepeat(function(time) {
+        //use the time argument to schedule a callback with Tone.Draw
+        Tone.Draw.schedule(function() {
+            //do drawing or DOM manipulation here
+            var xx = time + time;
 
-              bigEggyAlt.style.transform = "rotateZ("+xx+"deg)"
-              bigEggyAlt.style.mstransform = "rotateZ("+xx+"deg)"
-              bigEggyAlt.style.moztransform = "rotateZ("+xx+"deg)"
-              bigEggyAlt.style.otransform = "rotateZ("+xx+"deg)"
-              bigEggyAlt.style.webkittransform = "rotateZ("+xx+"deg)"
+            bigEggyAlt.style.transform = "rotateZ(" + xx + "deg)";
+            bigEggyAlt.style.mstransform = "rotateZ(" + xx + "deg)";
+            bigEggyAlt.style.moztransform = "rotateZ(" + xx + "deg)";
+            bigEggyAlt.style.otransform = "rotateZ(" + xx + "deg)";
+            bigEggyAlt.style.webkittransform = "rotateZ(" + xx + "deg)";
 
-              //console.log("volume:" + meter.value)
+            //console.log("volume:" + meter.value)
 
-    	}, time)
-    }, "1m")
+        }, time);
+    }, "1m");
 
 
-// Egg Button on/off switch
+    // Egg Button on/off switch
 
-function func() {
-  if (audioInitiated == false) {
-    eggy.style.fill = "url(#gradient2)"
-    Tone.Transport.start("+0.1");
-    audioInitiated = true;
-   console.log(audioInitiated)}
-   else {tog()}
-};
+    function func() {
+        if (audioInitiated === false) {
+            eggy.style.fill = "url(#gradient2)";
+            Tone.Transport.start("+0.1");
+            audioInitiated = true;
+            console.log(audioInitiated);
+        } else {
+            tog();
+        }
+    }
 
-function tog() {
-      if (Tone.Transport.state != "paused")
-         {console.log('state:' + Tone.Transport.state)
-          eggy.style.fill = "url(#gradient1)"
-          Tone.Transport.pause();
-          Tone.Master.mute = true}
+    function tog() {
+        if (Tone.Transport.state != "paused") {
+            console.log('state:' + Tone.Transport.state);
+            eggy.style.fill = "url(#gradient1)";
+            Tone.Transport.pause();
+            Tone.Master.mute = true;
+        }
 
-          // for ULTIMATE smoothness,
-          // volume.rampTo(0, .25) *AND* mute.setValueAtTime(true, "+0.3")
-          // ...you do want ultimate smoothness, don't you?
+        // for ULTIMATE smoothness,
+        // volume.rampTo(0, .25) *AND* mute.setValueAtTime(true, "+0.3")
+        // ...you do want ultimate smoothness, don't you?
+        else if (Tone.Transport.state == "paused") {
+            console.log('state:' + Tone.Transport.state);
+            eggy.style.fill = "url(#gradient2)";
+            Tone.Master.mute = false;
+            Tone.Transport.start("+0.1");
+        }
+    }
 
-      else if (Tone.Transport.state == "paused")
-         {console.log('state:' + Tone.Transport.state)
-          eggy.style.fill = "url(#gradient2)"
-          Tone.Master.mute = false;
-          Tone.Transport.start("+0.1");}
-};
+    // Page Visibility Mute
 
-// Page Visibility Mute
+    document.addEventListener("visibilitychange", function() {
+        console.log(document.visibilityState + ' ' + Tone.Transport.state);
+        if (document.visibilityState == 'hidden') {
+            eggy.style.fill = "url(#gradient1)";
+            Tone.Transport.pause();
+            Tone.Master.mute = true;
+        }
 
-document.addEventListener("visibilitychange", function() {
-  console.log( document.visibilityState + ' ' + Tone.Transport.state);
-  if (document.visibilityState == 'hidden')
-  {          eggy.style.fill = "url(#gradient1)"
-             Tone.Transport.pause();
-             Tone.Master.mute = true}
-
-});
+    });
 </script>
 
 <script>
-  if ('serviceWorker' in navigator) {
-    console.log("Will the service worker register?");
-    navigator.serviceWorker.register('service-worker.js')
-      .then(function(reg){
-        console.log("Yes, it did.");
-      }).catch(function(err) {
-        console.log("No it didn't. This happened: ", err)
-      });
-  }
+    if ('serviceWorker' in navigator) {
+        console.log("Will the service worker register?");
+        navigator.serviceWorker.register('service-worker.js')
+            .then(function(reg) {
+                console.log("Yes, it did.");
+            }).catch(function(err) {
+                console.log("No it didn't. This happened: ", err);
+            });
+    }
 </script>
 
 
