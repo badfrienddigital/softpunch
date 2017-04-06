@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <!--
-open localhost:8000
+open http://localhost:8000
 livereload ~/softpunch/softpunch/ -p 8000
 -->
 
@@ -606,10 +606,13 @@ h1 {
 
 <body>
     <div class="cent">
-        <div class="cent2">
+        <div class="cent2" onclick="func()" id="clicky">
+          <a xlink:href="#0">
             <h1 title="Soft Punch" class="tint">SOFT PUNCH</h1>
+          </a>
         </div>
     </div>
+    <!--
     <div id="swrap1" class="svg-wrap">
 
         <svg id="egg2" onclick="func()" width="182" height="252" viewbox="0 0 182.2 252.2" version="1.1" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title" role="img">
@@ -641,7 +644,7 @@ h1 {
        clip-path="url(#svgPath)"/>
      </a>
 </svg>
-    </div>
+    </div> -->
 
 
 </body>
@@ -649,15 +652,15 @@ h1 {
 <script src="Tone.js"></script>
 
 <script type="text/javascript">
-    StartAudioContext(Tone.context, '#cRect2').then(function() {});
+    StartAudioContext(Tone.context, '#clicky').then(function() {});
 </script>
 
 <script type="text/javascript">
     // variables
 
-    var eggy = document.getElementById('cRect');
-    var bigEggy = document.getElementById('egg2');
-    var bigEggyAlt = document.getElementById('swrap1');
+    // var eggy = document.getElementById('cRect');
+    // var bigEggy = document.getElementById('egg2');
+    // var bigEggyAlt = document.getElementById('swrap1');
     var audioInitiated = false;
     var audioInitiated2 = false;
 
@@ -684,6 +687,12 @@ h1 {
     var fDelay1 = new Tone.FeedbackDelay("8n", 0.5);
     fDelay1.wet.value = 0.6;
     fDelay1.connect(filter1a);
+
+
+    // var feedr2 = new Tone.Chorus();
+    // feedr2.connect(fDelay1);
+
+
     var vib1 = new Tone.Vibrato().connect(fDelay1);
     var lfo1 = new Tone.LFO("8n", 0.05, 0.25);
     lfo1.sync().start(0);
@@ -713,20 +722,24 @@ h1 {
 
 
     //REMOVE COMP?
+    //
+    // Chorus breaks Firefox???
+    // or number of nodes?
 
-    var comp2 = new Tone.Compressor(-10, 4).toMaster();
-    //var filter2 = new Tone.Filter(1000, "lowpass");
-    //filter2.connect(comp2);
-    // var feedr2 = new Tone.Chorus("1n", 6.5, 0.2);
-    // feedr2.type = "triangle";
-    // feedr2.connect(comp2);
-    var dist2 = new Tone.Chebyshev(3, "4x");
-    dist2.wet.value = 0.25;
-    dist2.connect(comp2);
-    var vib2 = new Tone.Vibrato("2t", 0.2);
-    vib2.connect(dist2);
+    // var comp2 = new Tone.Compressor(-10, 4);
+    // comp2.toMaster();
+    // //var filter2 = new Tone.Filter(1000, "lowpass");
+    // //filter2.connect(comp2);
+    // // var feedr2 = new Tone.Chorus("1n", 6.5, 0.2);
+    // // feedr2.type = "triangle";
+    // // feedr2.connect(comp2);
+    // var dist2 = new Tone.Chebyshev(3, "4x");
+    // dist2.wet.value = 0.25;
+    // dist2.connect(comp2);
+    // var vib2 = new Tone.Vibrato("2t", 0.2);
+    // vib2.connect(dist2);
     var synth2 = new Tone.MonoSynth();
-    synth2.connect(vib2);
+    synth2.toMaster();
     synth2.volume.value = -8;
 
     var lfo2 = new Tone.LFO("2n", 25, 100);
@@ -1085,30 +1098,30 @@ h1 {
 
 
     // Egg Animation
-
-    Tone.Transport.scheduleRepeat(function(time) {
-        //use the time argument to schedule a callback with Tone.Draw
-        Tone.Draw.schedule(function() {
-            //do drawing or DOM manipulation here
-            var xx = time + time;
-
-            bigEggyAlt.style.transform = "rotateZ(" + xx + "deg)";
-            bigEggyAlt.style.mstransform = "rotateZ(" + xx + "deg)";
-            bigEggyAlt.style.moztransform = "rotateZ(" + xx + "deg)";
-            bigEggyAlt.style.otransform = "rotateZ(" + xx + "deg)";
-            bigEggyAlt.style.webkittransform = "rotateZ(" + xx + "deg)";
-
-            //console.log("volume:" + meter.value)
-
-        }, time);
-    }, "1m");
+    //
+    // Tone.Transport.scheduleRepeat(function(time) {
+    //     //use the time argument to schedule a callback with Tone.Draw
+    //     Tone.Draw.schedule(function() {
+    //         //do drawing or DOM manipulation here
+    //         var xx = time + time;
+    //
+    //         bigEggyAlt.style.transform = "rotateZ(" + xx + "deg)";
+    //         bigEggyAlt.style.mstransform = "rotateZ(" + xx + "deg)";
+    //         bigEggyAlt.style.moztransform = "rotateZ(" + xx + "deg)";
+    //         bigEggyAlt.style.otransform = "rotateZ(" + xx + "deg)";
+    //         bigEggyAlt.style.webkittransform = "rotateZ(" + xx + "deg)";
+    //
+    //         //console.log("volume:" + meter.value)
+    //
+    //     }, time);
+    // }, "1m");
 
 
     // Egg Button on/off switch
 
     function func() {
         if (audioInitiated === false) {
-            eggy.style.fill = "url(#gradient2)";
+            // eggy.style.fill = "url(#gradient2)";
             Tone.Transport.start("+0.1");
             audioInitiated = true;
             console.log(audioInitiated);
@@ -1120,7 +1133,7 @@ h1 {
     function tog() {
         if (Tone.Transport.state != "paused") {
             console.log('state:' + Tone.Transport.state);
-            eggy.style.fill = "url(#gradient1)";
+            // eggy.style.fill = "url(#gradient1)";
             Tone.Transport.pause();
             Tone.Master.mute = true;
         }
@@ -1130,7 +1143,7 @@ h1 {
         // ...you do want ultimate smoothness, don't you?
         else if (Tone.Transport.state == "paused") {
             console.log('state:' + Tone.Transport.state);
-            eggy.style.fill = "url(#gradient2)";
+            // eggy.style.fill = "url(#gradient2)";
             Tone.Master.mute = false;
             Tone.Transport.start("+0.1");
         }
@@ -1141,7 +1154,7 @@ h1 {
     document.addEventListener("visibilitychange", function() {
         console.log(document.visibilityState + ' ' + Tone.Transport.state);
         if (document.visibilityState == 'hidden') {
-            eggy.style.fill = "url(#gradient1)";
+            // eggy.style.fill = "url(#gradient1)";
             Tone.Transport.pause();
             Tone.Master.mute = true;
         }
