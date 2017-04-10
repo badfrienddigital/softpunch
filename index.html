@@ -456,6 +456,14 @@ h1 {
     }
 
 
+
+/* fix iOS highting issue */
+
+    a {
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+
+
     html,
     body {
         height: 100%;
@@ -1110,9 +1118,6 @@ h1 {
 
     // TODO: NEW APPROACHES
     //
-    // every so often seek transport to random location?
-    // OR have transport START at random location,
-    // so that ramps/etc. are already in progress
     //
     // transport can be bound to events with .on()
     // transport can also emit events with .emit()
@@ -1210,7 +1215,7 @@ h1 {
     // Choose list for both melodic & bass synths
     Tone.Transport.scheduleRepeat(function() {
         choiceNow = chooser[randomWalk.value];
-        console.log("choiceNow = " + choiceNow);
+        // console.log("choiceNow = " + choiceNow);
     }, "8m", 0);
 
 
@@ -1228,13 +1233,13 @@ h1 {
         partNow.stop(0);
         partNow = partList1[randomWalk.value];
         partNow.start(0);
-        console.log("synth1part = 1");
+        // console.log("synth1part = 1");
       }
       else {
         partNow.stop(0);
         partNow = partList2[randomWalk.value];
         partNow.start(0);
-        console.log("synth1part = 2");
+        // console.log("synth1part = 2");
       }
     }, "1m", 0);
 
@@ -1283,7 +1288,7 @@ h1 {
     var partBNow = partB1;
     var partBList1 = [partB2, partB4, partB5, partB7, partB2, partB5];
     var partBList2 = [partB7, partB4, partB3, partB9, partB10, partB7];
-    // XXX: Properly WEIGHT these bass parts
+
 
 
         // Choose part for bass synth
@@ -1292,13 +1297,13 @@ h1 {
             partBNow.stop(0);
             partBNow = partBList1[randomWalk.value];
             partBNow.start(0);
-            console.log("bassPart = 1");
+            // console.log("bassPart = 1");
           }
           else {
             partBNow.stop(0);
             partBNow = partBList2[randomWalk.value];
             partBNow.start(0);
-            console.log("bassPart = 2");
+            // console.log("bassPart = 2");
           }
         }, "4m", 0);
 
@@ -1316,8 +1321,6 @@ h1 {
 
 
     // Fluid Tempo
-
-
     /*
       var bpmLoop = new Tone.Loop(function(time){
         Tone.Transport.bpm.rampTo(120, "5m", time);
