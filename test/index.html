@@ -101,24 +101,19 @@ var loop = new Tone.Loop(function(time){
 
 var volB = new Tone.Volume(0);
 volB.toMaster();
-
 var filterB = new Tone.Filter(750);
 filterB.Q = 1;
 filterB.connect(volB);
-
 var lfoB = new Tone.LFO("4n", 650, 800);
 lfoB.type = "triangle";
 lfoB.phase = .1;
 lfoB.connect(filterB.frequency).start();
-
 var synth1 = new Tone.Synth();
 synth1.connect(filterB);
-
- var lfoB2 = new Tone.LFO("8t", -1, -4);
- lfoB2.type = "triangle";
- lfoB2.phase = .7;
- lfoB2.connect(volB.volume).start();
-
+var lfoB2 = new Tone.LFO("8t", -1, -4);
+lfoB2.type = "triangle";
+lfoB2.phase = .7;
+lfoB2.connect(volB.volume).start();
 
 synth1.set({
   "oscillator": {
@@ -131,7 +126,6 @@ synth1.set({
   "release": 2
   }
 })
-
 
 synth1.oscillator.count = 2;
 synth1.oscillator.spread = 15;
