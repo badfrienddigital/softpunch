@@ -474,10 +474,12 @@ h1 {
         position: absolute;
         overflow: hidden;
         text-align: center;
-        background-color: hsl(202, 100%, 37%);
+        background-color: #0078BD;
         font-family: 'Zwizz', sans-serif;
         font-weight: bold;
         font-size: 2em;
+        -webkit-transition: all 5s ease-out;
+        transition: all 5s ease-out;
     }
 
     body:after {
@@ -1335,20 +1337,46 @@ h1 {
             bigEggyAlt.style.otransform = "rotateZ(" + xx + "deg)";
             bigEggyAlt.style.webkittransform = "rotateZ(" + xx + "deg)";
 
-
-            // document.body.style.backgroundColor = "hsl(" + 202 + xx + ", 100%, 37%)";
-
-            // forget animating via js ! ! ! !
-            // instead, use js to *trigger* a CSS keyframe animation
-            // that goes forward and reverse
-            // and trigger it every few measures
-
-
             //console.log("volume:" + meter.value)
 
         }, time);
     }, "1m");
 
+
+
+
+// background color changer
+
+
+var colorNow = "#0078BD";
+var color1 = "#0078BF";
+var color2 = "#FF665E";
+var color3 = "#914E72";
+var color4 = "#0078BF";
+var color5 = "#3255A4";
+var color6 = "#407060";
+var colorList1 = [color1, color2, color3, color4, color5, color6];
+
+    Tone.Transport.scheduleRepeat(function(time) {
+        //use the time argument to schedule a callback with Tone.Draw
+        Tone.Draw.schedule(function() {
+            //do drawing or DOM manipulation here
+            var xx = time;
+            colorNow = colorList1[randomWalk.value];
+            document.body.style.backgroundColor = colorNow;
+
+        }, time);
+    }, "8m", "8m");
+
+
+
+
+
+
+    // forget animating via js ! ! ! !
+    // instead, use js to *trigger* a CSS keyframe animation
+    // that goes forward and reverse
+    // and trigger it every few measures
 
  //  };
  // })
