@@ -3,6 +3,7 @@
 <!--
 open http://localhost:8000
 livereload ~/softpunch/softpunch/ -p 8000
+
 -->
 
 <!--
@@ -653,6 +654,12 @@ h1 {
 </script>
 
 <script type="text/javascript">
+
+
+// Tone.loaded().then(function(){
+//   return Tone.Offline(function(Transport){
+
+
     // variables
 
     var eggy = document.getElementById('cRect');
@@ -668,7 +675,7 @@ h1 {
     //var meter = new Tone.Meter();
     //var masterVerb = new Tone.Freeverb(0.4, 4000)
     //masterVerb.wet.value = .15;
-    var masterLimit = new Tone.Limiter(-20);
+    var masterLimit = new Tone.Limiter(-10);
     //var mComp = new Tone.Compressor(-6, 2);
     //var lowCut = new Tone.Filter(-150, "lowshelf");
     Tone.Master.chain(masterLimit);
@@ -679,7 +686,7 @@ h1 {
     // synth #1
 
 
-    var filter1a = new Tone.Filter(4000, "lowpass");
+    var filter1a = new Tone.Filter(4500, "lowpass");
     filter1a.toMaster();
     var fDelay1 = new Tone.FeedbackDelay("8n", 0.5);
     fDelay1.wet.value = 0.6;
@@ -716,54 +723,98 @@ h1 {
 
     //REMOVE COMP?
 
-    var comp2 = new Tone.Compressor(-10, 4).toMaster();
     //var filter2 = new Tone.Filter(1000, "lowpass");
     //filter2.connect(comp2);
     // var feedr2 = new Tone.Chorus("1n", 6.5, 0.2);
     // feedr2.type = "triangle";
     // feedr2.connect(comp2);
-    var dist2 = new Tone.Chebyshev(3, "4x");
-    dist2.wet.value = 0.25;
-    dist2.connect(comp2);
+
     // var vib2 = new Tone.Vibrato("2t", 0.2);
     // vib2.connect(dist2);
-    var synth2 = new Tone.MonoSynth();
-    synth2.connect(dist2);
-    synth2.volume.value = -3;
+
 
     // var lfo2 = new Tone.LFO("2n", 25, 100);
     // lfo2.connect(synth2.filter.frequency);
 
+//
+//
+    //
+    // var comp2 = new Tone.Compressor(-10, 4).toMaster();
+    // var dist2 = new Tone.Chebyshev(3, "4x");
+    // dist2.wet.value = 0.25;
+    // dist2.connect(comp2);
+    // var synth2 = new Tone.MonoSynth();
+    // synth2.connect(dist2);
+    // synth2.volume.value = -3;
+    //
+    // synth2.set({
+    //     "oscillator": {
+    //         "type": "fmsquare5"
+    //     },
+    //     "filter": {
+    //         "Q": 0.5,
+    //         "type": "lowpass",
+    //         "rolloff": -24
+    //     },
+    //     "envelope": {
+    //         "attack": 0.2,
+    //         "decay": 0.01,
+    //         "sustain": 0.4,
+    //         "release": 2
+    //     },
+    //     "filterEnvelope": {
+    //         "attack": 0.6,
+    //         "decay": 0.1,
+    //         "sustain": 0.8,
+    //         "release": 1.5,
+    //         "baseFrequency": 50,
+    //         "octaves": 2
+    //     }
+    // });
+    //
+    // synth2.portamento = 0.1;
+    // synth2.filterEnvelope.releaseCurve = "linear";
+    // synth2.filterEnvelope.attackCurve = "sine"; // XXX: Too expensive?
+    // synth2.filter.frequency = "450";
+
+
+
+    var volB = new Tone.Volume(0);
+    volB.connect(vib1);
+    var filterB = new Tone.Filter(550);
+    filterB.Q = 0.1;
+    filterB.rolloff = "-24";
+    filterB.connect(volB);
+    // var lfoB = new Tone.LFO("4n", 450, 550);
+    // lfoB.type = "triangle";
+    // lfoB.phase = 0.1;
+    // lfoB.connect(filterB.frequency).start();
+    var synth2 = new Tone.Synth();
+    synth2.connect(filterB);
+    var lfoB2 = new Tone.LFO("2t", -1, -6);
+    lfoB2.type = "triangle";
+    lfoB2.phase = 0.5;
+    lfoB2.connect(volB.volume).start();
+
     synth2.set({
-        "oscillator": {
-            "type": "fmsquare5"
-        },
-        "filter": {
-            "Q": 0.5,
-            "type": "lowpass",
-            "rolloff": -24
-        },
-        "envelope": {
-            "attack": 0.2,
-            "decay": 0.01,
-            "sustain": 0.4,
-            "release": 2
-        },
-        "filterEnvelope": {
-            "attack": 0.6,
-            "decay": 0.1,
-            "sustain": 0.8,
-            "release": 1.5,
-            "baseFrequency": 50,
-            "octaves": 2
-        }
+      "oscillator": {
+      "type": "fatsawtooth"
+    },
+      "envelope": {
+      "attack": 1,
+      "decay": 0.8,
+      "sustain": 1.5,
+      "release": 1.5
+      }
     });
 
-    synth2.portamento = 0.1;
+    synth2.oscillator.count = 2;
+    synth2.oscillator.spread = 13;
+    synth2.portamento.value = 0.1;
+    synth2.volume.value = -14;
 
-    synth2.filterEnvelope.releaseCurve = "linear";
-    synth2.filterEnvelope.attackCurve = "sine"; // XXX: Too expensive?
-    synth2.filter.frequency = "450";
+
+
 
 
 
@@ -1155,6 +1206,12 @@ h1 {
     }, "8m", 0);
 
 
+    // if necessary, interpolate new chooser value with prior one
+    // var interp = new Tone.CtrlInterpolate([0, 2, 9, 4]);
+    // interp.index = 0.75;
+    // interp.value; //returns 1.5
+
+
 
 
     // Choose part for melodic synth
@@ -1293,7 +1350,8 @@ h1 {
     }, "1m");
 
 
-
+ //  };
+ // })
 
 
 
@@ -1350,6 +1408,7 @@ h1 {
         }
 
     });
+
 </script>
 
 <script>

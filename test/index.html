@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!--
+open http://localhost:8080
+livereload ~/softpunch/softpunch/test/ -p 8080
+
+-->
+
 <html>
 <head>
   <meta charset="utf-8">
@@ -93,38 +99,79 @@ var loop = new Tone.Loop(function(time){
 <script>
 
 
+var volB = new Tone.Volume(0);
+volB.toMaster();
+
+var filterB = new Tone.Filter(750);
+filterB.Q = 1;
+filterB.connect(volB);
+
+var lfoB = new Tone.LFO("4n", 650, 800);
+lfoB.type = "triangle";
+lfoB.phase = .1;
+lfoB.connect(filterB.frequency).start();
+
+var synth1 = new Tone.Synth();
+synth1.connect(filterB);
+
+ var lfoB2 = new Tone.LFO("8t", -1, -4);
+ lfoB2.type = "triangle";
+ lfoB2.phase = .7;
+ lfoB2.connect(volB.volume).start();
+
+
+synth1.set({
+  "oscillator": {
+  "type": "fatsawtooth"
+},
+  "envelope": {
+  "attack": 1,
+  "decay": 0.5,
+  "sustain": 1,
+  "release": 2
+  }
+})
+
+
+synth1.oscillator.count = 2;
+synth1.oscillator.spread = 15;
+synth1.portamento.value = .1;
+synth1.volume.value = -5;
 
 
 
-    var filter1a = new Tone.Filter(4000, "lowpass");
-    filter1a.toMaster();
-    var fDelay1 = new Tone.FeedbackDelay("8n", 0.5);
-    fDelay1.wet.value = 0.6;
-    fDelay1.connect(filter1a);
-    var vib1 = new Tone.Vibrato().connect(fDelay1);
-    var lfo1 = new Tone.LFO("8n", 0.05, 0.25);
-    lfo1.sync().start(0);
-    lfo1.connect(vib1.depth);
-
-    var lfo1b = new Tone.LFO("2n", 0.4, 0.6);
-    lfo1b.sync().start(0);
-    lfo1b.type = "triangle";
-    lfo1b.connect(fDelay1.feedback);
 
 
-    var synth1 = new Tone.MembraneSynth();
-    synth1.connect(vib1);
-    synth1.volume.value = -6;
-    synth1.set({
-        octaves: 1,
-        envelope: {
-            attack: 0.002,
-            decay: 0.2,
-            sustain: 0.05,
-            release: 0.3,
-            attackCurve: "cosine"
-        },
-    });
+    //
+    // var filter1a = new Tone.Filter(4000, "lowpass");
+    // filter1a.toMaster();
+    // var fDelay1 = new Tone.FeedbackDelay("8n", 0.5);
+    // fDelay1.wet.value = 0.6;
+    // fDelay1.connect(filter1a);
+    // var vib1 = new Tone.Vibrato().connect(fDelay1);
+    // var lfo1 = new Tone.LFO("8n", 0.05, 0.25);
+    // lfo1.sync().start(0);
+    // lfo1.connect(vib1.depth);
+    //
+    // var lfo1b = new Tone.LFO("2n", 0.4, 0.6);
+    // lfo1b.sync().start(0);
+    // lfo1b.type = "triangle";
+    // lfo1b.connect(fDelay1.feedback);
+    //
+    //
+    // var synth1 = new Tone.MembraneSynth();
+    // synth1.connect(vib1);
+    // synth1.volume.value = -6;
+    // synth1.set({
+    //     octaves: 1,
+    //     envelope: {
+    //         attack: 0.002,
+    //         decay: 0.2,
+    //         sustain: 0.05,
+    //         release: 0.3,
+    //         attackCurve: "cosine"
+    //     },
+    // });
 
 
 //
@@ -177,62 +224,50 @@ var loop = new Tone.Loop(function(time){
 
 
 
-
-
-
-
 var part = new Tone.Part(function(time, event){
   //the events will be given to the callback with the time they occur
   synth1.triggerAttackRelease(event.note, event.dur, time)
-}, [//{ time : 0, note : 'F2', dur : '4n'},
-    { time : 0, note : 'F4', dur : '1n'},
-  //{ time : '4n + 8n', note : 'E2', dur : '8n'},
-  //{ time : '2n', note : 'G2', dur : '16n'},
-  //{ time : '2n + 8t', note : 'C2', dur : '2n'},
-      //{ time : '2n + 8n', note : 'D4', dur : '8n'},
-      //{ time : '2n + 4n', note : 'C5', dur : '4n'},
-      //{ time : '2n + 4n + 8t', note : 'D2', dur : '4n'}
-      //{ time : '2n + 8t', note : 'B4', dur : '4n'}
+}, [    { time : 0, note : 'A2', dur : '1m'}
 ])
 
 
 
-
-
-    var part5 = new Tone.Part(function(time, event) {
-        synth1.triggerAttackRelease(event.note, event.dur, time);
-    }, [{
-            time: 0,
-            note: 'C4',
-            dur: '4n'
-        },
-        {
-            time: '4n + 8n',
-            note: 'E4',
-            dur: '8n'
-        },
-        {
-            time: '2n',
-            note: 'G4',
-            dur: '16n'
-        },
-        {
-            time: '2n + 8t',
-            note: 'B4',
-            dur: '4t'
-        },
-        {
-            time: '2n + 4n',
-            note: 'B4',
-            dur: '4n'
-        },
-        {
-            time: '2n + 4n + 8t',
-            note: 'C5',
-            dur: '8n'
-        }
-    ]);
-
+    //
+    //
+    // var part5 = new Tone.Part(function(time, event) {
+    //     synth1.triggerAttackRelease(event.note, event.dur, time);
+    // }, [{
+    //         time: 0,
+    //         note: 'C4',
+    //         dur: '4n'
+    //     },
+    //     {
+    //         time: '4n + 8n',
+    //         note: 'E4',
+    //         dur: '8n'
+    //     },
+    //     {
+    //         time: '2n',
+    //         note: 'G4',
+    //         dur: '16n'
+    //     },
+    //     {
+    //         time: '2n + 8t',
+    //         note: 'B4',
+    //         dur: '4t'
+    //     },
+    //     {
+    //         time: '2n + 4n',
+    //         note: 'B4',
+    //         dur: '4n'
+    //     },
+    //     {
+    //         time: '2n + 4n + 8t',
+    //         note: 'C5',
+    //         dur: '8n'
+    //     }
+    // ]);
+    //
 
 
 
@@ -240,11 +275,10 @@ var part = new Tone.Part(function(time, event){
 
 
 //  part.humanize = true;
-  part5.start(0)
-  part5.loop = true
-  part5.loopEnd = '2m'
-  Tone.Transport.latencyHint = 'balanced'
-  Tone.Transport.bpm.value = 118
+  part.start(0);
+  part.loop = 2;
+  Tone.Transport.latencyHint = 'playback'
+  Tone.Transport.bpm.value = 115
 //  Tone.Transport.swing.value = .2
 
 Tone.Transport.start("+0.1");
