@@ -677,11 +677,12 @@ h1 {
     //var meter = new Tone.Meter();
     //var masterVerb = new Tone.Freeverb(0.4, 4000)
     //masterVerb.wet.value = .15;
-    var masterLimit = new Tone.Limiter(-10);
+
     //var mComp = new Tone.Compressor(-6, 2);
     //var lowCut = new Tone.Filter(-150, "lowshelf");
-    Tone.Master.chain(masterLimit);
-    Tone.Master.volume.value = -4;
+    // var masterLimit = new Tone.Limiter(-10);
+    // Tone.Master.chain(masterLimit);
+    Tone.Master.volume.value = -6;
 
 
 
@@ -783,8 +784,8 @@ h1 {
 
     var volB = new Tone.Volume(0);
     volB.connect(vib1);
-    var filterB = new Tone.Filter(550);
-    filterB.Q = 0.1;
+    var filterB = new Tone.Filter(525);
+    filterB.Q = 1;
     filterB.rolloff = "-24";
     filterB.connect(volB);
     // var lfoB = new Tone.LFO("4n", 450, 550);
@@ -793,10 +794,15 @@ h1 {
     // lfoB.connect(filterB.frequency).start();
     var synth2 = new Tone.Synth();
     synth2.connect(filterB);
-    var lfoB2 = new Tone.LFO("2t", -1, -6);
+    var lfoB2 = new Tone.LFO("2t", -1, -7);
     lfoB2.type = "triangle";
     lfoB2.phase = 0.5;
     lfoB2.connect(volB.volume).start();
+
+
+    var lfoB3 = new Tone.LFO("2m", -1, -7);
+    lfoB3.type = "sine";
+    lfoB3.connect(volB.volume).start();
 
     synth2.set({
       "oscillator": {
@@ -811,9 +817,9 @@ h1 {
     });
 
     synth2.oscillator.count = 2;
-    synth2.oscillator.spread = 13;
+    synth2.oscillator.spread = 19;
     synth2.portamento.value = 0.1;
-    synth2.volume.value = -14;
+    synth2.volume.value = -15;
 
 
 
@@ -1301,9 +1307,9 @@ h1 {
     // Main Transport Controls
 
     Tone.Transport.latencyHint = 'playback';
-    Tone.Transport.loop = true;
-    Tone.Transport.loopStart = 0;
-    Tone.Transport.loopEnd = "10m";
+    // Tone.Transport.loop = true;
+    // Tone.Transport.loopStart = 0;
+    // Tone.Transport.loopEnd = "10m";
     Tone.Transport.bpm.value = 115;
     Tone.Transport.swing.value = 0.2;
 
@@ -1370,14 +1376,6 @@ var colorList1 = [color1, color2, color3, color4, color5, color6];
 
 
 
-
-
-
-    // forget animating via js ! ! ! !
-    // instead, use js to *trigger* a CSS keyframe animation
-    // that goes forward and reverse
-    // and trigger it every few measures
-
  //  };
  // })
 
@@ -1421,7 +1419,7 @@ var colorList1 = [color1, color2, color3, color4, color5, color6];
             console.log('state:' + Tone.Transport.state);
             eggy.style.fill = "url(#gradient2)";
             Tone.Master.mute = false;
-            Tone.Transport.start("+0.1");
+            Tone.Transport.start("+0.15");
         }
     }
 
