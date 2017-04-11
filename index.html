@@ -590,7 +590,6 @@ h1 {
 
 
 
-
     h1 {
         color: #FF48B0;
         text-shadow: 2px 3px 4px rgba(25, 23, 0, 0.5);
@@ -599,7 +598,8 @@ h1 {
         -moz-user-select: none;
         -ms-user-select: none;
         -webkit-user-select: none;
-        vertical-align: middle;
+        vertical-align: center;
+        padding-top: .18em;
         font-size: 25vw;
         box-shadow: 2px 3px 4px rgba(25, 23, 0, 0.5);
     }
@@ -687,9 +687,9 @@ h1 {
     //masterVerb.wet.value = .15;
 
     //var mComp = new Tone.Compressor(-6, 2);
-    //var lowCut = new Tone.Filter(-150, "lowshelf");
+    var lowCut = new Tone.Filter(-200, "lowshelf", -24);
     // var masterLimit = new Tone.Limiter(-10);
-    // Tone.Master.chain(masterLimit);
+    Tone.Master.chain(lowCut);
     Tone.Master.volume.value = -6;
 
 
@@ -704,10 +704,6 @@ h1 {
     fDelay1.connect(filter1a);
     var vib1 = new Tone.Vibrato().connect(fDelay1);
 
-
-    // var lfo1 = new Tone.LFO("8n", 0.05, 0.25);
-    // lfo1.sync().start(0);
-    // lfo1.connect(vib1.depth);
     // var lfo1b = new Tone.LFO("2n", 0.4, 0.6);
     // lfo1b.sync().start(0);
     // lfo1b.type = "triangle";
@@ -728,6 +724,18 @@ h1 {
             // XXX: COS TOO EXPENSIVE???
         },
     });
+
+
+// WOULD BE NICE
+    // var lfoA1 = new Tone.LFO("2n", -5, 5);
+    // lfoA1.type = "triangle";
+    // lfoA1.connect(synth1.oscillator.detune).start();
+
+
+
+
+
+
 
     // Synth #2 (bass)
 
@@ -792,25 +800,36 @@ h1 {
 
     var volB = new Tone.Volume(0);
     volB.connect(vib1);
+
+
+    var eqB = new Tone.EQ3(3, 0, -1);
+    eqB.lowFrequency = 350;
+    eqB.highFrequency = 700;
+    eqB.connect(volB);
+
     var filterB = new Tone.Filter(525);
     filterB.Q = 1;
     filterB.rolloff = "-24";
-    filterB.connect(volB);
-    // var lfoB = new Tone.LFO("4n", 450, 550);
-    // lfoB.type = "triangle";
-    // lfoB.phase = 0.1;
-    // lfoB.connect(filterB.frequency).start();
+    filterB.connect(eqB);
+    var lfoB = new Tone.LFO("2m", 450, 575);
+    lfoB.type = "sine";
+    lfoB.connect(filterB.frequency).start();
     var synth2 = new Tone.Synth();
     synth2.connect(filterB);
     var lfoB2 = new Tone.LFO("2t", -1, -7);
     lfoB2.type = "triangle";
     lfoB2.phase = 0.5;
     lfoB2.connect(volB.volume).start();
-
-
-    var lfoB3 = new Tone.LFO("2m", -1, -7);
+    var lfoB3 = new Tone.LFO("2m", -1, -9);
     lfoB3.type = "sine";
     lfoB3.connect(volB.volume).start();
+
+// WOULD BE NICE
+    // var lfoB4 = new Tone.LFO("1m", -3, 3);
+    // lfoB4.type = "sine";
+    // lfoB4.connect(synth2.detune).start();
+
+
 
     synth2.set({
       "oscillator": {
@@ -827,7 +846,7 @@ h1 {
     synth2.oscillator.count = 2;
     synth2.oscillator.spread = 19;
     synth2.portamento.value = 0.1;
-    synth2.volume.value = -15;
+    synth2.volume.value = -14;
 
 
 
