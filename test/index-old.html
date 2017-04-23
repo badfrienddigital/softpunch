@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<!--
+open http://localhost:8080
+livereload ~/softpunch/softpunch/test/ -p 8080
+
+-->
+
+<html>
+<head>
+  <meta charset="utf-8">
+	<title>MonoSynth</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="icon" type="image/png" sizes="174x174" href="./style/favicon.png">
+
+	<script src="/Tone.js"></script>
+
+
+	<script>
+		// jshint ignore: start
+	</script>
+
+</head>
+<body>
+
+
+
+<!--
+var chain = new Tone.CtrlMarkov({
+	"beginning" : [{"value" : "end", "probability" : 0.8},
+					{"value" : "middle", "probability" : 0.2}],
+	"middle" : "end"
+});
+chain.value = "beginning";
+chain.next(); //returns "end" with 80% probability or "middle" with 20%.
+
+//use an array of objects as long as the object has a "time" attribute
+var middle = new Tone.Part(function(time, value){
+	//the value is an object which contains both the note and the velocity
+	synth.triggerAttackRelease(value.note, "8n", time, value.velocity);
+}, [{"time" : 0, "note" : "C3", "velocity": 0.9},
+	   {"time" : "0:2", "note" : "C4", "velocity": 0.5}
+]).start(0);
+
+
+
+"randomWalk" - randomly moves one index away from the current position
+"randomOnce" - randomly select an index without repeating until all values have been chosen.
+new Tone.CtrlPattern (values[, type])
+values {Array}
+An array of options to choose from.
+
+type {Tone.CtrlPattern.Type}
+The name of the pattern.
+
+
+FOR iOS USE EXTRA JS LIB  STARTAUDIOCONTEXT
+
+StartAudioContext(Tone.context, '#button').then(function(){
+	//started
+})
+
+AS IN (but instead of new context use tone):
+
+//pass in the audio context
+var context = new AudioContext();
+
+//on iOS, the context will be started on the first valid user action on the #playButton element
+StartAudioContext(context, "#playButton")
+
+
+FOR SYNCING ANIMATION
+
+var loop = new Tone.Loop(function(time){
+    //instead of scheduling visuals inside of here
+    //schedule a deferred callback with Tone.Draw
+
+    Tone.Draw.schedule(function(){
+        //this callback is invoked from a requestAnimationFrame
+        //and will be invoked close to AudioContext time
+
+    }, time) //use AudioContext time of the event
+
+}, "8n")
+
+
+
+
+})
+
+
+
+
+
+
+-->
+
+
+<script>
+
+
+var volB = new Tone.Volume(0);
+volB.toMaster();
+var filterB = new Tone.Filter(750);
+filterB.Q = 1;
+filterB.connect(volB);
+var lfoB = new Tone.LFO("4n", 650, 800);
+lfoB.type = "triangle";
+lfoB.phase = .1;
+lfoB.connect(filterB.frequency).start();
+var synth1 = new Tone.Synth();
+synth1.connect(filterB);
+var lfoB2 = new Tone.LFO("8t", -1, -4);
+lfoB2.type = "triangle";
+lfoB2.phase = .7;
+lfoB2.connect(volB.volume).start();
+
+synth1.set({
+  "oscillator": {
+  "type": "fatsawtooth"
+},
+  "envelope": {
+  "attack": 1,
+  "decay": 0.5,
+  "sustain": 1,
+  "release": 2
+  }
+})
+
+synth1.oscillator.count = 2;
+synth1.oscillator.spread = 15;
+synth1.portamento.value = .1;
+synth1.volume.value = -5;
+
+
+
+
+
+    //
+    // var filter1a = new Tone.Filter(4000, "lowpass");
+    // filter1a.toMaster();
+    // var fDelay1 = new Tone.FeedbackDelay("8n", 0.5);
+    // fDelay1.wet.value = 0.6;
+    // fDelay1.connect(filter1a);
+    // var vib1 = new Tone.Vibrato().connect(fDelay1);
+    // var lfo1 = new Tone.LFO("8n", 0.05, 0.25);
+    // lfo1.sync().start(0);
+    // lfo1.connect(vib1.depth);
+    //
+    // var lfo1b = new Tone.LFO("2n", 0.4, 0.6);
+    // lfo1b.sync().start(0);
+    // lfo1b.type = "triangle";
+    // lfo1b.connect(fDelay1.feedback);
+    //
+    //
+    // var synth1 = new Tone.MembraneSynth();
+    // synth1.connect(vib1);
+    // synth1.volume.value = -6;
+    // synth1.set({
+    //     octaves: 1,
+    //     envelope: {
+    //         attack: 0.002,
+    //         decay: 0.2,
+    //         sustain: 0.05,
+    //         release: 0.3,
+    //         attackCurve: "cosine"
+    //     },
+    // });
+
+
+//
+// var comp = new Tone.Compressor(-6, 2).toMaster();
+// var filter2 = new Tone.Filter(1000, "lowpass");
+// filter2.connect(comp);
+// var feedr = new Tone.Chorus("1n", 6.5, 0.2);
+// feedr.type = "triangle"
+// feedr.connect(filter2);
+// var dist = new Tone.Chebyshev(1, "4x");
+// dist.wet.value = .25;
+// dist.connect(feedr);
+// var vib = new Tone.Vibrato("2t", .3)
+// vib.connect(dist);
+// var synth = new Tone.MonoSynth();
+// synth.connect(vib);
+//
+// var lfo2 = new Tone.LFO("2n", 25, 100);
+// lfo2.connect(synth.filter.frequency)
+//
+// synth.set({
+//     "oscillator": {
+//         "type": "fmsquare5"
+//       },
+//     "filter": {
+//         "Q": .5,
+//         "type": "lowpass",
+//         "rolloff": -24
+//     },
+//     "envelope": {
+//         "attack": 0.2,
+//         "decay": 0.01,
+//         "sustain": 0.4,
+//         "release": 2
+//     },
+//     "filterEnvelope": {
+//         "attack": 0.6,
+//         "decay": 0.1,
+//         "sustain": 0.8,
+//         "release": 1.5,
+//         "baseFrequency": 50,
+//         "octaves": 2
+//     }
+// });
+//
+// synth.portamento = .15;
+
+
+
+
+
+
+var part = new Tone.Part(function(time, event){
+  //the events will be given to the callback with the time they occur
+  synth1.triggerAttackRelease(event.note, event.dur, time)
+}, [    { time : 0, note : 'A2', dur : '1m'}
+])
+
+
+
+    //
+    //
+    // var part5 = new Tone.Part(function(time, event) {
+    //     synth1.triggerAttackRelease(event.note, event.dur, time);
+    // }, [{
+    //         time: 0,
+    //         note: 'C4',
+    //         dur: '4n'
+    //     },
+    //     {
+    //         time: '4n + 8n',
+    //         note: 'E4',
+    //         dur: '8n'
+    //     },
+    //     {
+    //         time: '2n',
+    //         note: 'G4',
+    //         dur: '16n'
+    //     },
+    //     {
+    //         time: '2n + 8t',
+    //         note: 'B4',
+    //         dur: '4t'
+    //     },
+    //     {
+    //         time: '2n + 4n',
+    //         note: 'B4',
+    //         dur: '4n'
+    //     },
+    //     {
+    //         time: '2n + 4n + 8t',
+    //         note: 'C5',
+    //         dur: '8n'
+    //     }
+    // ]);
+    //
+
+
+
+
+
+
+//  part.humanize = true;
+  part.start(0);
+  part.loop = 2;
+  Tone.Transport.latencyHint = 'playback'
+  Tone.Transport.bpm.value = 115
+//  Tone.Transport.swing.value = .2
+
+Tone.Transport.start("+0.1");
+
+</script>
+
+
+
+<!--
+
+P1
+
+var part = new Tone.Part(function(time, event){
+  //the events will be given to the callback with the time they occur
+  synth.triggerAttackRelease(event.note, event.dur, time)
+}, [{ time : 0, note : 'C4', dur : '4n'},
+  { time : '4n + 8n', note : 'E4', dur : '8n'},
+  { time : '2n', note : 'G4', dur : '16n'},
+  { time : '2n + 8t', note : 'B4', dur : '4t'},
+      //{ time : '2n + 8n', note : 'D4', dur : '8n'},
+      { time : '2n + 4n', note : 'C5', dur : '4n'},
+      { time : '2n + 4n + 8t', note : 'B4', dur : '8n'}
+      //{ time : '2n + 8t', note : 'B4', dur : '4n'}
+])
+
+
+
+
+
+
+
+
+
+
+-->
+
+
+
+
+
+
+
+
+
+
+<!--	<script>
+
+   Tone.Transport.latencyHint = 'balanced'
+
+		var synth = new Tone.MonoSynth({
+			"portamento" : 0.01,
+			"oscillator" : {
+				"type" : "sine"
+			},
+			"envelope" : {
+				"attack" : 0.01,
+				"decay" : 0.4,
+				"sustain" : 0.4,
+				"release" : 0.4,
+			},
+			"filterEnvelope" : {
+				"attack" : 0.01,
+				"decay" : 0.1,
+				"sustain" : 0.05,
+				"release" : 0.8,
+				"baseFrequency" : 1000,
+				"octaves" : 4
+			}
+		}).toMaster();
+
+	</script> -->
+
+</body>
+</html>
