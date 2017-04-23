@@ -931,7 +931,7 @@ h1 {
 
     Tone.Transport.scheduleRepeat(function() {
         choiceNow = chooser[randomWalk.value];
-        console.log("current section: " + choiceNow);
+        // console.log("current section: " + choiceNow);
     }, "2m", 0);
 
         var mp1 = 0;
@@ -966,8 +966,8 @@ h1 {
             malletNow = malletList1[randomWalk.value];
             player.seek(bassNow);
             player2.seek(malletNow);
-            console.log("bass: " + bassNow);
-            console.log("mallets: " + malletNow);
+            // console.log("bass: " + bassNow);
+            // console.log("mallets: " + malletNow);
           }
           else {
             // XXX: implement volume ramps
@@ -975,8 +975,8 @@ h1 {
             malletNow = malletList2[randomWalk.value];
             player.seek(bassNow);
             player2.seek(malletNow);
-            console.log("bass: " + bassNow);
-            console.log("mallets: " + malletNow);
+            // console.log("bass: " + bassNow);
+            // console.log("mallets: " + malletNow);
           }
         }, "2m", 0);
 
