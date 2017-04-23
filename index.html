@@ -522,7 +522,20 @@ h1 {
         -moz-user-select: none;
         -ms-user-select: none;
         -webkit-user-select: none;
+        animation-name: eggEnter;
+        animation-duration: 1.5s;
+        animation-delay: 0.5s;
+        animation-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
     }
+
+    @keyframes eggEnter {
+  0% {
+    transform: translate(-75vw, -75vh);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
 
     .svg-wrap {
 
@@ -681,26 +694,36 @@ h1 {
 
     // Master Audio
 
-        var player = new Tone.Player().toMaster();
-        var player2 = new Tone.Player().toMaster();
+        var player = new Tone.Player();
+        var player2 = new Tone.Player();
+        var players = new Tone.Volume(-6);
+
+        var lfoP = new Tone.LFO("2n", -2.5, -1.5);
+        lfoP.type = "sine";
+        lfoP.connect(player.volume).start();
+
+        player.connect(players);
+        player2.connect(players);
 
         var lowCut = new Tone.Filter(-200, "lowshelf", -24);
         var mLimit = new Tone.Limiter(-15);
         var mDelay = new Tone.FeedbackDelay("32n", 0.25);
         mDelay.wet = 0.25;
 
-        Tone.Master.chain(lowCut, mDelay, mLimit);
-        Tone.Master.volume.value = -8;
+        players.chain(lowCut, mDelay, mLimit, Tone.Master);
+
+        Tone.Master.volume.value = -4;
 
         Tone.Transport.bpm.value = 115;
         Tone.Transport.swing.value = 0.2;
         Tone.Transport.latencyHint = 'playback';
 
         // render times
-        var tt = Tone.Time("20m + 8n");
+        var tt = Tone.Time("30m + 8n");
         var tt2 = Tone.Time("2m");
 
 
+// Break RenderA into TWO offline renders
 
     function renderA(){
           Tone.Offline(function(Transport){
@@ -747,56 +770,56 @@ h1 {
 
               var bassPart1 = new Tone.Part(function(time, event) {
                   synth2.triggerAttackRelease(event.note, event.dur, time);
-              }, [{time: '32n',note: 'C2',dur: '2m - 8n'}]);
+              }, [{time: '(32n / 2)',note: 'C2',dur: '3m - 8n'}]);
 
               var bassPart2 = new Tone.Part(function(time, event) {
                   synth2.triggerAttackRelease(event.note, event.dur, time);
-              }, [{time: '32n',note: 'D2',dur: '2m - 8n'}]);
+              }, [{time: '(32n / 2)',note: 'D2',dur: '3m - 8n'}]);
 
               var bassPart3 = new Tone.Part(function(time, event) {
                   synth2.triggerAttackRelease(event.note, event.dur, time);
-              }, [{time: '32n',note: 'E2',dur: '2m - 8n'}]);
+              }, [{time: '(32n / 2)',note: 'E2',dur: '3m - 8n'}]);
 
               var bassPart4 = new Tone.Part(function(time, event) {
                   synth2.triggerAttackRelease(event.note, event.dur, time);
-              }, [{time: '32n',note: 'F1',dur: '2m - 8n'}]);
+              }, [{time: '(32n / 2)',note: 'F1',dur: '3m - 8n'}]);
 
               var bassPart5 = new Tone.Part(function(time, event) {
                   synth2.triggerAttackRelease(event.note, event.dur, time);
-              }, [{time: '32n',note: 'F2',dur: '2m - 8n'}]);
+              }, [{time: '(32n / 2)',note: 'F2',dur: '3m - 8n'}]);
 
               var bassPart6 = new Tone.Part(function(time, event) {
                   synth2.triggerAttackRelease(event.note, event.dur, time);
-              }, [{time: '32n',note: 'G2',dur: '2m - 8n'}]);
+              }, [{time: '(32n / 2)',note: 'G2',dur: '3m - 8n'}]);
 
               var bassPart7 = new Tone.Part(function(time, event) {
                   synth2.triggerAttackRelease(event.note, event.dur, time);
-              }, [{time: '32n',note: 'A2',dur: '2m - 8n'}]);
+              }, [{time: '(32n / 2)',note: 'A2',dur: '3m - 8n'}]);
 
               var bassPart8 = new Tone.Part(function(time, event) {
                   synth2.triggerAttackRelease(event.note, event.dur, time);
-              }, [{time: '32n',note: 'B2',dur: '2m - 8n'}]);
+              }, [{time: '(32n / 2)',note: 'B2',dur: '3m - 8n'}]);
 
               var bassPart9 = new Tone.Part(function(time, event) {
                   synth2.triggerAttackRelease(event.note, event.dur, time);
-              }, [{time: '32n', note: 'G2', dur: '1m - 32n'},
-                  {time: '1m', note: 'D2', dur: '1m - 8n'}]);
+              }, [{time: '(32n / 2)', note: 'G2', dur: '1m'},
+                  {time: '1m', note: 'D2', dur: '2m - 8n'}]);
 
               var bassPart10 = new Tone.Part(function(time, event) {
                   synth2.triggerAttackRelease(event.note, event.dur, time);
-              }, [{time: '32n', note: 'B2', dur: '1m - 32n'},
-                  {time: '1m', note: 'A2', dur: '1m - 8n'}]);
+              }, [{time: '(32n / 2)', note: 'B2', dur: '1m'},
+                  {time: '1m', note: 'A2', dur: '2m - 8n'}]);
 
           bassPart1.start(0);
-          bassPart2.start('2m');
-          bassPart3.start('4m');
-          bassPart4.start('6m');
-          bassPart5.start('8m');
-          bassPart6.start('10m');
-          bassPart7.start('12m');
-          bassPart8.start('14m');
-          bassPart9.start('16m');
-          bassPart10.start('18m');
+          bassPart2.start('3m');
+          bassPart3.start('6m');
+          bassPart4.start('9m');
+          bassPart5.start('12m');
+          bassPart6.start('15m');
+          bassPart7.start('18m');
+          bassPart8.start('21m');
+          bassPart9.start('24m');
+          bassPart10.start('27m');
 
           Tone.Transport.start("+0.1")
     }, tt).then(function(buffer){
@@ -931,8 +954,7 @@ h1 {
 
     Tone.Transport.scheduleRepeat(function() {
         choiceNow = chooser[randomWalk.value];
-        // console.log("current section: " + choiceNow);
-    }, "2m", 0);
+    }, "6m", 0);
 
         var mp1 = 0;
         var mp2 = "2m";
@@ -945,41 +967,44 @@ h1 {
         var malletList2 = [mp4, mp5, mp4, mp4, mp5, mp5];
 
         var bp1 = 0;
-        var bp2 = "2m";
-        var bp3 = "4m";
-        var bp4 = "6m";
-        var bp5 = "8m";
-        var bp6 = "10m";
-        var bp7 = "12m";
-        var bp8 = "14m";
-        var bp9 = "16m";
-        var bp10 = "18m";
+        var bp2 = "3m";
+        var bp3 = "6m";
+        var bp4 = "9m";
+        var bp5 = "12m";
+        var bp6 = "15m";
+        var bp7 = "18m";
+        var bp8 = "21m";
+        var bp9 = "24m";
+        var bp10 = "27m";
 
         var bassNow = bp1;
         var bassList1 = [bp2, bp4, bp5, bp7, bp2, bp5];
         var bassList2 = [bp7, bp4, bp3, bp9, bp10, bp7];
 
+        // possible to prevent bass repeats, like in a tone row?
+
         Tone.Transport.scheduleRepeat(function() {
           if (choiceNow === 1) {
-            // XXX: implement volume ramps
             bassNow = bassList1[randomWalk.value];
-            malletNow = malletList1[randomWalk.value];
             player.seek(bassNow);
-            player2.seek(malletNow);
-            // console.log("bass: " + bassNow);
-            // console.log("mallets: " + malletNow);
           }
           else {
             // XXX: implement volume ramps
             bassNow = bassList2[randomWalk.value];
-            malletNow = malletList2[randomWalk.value];
             player.seek(bassNow);
+          }
+        }, "3m", 0);
+
+        Tone.Transport.scheduleRepeat(function() {
+          if (choiceNow === 1) {
+            malletNow = malletList1[randomWalk.value];
             player2.seek(malletNow);
-            // console.log("bass: " + bassNow);
-            // console.log("mallets: " + malletNow);
+          }
+          else {
+            malletNow = malletList2[randomWalk.value];
+            player2.seek(malletNow);
           }
         }, "2m", 0);
-
 
     // Egg Animation
 
@@ -1000,11 +1025,7 @@ h1 {
         }, time);
     }, "1m");
 
-
-
-
 // background color changer
-
 
 var colorNow = "#0078BD";
 var color1 = "#0078BF";
@@ -1026,22 +1047,8 @@ var colorList1 = [color1, color2, color3, color4, color5, color6];
         }, time);
     }, "8m", "8m");
 
-
-
  //  };
  // })
-
-
-
-
-
-
-
-
-
-
-
-
 
     // Egg Button on/off switch
 
@@ -1062,18 +1069,16 @@ var colorList1 = [color1, color2, color3, color4, color5, color6];
         if (Tone.Transport.state != "paused") {
             console.log('state:' + Tone.Transport.state);
             eggy.style.fill = "url(#gradient1)";
-            Tone.Transport.pause();
+            players.mute = true;
             Tone.Master.mute = true;
+            Tone.Transport.pause("+32n");
         }
-
-        // for ULTIMATE smoothness,
-        // volume.rampTo(0, .25) *AND* mute.setValueAtTime(true, "+0.3")
-        // ...you do want ultimate smoothness, don't you?
         else if (Tone.Transport.state == "paused") {
             console.log('state:' + Tone.Transport.state);
             eggy.style.fill = "url(#gradient2)";
             Tone.Master.mute = false;
-            Tone.Transport.start("+0.15");
+            Tone.Transport.start("+32n");
+            players.mute = false;
         }
     }
 
@@ -1083,10 +1088,10 @@ var colorList1 = [color1, color2, color3, color4, color5, color6];
         console.log(document.visibilityState + ' ' + Tone.Transport.state);
         if (document.visibilityState == 'hidden') {
             eggy.style.fill = "url(#gradient1)";
-            Tone.Transport.pause();
+            players.mute = true;
             Tone.Master.mute = true;
+            Tone.Transport.pause("+32n");
         }
-
     });
 
 </script>

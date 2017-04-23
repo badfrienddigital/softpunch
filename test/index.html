@@ -315,6 +315,10 @@ Tone.Transport.scheduleRepeat(function() {
         // XXX: implement volume ramps
         bassNow = bassList1[randomWalk.value];
         malletNow = malletList1[randomWalk.value];
+
+        //change from seek to start([startTime][, offset][, duration])
+        // add retrigger true
+
         player.seek(bassNow);
         player2.seek(malletNow);
         console.log("bass: " + bassNow);
