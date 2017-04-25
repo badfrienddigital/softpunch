@@ -523,7 +523,7 @@ h1 {
         -ms-user-select: none;
         -webkit-user-select: none;
         animation-name: eggEnter;
-        animation-duration: 1.5s;
+        animation-duration: 0.5s;
         animation-delay: 0.5s;
         animation-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
     }
@@ -694,15 +694,16 @@ h1 {
 
     // Master Audio
 
-        var player = new Tone.Player();
+        var player1 = new Tone.Player();
         var player2 = new Tone.Player();
         var players = new Tone.Volume(-6);
 
         var lfoP = new Tone.LFO("2n", -2.5, -1.5);
         lfoP.type = "sine";
-        lfoP.connect(player.volume).start();
+        lfoP.connect(player1.volume).start();
 
-        player.connect(players);
+
+        player1.connect(players);
         player2.connect(players);
 
         var lowCut = new Tone.Filter(-200, "lowshelf", -24);
@@ -719,13 +720,16 @@ h1 {
         Tone.Transport.latencyHint = 'playback';
 
         // render times
-        var tt = Tone.Time("30m + 8n");
-        var tt2 = Tone.Time("2m");
 
+        var tt1a = Tone.Time("13m");
+        var tt1b = Tone.Time("10m");
+        var tt2 = Tone.Time("2m");
+        var abuff =  new Tone.Buffer();
+        var zbuff = new Tone.Buffer();
 
 // Break RenderA into TWO offline renders
 
-    function renderA(){
+    function renderA1(){
           Tone.Offline(function(Transport){
 
                 var volB = new Tone.Volume(0);
@@ -768,17 +772,10 @@ h1 {
           synth2.portamento.value = 0.1;
           synth2.volume.value = -2;
 
-              var bassPart1 = new Tone.Part(function(time, event) {
-                  synth2.triggerAttackRelease(event.note, event.dur, time);
-              }, [{time: '(32n / 2)',note: 'C2',dur: '3m - 8n'}]);
 
               var bassPart2 = new Tone.Part(function(time, event) {
                   synth2.triggerAttackRelease(event.note, event.dur, time);
               }, [{time: '(32n / 2)',note: 'D2',dur: '3m - 8n'}]);
-
-              var bassPart3 = new Tone.Part(function(time, event) {
-                  synth2.triggerAttackRelease(event.note, event.dur, time);
-              }, [{time: '(32n / 2)',note: 'E2',dur: '3m - 8n'}]);
 
               var bassPart4 = new Tone.Part(function(time, event) {
                   synth2.triggerAttackRelease(event.note, event.dur, time);
@@ -788,48 +785,99 @@ h1 {
                   synth2.triggerAttackRelease(event.note, event.dur, time);
               }, [{time: '(32n / 2)',note: 'F2',dur: '3m - 8n'}]);
 
-              var bassPart6 = new Tone.Part(function(time, event) {
-                  synth2.triggerAttackRelease(event.note, event.dur, time);
-              }, [{time: '(32n / 2)',note: 'G2',dur: '3m - 8n'}]);
-
               var bassPart7 = new Tone.Part(function(time, event) {
                   synth2.triggerAttackRelease(event.note, event.dur, time);
               }, [{time: '(32n / 2)',note: 'A2',dur: '3m - 8n'}]);
 
-              var bassPart8 = new Tone.Part(function(time, event) {
-                  synth2.triggerAttackRelease(event.note, event.dur, time);
-              }, [{time: '(32n / 2)',note: 'B2',dur: '3m - 8n'}]);
 
-              var bassPart9 = new Tone.Part(function(time, event) {
-                  synth2.triggerAttackRelease(event.note, event.dur, time);
-              }, [{time: '(32n / 2)', note: 'G2', dur: '1m'},
-                  {time: '1m', note: 'D2', dur: '2m - 8n'}]);
-
-              var bassPart10 = new Tone.Part(function(time, event) {
-                  synth2.triggerAttackRelease(event.note, event.dur, time);
-              }, [{time: '(32n / 2)', note: 'B2', dur: '1m'},
-                  {time: '1m', note: 'A2', dur: '2m - 8n'}]);
-
-          bassPart1.start(0);
-          bassPart2.start('3m');
-          bassPart3.start('6m');
-          bassPart4.start('9m');
-          bassPart5.start('12m');
-          bassPart6.start('15m');
-          bassPart7.start('18m');
-          bassPart8.start('21m');
-          bassPart9.start('24m');
-          bassPart10.start('27m');
+          bassPart2.start(0);
+          bassPart4.start('3m');
+          bassPart5.start('6m');
+          bassPart7.start('9m');
 
           Tone.Transport.start("+0.1")
-    }, tt).then(function(buffer){
+    }, tt1a).then(function(buffer){
     //set the buffer once it's rendered
-    player.buffer = buffer;
-    player.sync();
-    console.log("readyyy");
+    abuff.set(buffer);
+    player1.sync();
+    console.log("readyyy1a");
 
     })
     };
+
+
+        function renderA2(){
+              Tone.Offline(function(Transport){
+
+                    var volB = new Tone.Volume(0);
+                    volB.toMaster();
+                    var eqB = new Tone.EQ3(3, 0, -1);
+                    eqB.lowFrequency = 350;
+                    eqB.highFrequency = 700;
+                    eqB.connect(volB);
+                    var filterB = new Tone.Filter(525);
+                    filterB.Q = 1;
+                    filterB.rolloff = "-24";
+                    filterB.connect(eqB);
+
+                    var lfoB = new Tone.LFO("2m", 450, 575);
+                    lfoB.type = "sine";
+                    lfoB.connect(filterB.frequency).start();
+                    var synth2 = new Tone.Synth();
+                    synth2.connect(filterB);
+
+                    var lfoB2 = new Tone.LFO("2t", -1, -7);
+                    lfoB2.type = "triangle";
+                    lfoB2.phase = 0.5;
+                    lfoB2.connect(volB.volume).start();
+                    var lfoB3 = new Tone.LFO("2m", -1, -9);
+                    lfoB3.type = "sine";
+                    lfoB3.connect(volB.volume).start();
+
+              synth2.set({
+                "oscillator": {
+                "type": "fatsawtooth"
+              },
+                "envelope": {
+                "attack": 1,
+                "decay": 0.5,
+                "sustain": .8,
+                "release": .2
+                }
+              })
+
+              synth2.portamento.value = 0.1;
+              synth2.volume.value = -2;
+
+
+                  var bassPart3 = new Tone.Part(function(time, event) {
+                      synth2.triggerAttackRelease(event.note, event.dur, time);
+                  }, [{time: '(32n / 2)',note: 'E2',dur: '3m - 8n'}]);
+
+                  var bassPart9 = new Tone.Part(function(time, event) {
+                      synth2.triggerAttackRelease(event.note, event.dur, time);
+                  }, [{time: '(32n / 2)', note: 'G2', dur: '1m'},
+                      {time: '1m', note: 'D2', dur: '2m - 8n'}]);
+
+                  var bassPart10 = new Tone.Part(function(time, event) {
+                      synth2.triggerAttackRelease(event.note, event.dur, time);
+                  }, [{time: '(32n / 2)', note: 'B2', dur: '1m'},
+                      {time: '1m', note: 'A2', dur: '2m - 8n'}]);
+
+
+              bassPart3.start(0);
+              bassPart9.start('3m');
+              bassPart10.start('6m');
+
+              Tone.Transport.start("+0.1")
+        }, tt1b).then(function(buffer){
+        //set the buffer once it's rendered
+        zbuff.set(buffer);
+        console.log("readyyy1b");
+
+        })
+        };
+
 
     function renderB(){
 
@@ -838,7 +886,7 @@ h1 {
           var filter1a = new Tone.Filter(4500, "lowpass");
           filter1a.toMaster();
           var fDelay1 = new Tone.FeedbackDelay("8n", 0.5);
-          fDelay1.wet.value = 0.55;
+          fDelay1.wet.value = 0.45;
           fDelay1.connect(filter1a);
           var vib1 = new Tone.Vibrato().connect(fDelay1);
           var synth1 = new Tone.MembraneSynth();
@@ -917,11 +965,11 @@ h1 {
           malletPart4.start('6m');
           malletPart5.start('8m');
 
-          malletPart1.probability = 0.95;
-          malletPart2.probability = 0.95;
+          malletPart1.probability = 0.98;
+          malletPart2.probability = 0.92;
           malletPart3.probability = 0.95;
-          malletPart4.probability = 0.95;
-          malletPart5.probability = 0.95;
+          malletPart4.probability = 0.98;
+          malletPart5.probability = 0.92;
 
           malletPart1.humanize = 0.01;
           malletPart2.humanize = 0.02;
@@ -935,10 +983,12 @@ h1 {
     //set the buffer once it's rendered
     player2.buffer = buffer;
     player2.sync();
+    console.log("readyyy2");
     })
     };
 
-      renderA();
+      renderA1();
+      renderA2();
       renderB();
 
     var one = 1;
@@ -954,7 +1004,7 @@ h1 {
 
     Tone.Transport.scheduleRepeat(function() {
         choiceNow = chooser[randomWalk.value];
-    }, "6m", 0);
+    }, "3m", 0);
 
         var mp1 = 0;
         var mp2 = "2m";
@@ -966,32 +1016,33 @@ h1 {
         var malletList1 = [mp1, mp2, mp3, mp1, mp2, mp1];
         var malletList2 = [mp4, mp5, mp4, mp4, mp5, mp5];
 
-        var bp1 = 0;
-        var bp2 = "3m";
-        var bp3 = "6m";
-        var bp4 = "9m";
-        var bp5 = "12m";
-        var bp6 = "15m";
-        var bp7 = "18m";
-        var bp8 = "21m";
-        var bp9 = "24m";
-        var bp10 = "27m";
+        var bp2 = 0;
+        var bp3 = 0;
+        var bp4 = "3m";
+        var bp5 = "6m";
+        var bp7 = "9m";
+        var bp9 = "3m";
+        var bp10 = "6m";
 
-        var bassNow = bp1;
+        var bassNow = bp2;
         var bassList1 = [bp2, bp4, bp5, bp7, bp2, bp5];
-        var bassList2 = [bp7, bp4, bp3, bp9, bp10, bp7];
+        // var bassList2 = [bp7, bp4, bp3, bp9, bp10, bp7];
+        var bassList2 = [bp3, bp9, bp3, bp9, bp10, bp10];
 
         // possible to prevent bass repeats, like in a tone row?
 
         Tone.Transport.scheduleRepeat(function() {
           if (choiceNow === 1) {
+            // player1a.stop(0);
+            player1.buffer = abuff;
             bassNow = bassList1[randomWalk.value];
-            player.seek(bassNow);
+            player1.seek(bassNow);
           }
           else {
-            // XXX: implement volume ramps
+            // player1a.stop(0);
+            player1.buffer = zbuff;
             bassNow = bassList2[randomWalk.value];
-            player.seek(bassNow);
+            player1.seek(bassNow);
           }
         }, "3m", 0);
 
@@ -1005,6 +1056,7 @@ h1 {
             player2.seek(malletNow);
           }
         }, "2m", 0);
+
 
     // Egg Animation
 
@@ -1056,10 +1108,11 @@ var colorList1 = [color1, color2, color3, color4, color5, color6];
         if (audioInitiated === false) {
             eggy.style.fill = "url(#gradient2)";
             Tone.Transport.start("+0.1");
-            player.start(0);
-            player2.start(0);
+            player1.buffer = abuff;
+            player1.start();
+            player2.start();
             audioInitiated = true;
-            console.log(audioInitiated);
+            console.log("audioInitiated " + audioInitiated);
         } else {
             tog();
         }
@@ -1077,7 +1130,7 @@ var colorList1 = [color1, color2, color3, color4, color5, color6];
             console.log('state:' + Tone.Transport.state);
             eggy.style.fill = "url(#gradient2)";
             Tone.Master.mute = false;
-            Tone.Transport.start("+32n");
+            Tone.Transport.start("+0.1");
             players.mute = false;
         }
     }
