@@ -515,27 +515,47 @@ h1 {
         margin: 0 auto;
         display: block;
         -webkit-transform: rotateZ(360deg);
-        -ms-transform: rotateZ(360deg);
         transform: rotateZ(360deg);
         cursor: default;
         user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
         -webkit-user-select: none;
-        animation-name: eggEnter;
-        animation-duration: 1s;
-        animation-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+        -webkit-animation-name: eggEnter;
+                animation-name: eggEnter;
+        -webkit-animation-duration: 1s;
+                animation-duration: 1s;
+        -webkit-animation-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+                animation-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
     }
+
+    @-webkit-keyframes eggEnter {
+  0% {
+    -webkit-transform: translate(-75vw, -75vh);
+            transform: translate(-75vw, -75vh);
+  }
+  50% {
+    -webkit-transform: translate(-75vw, -75vh);
+            transform: translate(-75vw, -75vh);
+  }
+  100% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+}
 
     @keyframes eggEnter {
   0% {
-    transform: translate(-75vw, -75vh);
+    -webkit-transform: translate(-75vw, -75vh);
+            transform: translate(-75vw, -75vh);
   }
   50% {
-    transform: translate(-75vw, -75vh);
+    -webkit-transform: translate(-75vw, -75vh);
+            transform: translate(-75vw, -75vh);
   }
   100% {
-    transform: translate(0, 0);
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
   }
 }
 
@@ -571,24 +591,25 @@ h1 {
     .cent {
         margin: 0;
         padding: 0;
-        display: -webkit-flex;
         display: -ms-flexbox;
+        display: -webkit-box;
         display: flex;
-        -webkit-flex-direction: column;
         -ms-flex-direction: column;
-        flex-direction: column;
-        -webkit-align-items: baseline;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+                flex-direction: column;
         -ms-flex-align: baseline;
-        align-items: baseline;
-        -webkit-justify-content: center;
+        -webkit-box-align: baseline;
+                align-items: baseline;
         -ms-flex-pack: center;
-        justify-content: center;
+        -webkit-box-pack: center;
+                justify-content: center;
     }
 
     .cent2 {
-        -webkit-flex: auto;
         -ms-flex: auto;
-        flex: auto;
+        -webkit-box-flex: 1;
+                flex: auto;
         -webkit-align-self: stretch;
         -ms-flex-item-align: stretch;
         -ms-grid-row-align: stretch;
