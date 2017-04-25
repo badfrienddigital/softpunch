@@ -645,6 +645,8 @@ h1 {
             font-size: 4em;
         }
     }
+
+
 </style>
 
 
@@ -654,7 +656,7 @@ h1 {
 <body>
     <div class="cent">
         <div class="cent2">
-            <h1 title="Soft Punch" class="tint">SOFT PUNCH</h1>
+            <h1 title="Soft Punch" class="tint">S<span id="let1">O</span><span id="let2">F</span><span id="let3">T</span> PUNCH</h1>
         </div>
     </div>
     <div id="swrap1" class="svg-wrap">
@@ -713,7 +715,9 @@ h1 {
     var bigEggyAlt = document.getElementById('swrap1');
     var audioInitiated = false;
     var audioInitiated2 = false;
-
+    var let1 = document.getElementById('let1');
+    var let2 = document.getElementById('let2');
+    var let3 = document.getElementById('let3');
 
     // Master Audio
 
@@ -824,7 +828,7 @@ h1 {
     abuff.set(buffer);
     player1.sync();
     console.log("readyyy1a");
-
+    let1.style.color = "#F0F490"
     })
     };
 
@@ -897,7 +901,7 @@ h1 {
         //set the buffer once it's rendered
         zbuff.set(buffer);
         console.log("readyyy1b");
-
+        let2.style.color = "#F0F490"
         })
         };
 
@@ -1007,6 +1011,7 @@ h1 {
     player2.buffer = buffer;
     player2.sync();
     console.log("readyyy2");
+    let3.style.color = "#F0F490"
     })
     };
 
@@ -1082,6 +1087,8 @@ h1 {
 
 
     // Egg Animation
+
+
 
     Tone.Transport.scheduleRepeat(function(time) {
         //use the time argument to schedule a callback with Tone.Draw
